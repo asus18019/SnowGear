@@ -13,6 +13,10 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     public function Test(){
         $users = DB::connection('mysql')->select('select * from test');
-        echo($users);
+        foreach ($users as $user) {
+            foreach ($user as $value) {
+                echo $value . ', ';
+            }
+        }
     }
 }
