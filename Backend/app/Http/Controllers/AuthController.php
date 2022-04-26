@@ -24,7 +24,7 @@ class AuthController extends Controller
             'bid' => $request->input('bid'),
             'reid' => $request->input('reid'),
         ]);
-//        $user->assignRole('user');
+        $user->assignRole('user');
         return $user;
     }
 
@@ -58,5 +58,11 @@ class AuthController extends Controller
         return response([
             'message' => 'Success'
         ])->withCookie($cookie);
+    }
+    public function adminTest(){
+        return Auth::user();
+    }
+    public function userTest(){
+        return Auth::user();
     }
 }
