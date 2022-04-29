@@ -24,18 +24,19 @@ module.exports = {
 	rules: {
 		'keyword-spacing': ['error', {
 			overrides: {
-				if: {after: false},
-				for: {after: false},
-				while: {after: false},
-				static: {after: false},
-				as: {after: false},
+				if: { after: false },
+				for: { after: false },
+				while: { after: false },
+				static: { after: false },
+				as: { after: false },
 			},
 		}],
-		'no-multiple-empty-lines': ['error', {max: 2}],
-		'no-trailing-spaces': ['error', {skipBlankLines: true}],
+		'no-multiple-empty-lines': ['error', { max: 2 }],
+		'no-trailing-spaces': ['error', { skipBlankLines: true }],
 		'no-alert': 0,
 		'object-curly-spacing': [2, 'always'],
 		'eol-last': 0,
-		'comma-dangle': 0
+		'comma-dangle': 0,
+		'arrow-body-style': 0,
 	},
 };

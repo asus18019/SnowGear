@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap');
+
+.navbar {
+    width: 100%;
+    background: #222126;
+    font-size: 24px;
+    padding: 20px;
+}
+
+.link {
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 24px;
+    text-decoration: none;
+    border: none;
+    margin-right: 15px;
+    color: #fff;
+    transition: 0.2s ease;
+}
+
+.link:last-child {
+    margin-right: 0;
+}
+
+.link:hover {
+    transition: 0.2s ease;
+    color: rgb(143, 187, 234);
+}

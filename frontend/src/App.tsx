@@ -1,7 +1,11 @@
 import React from 'react';
+import { Router, Outlet } from 'react-location';
 import './App.css';
 import { useAppDispatch, useAppSelector } from './hooks/redux';
 import { clearErrors, setErrors } from './store/reducers/AuthenticatedUserSlice';
+
+import { routes, location } from './router/router';
+import Navbar from './components/Navbar';
 
 function App() {
 	const error = useAppSelector(state => state.userReducer.error);
@@ -11,11 +15,15 @@ function App() {
 	const handleSetError = () => dispatch(setErrors('error 123'));
 
 	return (
-		<div className="App">
-			<h3>{ error || 'empty' }</h3>
-			<button onClick={ handleClearError }>clear errors</button>
-			<button onClick={ handleSetError }>set errors</button>
-		</div>
+		<Router routes={ routes } location={ location }>
+			<Navbar />
+			<Outlet />
+			{/*<div className="App">*/}
+			{/*	<h3>{ error || 'empty' }</h3>*/}
+			{/*	<button onClick={ handleClearError }>clear errors</button>*/}
+			{/*	<button onClick={ handleSetError }>set errors</button>*/}
+			{/*</div>*/}
+		</Router>
 	);
 }
 
