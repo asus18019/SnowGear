@@ -25,6 +25,12 @@ class RegisterPostReq extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:255'],
+            'surname' => ['required', 'string', 'min:3', 'max:255'],
+            'age' => ['required', 'string', 'min:1', 'max:255'],
+            'email' => ['required', 'string', 'max:600', 'email' ,'unique:App\Models\User'],
+            'password' => ['required', 'min:8'],
+            'phone' => ['string', 'min:3', 'max:255'],
+            'address' => [ 'string', 'min:3', 'max:255'],
         ];
     }
 }

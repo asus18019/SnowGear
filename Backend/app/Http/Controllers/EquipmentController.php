@@ -14,11 +14,11 @@ class EquipmentController extends Controller
     public function createEquipment(CreatePostRequest $request){
         $equipment = EquipmentModel::create([
             'title' => $request->input('title'),
-            'location' => $request->input('location'),
+            'size' => $request->input('size'),
             'description' => $request->input('description'),
             'image' => $request->input('image'),
         ]);
-        return response(['equipment'=>$equipment], Response::HTTP_OK);
+        return response([$equipment], Response::HTTP_OK);
     }
 
     public function updateEquipment(UpdatePutRequest $request){

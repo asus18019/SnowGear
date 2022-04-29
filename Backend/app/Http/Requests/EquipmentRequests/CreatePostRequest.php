@@ -24,7 +24,7 @@ class CreatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'location' => ['required', 'string','min:8', 'max:255'],
+            'size' => ['required', 'string','min:8', 'max:255'],
             'description' => ['required', 'string','min:8', 'max:255'],
             'title' => ['required', 'string','min:3', 'max:255', 'unique:App\Models\EquipmentModel,title'],
         ];

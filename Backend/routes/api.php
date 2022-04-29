@@ -28,8 +28,10 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:moderator|admin']], function () {
-    Route::delete('users/user/delete', [\App\Http\Controllers\UserController::class, 'userDelete']);
-    Route::put('users/user/update', [\App\Http\Controllers\UserController::class, 'userUpdateForAdmins']);
+    Route::prefix('user')->group(function () {
+        Route::delete('delete', [\App\Http\Controllers\UserController::class, 'userDelete']);
+        Route::put('update', [\App\Http\Controllers\UserController::class, 'userUpdateForAdmins']);
+    });
     Route::prefix('equipment')->group(function () {
         Route::get('/equipment', [\App\Http\Controllers\EquipmentController::class, 'getEquipment']);
         Route::put('/update', [\App\Http\Controllers\EquipmentController::class, 'updateEquipment']);
@@ -38,5 +40,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:moderator|admin']], functio
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:user|moderator|admin']], function () {
-    Route::put('/update', [\App\Http\Controllers\UserController::class, 'userUpdate']);
+    Route::prefix('user')->group(function () {
+        Route::put('/updateuser', [\App\Http\Controllers\UserController::class, 'userUpdate']);
+    });
 });

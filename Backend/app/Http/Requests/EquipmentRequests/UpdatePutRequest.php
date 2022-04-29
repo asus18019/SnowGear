@@ -26,7 +26,7 @@ class UpdatePutRequest extends FormRequest
         return [
             'eid' => ['required', 'exists:equipment,eid'],
             'location' => ['string','min:8', 'max:255'],
-            'description' => ['string','min:8', 'max:255'],
+            'size' => ['string','min:8', 'max:255'],
             'title' => ['string','min:3', 'max:255'],
         ];
     }

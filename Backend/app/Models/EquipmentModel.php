@@ -15,13 +15,14 @@ class EquipmentModel extends Model
 
     protected $primaryKey = 'eid';
 
-    public $timestamps = true;
+    public $timestamps = false;
 
     protected $fillable = [
         'eid',
         'title',
-        'location',
+        'size',
         'description',
         'image',
     ];
+
 }

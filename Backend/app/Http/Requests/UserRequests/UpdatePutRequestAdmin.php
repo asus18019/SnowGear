@@ -4,7 +4,7 @@ namespace App\Http\Requests\UserRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdatePutRequest extends FormRequest
+class UpdatePutRequestAdmin extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,7 @@ class UpdatePutRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => ['required','exists:user,id'],
             'name' => ['string','min:3', 'max:255'],
             'surname' => ['string','min:3', 'max:255'],
             'email' => ['string','min:6', 'max:600', 'unique:App\Models\User'],

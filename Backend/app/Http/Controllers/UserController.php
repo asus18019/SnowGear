@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EquipmentRequests\CreatePostRequest;
 use App\Http\Requests\UserRequests\DeleteRequest;
 use App\Http\Requests\UserRequests\UpdatePutRequest;
+use App\Http\Requests\UserRequests\UpdatePutRequestAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -28,8 +29,8 @@ class UserController extends Controller
     }
 
 
-    public function userUpdateForAdmins(UpdatePutRequest $request){
-        $user = User::find($request->userID);
+    public function userUpdateForAdmins(UpdatePutRequestAdmin $request){
+        $user = User::find($request->id);
         $user->update($request->except('password'));
         if($request->query('password')){
             $user->password = Hash::make($request->query('password'));
