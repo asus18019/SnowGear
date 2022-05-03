@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap');
+
+.item {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    justify-content: center;
+    flex-direction: column;
+    display:inline;
+    width: 240px;
+}
+
+.item:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0px;
+}
+
+
+.item__image {
+    width: 240px;
+    height: 270px;
+    cursor: pointer;
+}
+
+.item__about {
+    padding: 20px;
+    cursor: pointer;
+}
+
+.item__title {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000000;
+}
+
+.item__price {
+    margin: 0;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #000000;
+}
+
+.item__hours {
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.ready_tag {
+    display: inline-block;
+    padding: 1px 12px;
+    border-radius: 5px;
+    background-color: #54a778;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 500;
+}
