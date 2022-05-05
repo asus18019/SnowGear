@@ -11,6 +11,10 @@ export const routes: Route[] = [
 		element: () => import('../pages/Shop').then(mod => <mod.default />),
 	},
 	{
+		path: '/item',
+		element: () => import('../pages/Item').then(mod => <mod.default />),
+	},
+	{
 		path: '/contacts',
 		element: () => import('../pages/Contacts').then(mod => <mod.default />),
 	},

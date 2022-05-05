@@ -4,7 +4,7 @@ const Contacts: FC = () => {
 	console.log(location);
 	return (
 		<div>
-			Main page
+			Contacts page
 		</div>
 	);
 };

@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap');
+
+.item {
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    justify-content: space-between;
+    flex-direction: column;
+    display: flex;
+    width: 240px;
+    max-height: 450px;
+
+}
+
+.item:hover {
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+}
+
+
+.item__image {
+    width: 240px;
+    height: 270px;
+    cursor: pointer;
+}
+
+.item__about {
+    padding: 20px;
+    height: 30%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.item__title {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #000000;
+    cursor: pointer;
+
+    /*hide long text with ...*/
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-clamp: 3;
+    box-orient: vertical;
+}
+
+.item__price_wrapper {
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.link {
+    text-decoration: none;
+    border: none;
+}
+
+.item__price {
+    margin: 0;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: #000000;
+}
+
+.item__hours {
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.item__reserve_button {
+    border-radius: 3px;
+    background-color: rgb(105, 164, 227);
+    padding: 4px 11px;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    letter-spacing: 0.2px;
+    color: floralwhite;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.item__reserve_button:hover {
+    background-color: rgb(69, 137, 209);
+}
+
+.ready_tag {
+    display: inline-block;
+    padding: 1px 12px;
+    border-radius: 5px;
+    background-color: #54a778;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+}

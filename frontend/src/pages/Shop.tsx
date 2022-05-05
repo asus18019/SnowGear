@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 // @ts-ignore
 import styles from './Shop.module.css'; // Todo fix import
-import Item from '../components/Item';
+import GoodsTile from '../components/GoodsTile';
 
 const Shop: FC = () => {
 	return (
@@ -90,17 +90,17 @@ const Shop: FC = () => {
 
 				</div>
 				<div className={ styles.item__wrapper }>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
-					<Item/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
+					<GoodsTile/>
 				</div>
 			</div>
 		</div>

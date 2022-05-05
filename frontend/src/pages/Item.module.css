@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+
+.item__wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    width: 90%;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.item_container {
+    display: flex;
+    justify-content: center;
+}
+
+.item__title {
+    margin: 0 0 0 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: #000000;
+}
+
+.item__image_wrapper {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    min-width: 30%;
+    min-width: 500px;
+    max-height: 600px;
+    align-items: center;
+}
+
+.item__image {
+    max-height: inherit;
+    cursor: pointer;
+}
+
+.item__about_right {
+    margin-top: 40px;
+    width: 50%;
+    margin-left: 80px;
+}
+
+.item__size_title {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #000000;
+}
+
+.size_button_wrapper {
+    margin-top: 20px;
+}
+
+.size_button_wrapper > * {
+    margin: 0 5px;
+}
+
+.item__time_title {
+    margin: 30px 0 0 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #000000;
+}
+
+.time_button_wrapper {
+    display: flex;
+    flex-direction: column;
+    /*align-items: center;*/
+}
+
+.time_button_wrapper > * {
+    margin-top: 10px;
+}
+
+.checkout_button {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px 25px;
+    border-radius: 6px;
+    background-color: rgb(105, 164, 227);
+    font-family: 'Alegreya Sans SC', sans-serif;
+    letter-spacing: 0.2px;
+    color: floralwhite;
+    cursor: pointer;
+    font-size: 30px;
+}
+
+.checkout_button:hover {
+    background-color: rgb(64, 135, 210);
+}
+
+.checkout_wrapper {
+    display: flex;
+    margin-top: 25px;
+    padding: 20px 20px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    max-width: 400px;
+}
+
+.item__price {
+    margin: 0 50px 0 30px;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 500;
+    font-size: 56px;
+    color: #000000;
+}
+
+.item__hours {
+    font-size: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.item__about_right hr {
+    color: lightgray;
+}
+
+.item__hours_text {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.item__price_text {
+    font-size: 34px;
+    margin: 0 0 15px 0;
+}
+
+.item__hours_text:first-child {
+    margin-right: 10px;
+}
+
+.item__time_button_wrapper {
+    margin-top: 20px;
+}
+
+.item__time_button_wrapper > * {
+    margin-right: 10px;
+}
+
+.interactive_elements {
+    margin-left: 30px;
+}
+
+.item__image_arrows {
+    stroke: #4e6db9;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.item__image_arrows:hover {
+    stroke: #e25078;
+    transition: 0.2s ease-in-out;
+}
