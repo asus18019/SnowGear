@@ -38,5 +38,7 @@ module.exports = {
 		'eol-last': 0,
 		'comma-dangle': 0,
 		'arrow-body-style': 0,
+		'no-mixed-spaces-and-tabs': 0,
+		'template-curly-spacing': 0
 	},
 };

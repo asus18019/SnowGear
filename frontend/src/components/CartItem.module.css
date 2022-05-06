@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 .cart_item {
     display: flex;
     justify-content: space-between;
@@ -32,9 +34,42 @@
     cursor: pointer;
 }
 
+.cart_item__datatime_starts {
+    text-align: center;
+    display: flex;
+    padding: 3px;
+    font-family: 'Montserrat', sans-serif;
+    margin: 0 0 0 5px;
+    max-width: 130px;
+    border-radius: 6px;
+    border: 1px solid lightgray;
+    outline: none;
+}
+
+.cart_item__datatime_text {
+    margin: 0 0 0 20px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #827c7c;
+}
+
 .cart_item__info {
     display: flex;
     align-items: center;
+}
+
+.cart_item__info_container {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 12px;
+}
+
+.cart_item__datatime_container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
 }
 
 .cart_item__pricing {
@@ -63,15 +98,6 @@
     margin-right: 30px;
     cursor: pointer;
 }
-
-
-
-
-
-
-
-
-
 
 .cart_item__set_hours_wrapper {
     padding: 7px;
