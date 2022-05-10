@@ -13,6 +13,7 @@ import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
 
 const CartItem: FC = () => {
+	const [hours, setHours] = useState<number>(1);
 	const [expiresDatetime, setExpiresDatetime] = useState<undefined | Date>(undefined);
 
 	const setExpiresDatetimeWrapper = (selectedDates: any, dateStr: any) => {
@@ -49,7 +50,7 @@ const CartItem: FC = () => {
 				</div>
 			</div>
 			<div className={ styles.cart_item__pricing }>
-				<SetPrice/>
+				<SetPrice value={ hours }  changeValue={ setHours }/>
 				<h4 className={ styles.cart_item__hours }>hours</h4>
 				<h2 className={ styles.cart_item__price }>75$</h2>
 				<img className={ styles.cart_item__cancel } src={ cancel } alt=""/>

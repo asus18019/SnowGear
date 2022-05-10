@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Link } from 'react-location';
 // @ts-ignore
-import styles from './navbar.module.css'; // Todo fix import 
+import styles from './Navbar.module.css'; // Todo fix import
 
 const Basket: FC = () => {
 	return (

@@ -1,19 +1,78 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useRef, useMemo } from 'react';
 import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import moment from 'moment';
 // @ts-ignore
 import styles from './Item.module.css';
-import SizeButton from '../components/UI/SizeButton';
+import AdditionalButton from '../components/UI/AdditionalButton';
 // @ts-ignore
 import test1 from '../assets/test1.jpg';
 import SetPrice from '../components/UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
 
+export interface IisSelected {
+	isSelected: boolean;
+}
+
+export interface ISizeObject extends IisSelected {
+	size: string,
+}
+
+export interface IHoursObject extends IisSelected {
+	duration: string,
+}
+
 const Item: FC = () => {
+	const [itemSizes, setItemSizes] = useState<ISizeObject[]>([
+		{ size: 'S', isSelected: false },
+		{ size: 'L', isSelected: false },
+		{ size: 'XL', isSelected: false },
+	]);
+
+	const [suggestedDuration, setSuggestedDuration] = useState<IHoursObject[]>([
+		{ duration: '1', isSelected: false },
+		{ duration: '3', isSelected: false },
+		{ duration: '8', isSelected: false },
+		{ duration: '24', isSelected: false },
+	]);
+
+	const [hours, setHours] = useState<number>(1);
 
 	const [expiresDatatime, setExpiresDatatime] = useState<undefined | Date>(undefined);
+
+	const clickSizeButton = (e: any) => {
+		let updatedIsSelected: ISizeObject[] = itemSizes.map((sizeObj: ISizeObject) => {
+			if(sizeObj.isSelected) {
+				sizeObj.isSelected = false;
+			}
+
+			if(sizeObj.size === e.innerHTML) {
+				sizeObj.isSelected = true;
+			}
+
+			return sizeObj;
+		});
+
+		setItemSizes(updatedIsSelected);
+	};
+
+	const clickSuggestedDurationButton = (e: any) => {
+		let updatedIsSelected: IHoursObject[] = suggestedDuration.map((durationObj: IHoursObject) => {
+			if(durationObj.isSelected) {
+				durationObj.isSelected = false;
+			}
+
+			if(durationObj.duration === e.innerHTML) {
+				durationObj.isSelected = true;
+			}
+
+			return durationObj;
+		});
+
+		setHours(Number(e.innerHTML));
+		setSuggestedDuration(updatedIsSelected);
+	};
 
 	const setExpiresDataTimeWrapper = (selectedDates: any, dateStr: any) => {
 		const updatedDateTime = addHoursToDatetime(selectedDates, dateStr, 2);
@@ -54,21 +113,42 @@ const Item: FC = () => {
 						<hr/>
 						<div></div>
 						<div className={ `${ styles.size_button_wrapper } ${ styles.interactive_elements }` }>
-							<SizeButton size={ 'S' }/>
-							<SizeButton size={ 'L' }/>
-							<SizeButton size={ 'XL' }/>
+							{
+								itemSizes.map((sizeObj: ISizeObject) => {
+									const { size, isSelected } = sizeObj;
+
+									return <AdditionalButton
+										size={ size }
+										clickHandler={ clickSizeButton }
+										key={ size }
+										isSelected={ isSelected }
+									/>;
+								})
+							}
 						</div>
 
 						<h3 className={ styles.item__time_title }>Time</h3>
 						<hr/>
 						<div className={ `${ styles.time_button_wrapper } ${ styles.interactive_elements }` }>
 							<div className={ styles.item__set_datatime_wrapper }>
-								<SetPrice/>
+								<SetPrice value={ hours } changeValue={ setHours } data={ suggestedDuration }/>
 								<div className={ styles.item__time_button_wrapper }>
-									<SizeButton size={ '1 Hour' }/>
-									<SizeButton size={ '3 Hour' }/>
-									<SizeButton size={ '8 Hours' }/>
-									<SizeButton size={ '24 Hours' }/>
+									{
+										suggestedDuration.map((durationObj: IHoursObject) => {
+											const { duration, isSelected } = durationObj;
+
+											return <AdditionalButton
+												size={ duration }
+												clickHandler={ clickSuggestedDurationButton }
+												key={ durationObj.duration }
+												isSelected={ isSelected }
+											/>;
+										})
+									}
+									{/*<AdditionalButton size={ '1 Hour' }/>*/ }
+									{/*<AdditionalButton size={ '3 Hour' }/>*/ }
+									{/*<AdditionalButton size={ '8 Hours' }/>*/ }
+									{/*<AdditionalButton size={ '24 Hours' }/>*/ }
 								</div>
 							</div>
 							<div className={ styles.item__datatime_wrapper }>

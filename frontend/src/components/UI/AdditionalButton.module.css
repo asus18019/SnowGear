@@ -6,8 +6,9 @@
     background: #e2f1e9;
     border-radius: 5px;
     cursor: pointer;
+    border: 2px solid white;
 }
 
 .selected {
-    border: 1px solid green;
+    border: 2px solid green;
 }
