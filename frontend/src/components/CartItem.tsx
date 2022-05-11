@@ -50,7 +50,7 @@ const CartItem: FC = () => {
 				</div>
 			</div>
 			<div className={ styles.cart_item__pricing }>
-				<SetPrice value={ hours }  changeValue={ setHours }/>
+				<SetPrice value={ hours } changeValue={ setHours }/>
 				<h4 className={ styles.cart_item__hours }>hours</h4>
 				<h2 className={ styles.cart_item__price }>75$</h2>
 				<img className={ styles.cart_item__cancel } src={ cancel } alt=""/>

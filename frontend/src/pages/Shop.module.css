@@ -22,114 +22,18 @@
     gap: 30px;
 }
 
-.filters {
-    height: 100%;
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-}
-
-.filters__search__wrapper {
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 5px 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.filters__search {
-    outline: none;
-    border: none;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    color: #000000;
-}
-
-.filters__price {
-    font-family: 'Roboto', sans-serif;
-    font-size: 18px;
-    font-weight: 500;
-    color: #000000;
-    margin-top: 25px;
-}
-
-.filters__checkbox_wrapper {
-    display: flex;
-    align-items: center;
-    margin: 10px 0 0 20px;
-    transition: 0.2s ease;
-}
-
-.filters__checkbox {
-    accent-color: #54a778;
-    height: 20px; /* not needed */
-    width: 20px; /* not needed */
-    margin: 0;
-    cursor: pointer;
-}
-
-.filters__checkbox_title {
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    align-self: center;
-    vertical-align: center;
-    cursor: pointer;
-    margin: 0;
-    padding-left: 10px;
-}
-
-.filters__price_wrapper {
-    display: flex;
-    margin-top: 10px;
-    justify-content: space-evenly;
-    align-items: center;
-}
-
-.filters__min_price_wrapper, .filters__max_price_wrapper {
-    border: 1px solid gray;
-    border-radius: 5px;
-    padding: 7px 12px;
-}
-
-.filters__min_price, .filters__max_price {
-    outline: none;
-    border: none;
-    width: 40px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    color: #000000;
-}
-
-.filters__min_price::-webkit-outer-spin-button,
-.filters__min_price::-webkit-inner-spin-button,
-.filters__max_price::-webkit-outer-spin-button,
-.filters__max_price::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-.filters__checkbox_wrapper:hover {
-    color: #54A778FF;
-    transition: 0.2s ease;
-}
-
 /***   ADAPTIVE   ***/
 
 @media screen and (max-device-width: 1000px) {
-    .filters {
-        display: none;
-    }
-
     .shop {
         width: 100%;
         border-right: none;
         border-left: none;
         padding: 86px 5px 0 5px;
+        flex-direction: column;
+    }
+
+    .item__wrapper {
+        margin-top: 20px;
     }
 }
-
-
-
-

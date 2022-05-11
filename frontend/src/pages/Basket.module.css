@@ -78,3 +78,79 @@
 .checkout__button:hover {
     background: #27a927;
 }
+
+/***   ADAPTIVE   ***/
+
+@media screen and (max-device-width: 1000px) {
+    .basket {
+        width: 100%;
+        border: none;
+        padding: 0;
+    }
+
+    .empty_basket {
+        margin-top: 96px;
+    }
+
+    .empty_basket_logo {
+        max-width: 180px;
+        max-height: 180px;
+    }
+
+    .empty_basket__header {
+        font-size: 18px;
+    }
+
+    .empty_basket__subtitle {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-device-width: 1000px) {
+    .empty_basket {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 50vh;
+        justify-content: flex-end;
+    }
+
+    .empty_basket_logo {
+        max-width: 130px;
+        max-height: 130px;
+    }
+
+    .empty_basket__header {
+        font-size: 16px;
+    }
+
+    .empty_basket__subtitle {
+        font-size: 14px;
+    }
+
+    .checkout {
+        margin: 0 auto 10px auto;
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid green;
+        border-top: 1px solid green;
+        padding: 0;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .price {
+        font-size: 24px;
+    }
+
+    .checkout__button {
+        background: #258225;
+        padding: 10px 20px;
+        border-radius: 5px;
+        color: #ffffff;
+        cursor: pointer;
+        font-size: 16px;
+    }
+}
