@@ -8,7 +8,6 @@
     display: flex;
     width: 240px;
     max-height: 450px;
-
 }
 
 .item:hover {
@@ -24,7 +23,7 @@
 
 .item__about {
     padding: 20px;
-    height: 30%;
+    /*height: 30%;*/
     display: flex;
     justify-content: space-between;
     flex-direction: column;
@@ -100,4 +99,70 @@
     font-family: 'Alegreya Sans SC', sans-serif;
     font-weight: 500;
     cursor: pointer;
+}
+
+/***   ADAPTIVE   ***/
+
+@media screen and (max-device-width: 550px) {
+    .item {
+        width: 160px;
+        max-height: inherit;
+    }
+
+    .item__image {
+        width: 160px;
+        height: 170px;
+        cursor: pointer;
+    }
+
+    .item__title {
+        font-weight: 400;
+        font-size: 13px;
+        color: #000000;
+        cursor: pointer;
+
+        /*hide long text with ...*/
+        line-clamp: 2;
+    }
+
+    .item__about {
+        padding: 5px;
+    }
+
+    .item__price {
+        margin: 0;
+        font-family: 'Alegreya Sans SC', sans-serif;
+        font-weight: 400;
+        font-size: 22px;
+        color: #000000;
+    }
+    
+    .item__hours {
+        font-size: 12px;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .item__price_wrapper {
+        margin-top: 0;
+        /*flex-direction: column;*/
+        /*justify-content: flex-start;*/
+        /*align-items: flex-start;*/
+    }
+
+    .item__reserve_button {
+        padding: 2px 7px;
+        font-size: 14px;
+    }
+
+    .ready_tag {
+        display: inline-block;
+        padding: 1px 6px;
+        border-radius: 3px;
+        background-color: #54a778;
+        color: #ffffff;
+        font-size: 12px;
+        font-family: 'Alegreya Sans SC', sans-serif;
+        font-weight: 500;
+        cursor: pointer;
+    }
 }

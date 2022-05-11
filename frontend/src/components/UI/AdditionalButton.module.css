@@ -12,3 +12,11 @@
 .selected {
     border: 2px solid green;
 }
+
+/***   ADAPTIVE   ***/
+
+@media screen and (max-device-width: 550px) {
+    .size_button {
+        padding: 6px 14px;
+    }
+}

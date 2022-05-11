@@ -145,10 +145,6 @@ const Item: FC = () => {
 											/>;
 										})
 									}
-									{/*<AdditionalButton size={ '1 Hour' }/>*/ }
-									{/*<AdditionalButton size={ '3 Hour' }/>*/ }
-									{/*<AdditionalButton size={ '8 Hours' }/>*/ }
-									{/*<AdditionalButton size={ '24 Hours' }/>*/ }
 								</div>
 							</div>
 							<div className={ styles.item__datatime_wrapper }>
