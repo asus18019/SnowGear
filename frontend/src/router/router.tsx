@@ -22,6 +22,13 @@ export const routes: Route[] = [
 		path: '/basket',
 		element: () => import('../pages/Basket').then(mod => <mod.default />),
 	},
+	{
+		path: '/registration',
+		element: () => import('../pages/Registration').then(mod => <mod.default />),
+	},{
+		path: '/login',
+		element: () => import('../pages/Login').then(mod => <mod.default />),
+	},
 	// {
 	// 	path: 'product',
 	// 	children: [
