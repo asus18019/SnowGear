@@ -1,12 +1,46 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 // @ts-ignore
 import styles from './Login.module.css';
 import { Link } from 'react-location';
+import fetchResource from '../api/apiWrapper';
+import { fetchToken, fetchUser, setErrors, startFetching } from '../store/reducers/AuthenticatedUserSlice';
+import { useAppDispatch } from '../hooks/redux';
+import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
+// @ts-ignore
+import Cookies from 'js-cookie';
+import { IUser } from '../models/IUser';
 
 const Login: FC = () => {
+	const dispatch = useAppDispatch();
+
+	const [email, setEmail] = useState<string>();
+	const [password, setPassword] = useState<string>();
+
 	const handleLogin = (e: any) => {
 		e.preventDefault();
-		console.log('Login...');
+		dispatch(startFetching());
+		Cookies.remove('token')
+
+		fetchResource('login', {
+			method: 'POST',
+			body: JSON.stringify({ email, password }),
+		}, false)
+			.then(async (res: IFetchedTokenSuccess) => {
+				dispatch(fetchToken(res.token));
+				Cookies.set('token', res.token);
+
+				dispatch(startFetching());
+				fetchResource('user', {}, true)
+					.then((data: IUser) => {
+						dispatch(fetchUser(data));
+					}).catch(error => {
+						dispatch(setErrors(error.toString()));
+					});
+
+			})
+			.catch((error: IFetchedTokenFailed) => {
+				dispatch(setErrors(error.message));
+			});
 	};
 
 	return (
@@ -19,12 +53,24 @@ const Login: FC = () => {
 						<label htmlFor="email_input" className={ styles.login__input_title }>Your
 							email...</label>
 						<div className={ styles.login__input_wrapper }>
-							<input id="email_input" type="email" placeholder="Email" required/>
+							<input
+								id="email_input"
+								type="email"
+								placeholder="Email"
+								onChange={ e => setEmail(e.target.value) }
+								required
+							/>
 						</div>
 						<label htmlFor="password_input" className={ styles.login__input_title }>Your
 							password...</label>
 						<div className={ styles.login__input_wrapper }>
-							<input id="password_input" type="password" placeholder="Password" required/>
+							<input
+								id="password_input"
+								type="password"
+								placeholder="Password"
+								onChange={ e => setPassword(e.target.value) }
+								required
+							/>
 						</div>
 					</div>
 

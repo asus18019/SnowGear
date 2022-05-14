@@ -6,28 +6,41 @@ interface userState {
 	isLoading: boolean,
 	token?: string,
 	user?: IUser,
-	error?: string
+	error: string[]
 }
 
 const initialState: userState = {
 	isAuthenticated: false,
 	isLoading: false,
-	token: 'Token test',
-	error: 'Error string test',
+	error: [],
+	token: 'test'
 };
 
 export const userSlice = createSlice({
 	name: 'user',
 	initialState,
 	reducers: {
-		clearErrors(state) {
-			state.error = undefined;
+		fetchToken(state, action: PayloadAction<string>) {
+			state.isAuthenticated = true;
+			state.token = action.payload;
+			state.isLoading = false;
 		},
 		setErrors(state, action: PayloadAction<string>) {
-			state.error = action.payload;
-		}
+			state.error.push(action.payload);
+			state.isLoading = false;
+		},
+		fetchUser(state, action: PayloadAction<IUser>) {
+			state.user = action.payload;
+		},
+		startFetching(state) {
+			state.isLoading = true;
+			state.error = [];
+		},
+		clearErrors(state) {
+			state.error = [];
+		},
 	},
 });
 
 export default userSlice.reducer;
-export const { clearErrors, setErrors } = userSlice.actions;
+export const { fetchToken, startFetching, clearErrors, setErrors, fetchUser } = userSlice.actions;
