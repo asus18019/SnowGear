@@ -27,7 +27,7 @@ export const fetchResource = (path: string, userOptions: RequestInit = {}, crede
 	};
 
 	if(credentials) {
-		const token: string | undefined = Cookies.get('token')
+		const token: string | undefined = Cookies.get('token');
 		if(token) {
 			defaultHeaders = {
 				...defaultHeaders,
@@ -59,7 +59,6 @@ export const fetchResource = (path: string, userOptions: RequestInit = {}, crede
 
 	return fetch(url, options)
 		.then(responseObject => {
-			// Saving response for later use in lower scopes
 			response = responseObject;
 
 			// HTTP unauthorized
@@ -86,12 +85,9 @@ export const fetchResource = (path: string, userOptions: RequestInit = {}, crede
 				throw parsedResponse;
 			}
 
-			// Request succeeded
 			return parsedResponse;
 		})
 		.catch(error => {
-			// Throw custom API error
-			// If response exists it means HTTP error occured
 			if(response) {
 				throw ApiError(`Request failed with status ${ response.status }.`, error.toString(), response.status);
 			} else {

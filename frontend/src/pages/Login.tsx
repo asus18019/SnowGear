@@ -3,11 +3,17 @@ import React, { FC, useState } from 'react';
 import styles from './Login.module.css';
 import { Link } from 'react-location';
 import fetchResource from '../api/apiWrapper';
-import { fetchToken, fetchUser, setErrors, startFetching } from '../store/reducers/AuthenticatedUserSlice';
+import {
+	fetchToken,
+	fetchUser,
+	setErrors,
+	startFetching,
+	stopFetching,
+} from '../store/reducers/AuthenticatedUserSlice';
 import { useAppDispatch } from '../hooks/redux';
+import Cookies from 'js-cookie';
 import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
 // @ts-ignore
-import Cookies from 'js-cookie';
 import { IUser } from '../models/IUser';
 
 const Login: FC = () => {
@@ -19,28 +25,31 @@ const Login: FC = () => {
 	const handleLogin = (e: any) => {
 		e.preventDefault();
 		dispatch(startFetching());
-		Cookies.remove('token')
 
 		fetchResource('login', {
 			method: 'POST',
 			body: JSON.stringify({ email, password }),
 		}, false)
-			.then(async (res: IFetchedTokenSuccess) => {
+			.then((res: IFetchedTokenSuccess) => {
 				dispatch(fetchToken(res.token));
 				Cookies.set('token', res.token);
-
-				dispatch(startFetching());
-				fetchResource('user', {}, true)
-					.then((data: IUser) => {
-						dispatch(fetchUser(data));
-					}).catch(error => {
-						dispatch(setErrors(error.toString()));
-					});
-
 			})
+			.then(fetchUserFn)
 			.catch((error: IFetchedTokenFailed) => {
 				dispatch(setErrors(error.message));
+				dispatch(stopFetching());
 			});
+	};
+
+	const fetchUserFn = () => {
+		return fetchResource('user', {}, true)
+			.then((data: IUser) => {
+				dispatch(fetchUser(data));
+			})
+			.catch(error => {
+				dispatch(setErrors(error.toString()));
+			})
+			.finally(() => dispatch(stopFetching()));
 	};
 
 	return (

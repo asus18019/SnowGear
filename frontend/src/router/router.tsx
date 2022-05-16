@@ -25,7 +25,8 @@ export const routes: Route[] = [
 	{
 		path: '/registration',
 		element: () => import('../pages/Registration').then(mod => <mod.default />),
-	},{
+	},
+	{
 		path: '/login',
 		element: () => import('../pages/Login').then(mod => <mod.default />),
 	},

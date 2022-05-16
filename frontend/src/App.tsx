@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Router, Outlet } from 'react-location';
+import Cookies from 'js-cookie';
 import './App.css';
-import { useAppDispatch, useAppSelector } from './hooks/redux';
-import { clearErrors, setErrors } from './store/reducers/AuthenticatedUserSlice';
-
+import { useAppDispatch } from './hooks/redux';
+import { fetchUser, setErrors } from './store/reducers/AuthenticatedUserSlice';
 import { routes, location } from './router/router';
 import Navbar from './components/Navbar';
+import fetchResource from './api/apiWrapper';
+import { IUser } from './models/IUser';
 
 function App() {
-	const error = useAppSelector(state => state.userReducer.error);
 	const dispatch = useAppDispatch();
+	const [isPreLoading, setIsPreLoading] = useState<boolean>(true);
 
-	const handleClearError = () => dispatch(clearErrors());
-	const handleSetError = () => dispatch(setErrors('error 123'));
+	useEffect(() => {
+		const token: string | undefined = Cookies.get('token');
+		if(token) {
+			fetchResource('user', {}, true)
+				.then((data: IUser) => {
+					dispatch(fetchUser(data));
+				})
+				.catch(error => {
+					dispatch(setErrors(error.toString()));
+				})
+				.finally(() => {
+					setIsPreLoading(false);
+				});
+		} else {
+			setIsPreLoading(false);
+		}
+	}, []);
 
 	return (
 		<Router routes={ routes } location={ location }>
-			<Navbar />
-			<Outlet />
-			{/*<div className="App">*/}
-			{/*	<h3>{ error || 'empty' }</h3>*/}
-			{/*	<button onClick={ handleClearError }>clear errors</button>*/}
-			{/*	<button onClick={ handleSetError }>set errors</button>*/}
-			{/*</div>*/}
+			{ isPreLoading
+				? <div>Loading...</div>
+				: <>
+					<Navbar />
+					<Outlet />
+				</>
+			}
+
 		</Router>
 	);
 }
