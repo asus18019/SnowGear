@@ -13,14 +13,21 @@ import {
 import { useAppDispatch } from '../hooks/redux';
 import Cookies from 'js-cookie';
 import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
-// @ts-ignore
 import { IUser } from '../models/IUser';
+import ModalWindow from '../components/UI/ModalWindow';
+import { ModalTypes } from '../utils/modalTypes';
+
+interface IModal {
+	type: ModalTypes,
+	information: string[]
+}
 
 const Login: FC = () => {
 	const dispatch = useAppDispatch();
 
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
+	const [modal, setModal] = useState<IModal | undefined>({ type: ModalTypes.success, information: ['invalid password length'] });
 
 	const handleLogin = (e: any) => {
 		e.preventDefault();
@@ -54,6 +61,11 @@ const Login: FC = () => {
 
 	return (
 		<div className={ styles.login_page__wrapper }>
+			{
+				modal
+					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					: false
+			}
 			<div className={ styles.login }>
 				<h1 className={ styles.login__title }>Log in</h1>
 

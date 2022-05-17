@@ -7,6 +7,10 @@ import { faFilter } from '@fortawesome/free-solid-svg-icons';
 const Filters: FC = () => {
 	const [showFilters, setShowFilters] = useState<boolean>(false);
 
+	const test = () => {
+		console.log('Blue work correctly');
+	}
+
 	return (
 		<div>
 			<div
@@ -19,7 +23,7 @@ const Filters: FC = () => {
 
 			<div className={ `${ styles.filters } ${ showFilters ? styles.filters_show : false }` }>
 				<div className={ styles.filters__search__wrapper }>
-					<input className={ styles.filters__search } type="text" placeholder="Search..."/>
+					<input onBlur={ test } className={ styles.filters__search } type="text" placeholder="Search..."/>
 				</div>
 
 				<div className={ styles.filters__price }>
