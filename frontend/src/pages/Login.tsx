@@ -17,7 +17,7 @@ import { IUser } from '../models/IUser';
 import ModalWindow from '../components/UI/ModalWindow';
 import { ModalTypes } from '../utils/modalTypes';
 
-interface IModal {
+export interface IModal {
 	type: ModalTypes,
 	information: string[]
 }

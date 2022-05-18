@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
+import { getMockEquipment, getMockEquipmentByID } from '../utils/dbMock';
+import { IEquipment } from '../models/IEquipment';
 
 export const routes: Route[] = [
 	{
@@ -9,10 +11,21 @@ export const routes: Route[] = [
 	{
 		path: '/shop',
 		element: () => import('../pages/Shop').then(mod => <mod.default />),
+		loader: async () => {
+			return { goods: await getMockEquipment() };
+		},
 	},
 	{
 		path: '/item',
-		element: () => import('../pages/Item').then(mod => <mod.default />),
+		children: [
+			{
+				path: '/:eid',
+				element: () => import('../pages/Item').then(mod => <mod.default />),
+				loader: async ({ params: { eid } }) => {
+					return { equipment: await getMockEquipmentByID(Number(eid)) };
+				},
+			},
+		],
 	},
 	{
 		path: '/contacts',
@@ -49,6 +62,8 @@ export const routes: Route[] = [
 
 export type LocationGenerics = MakeGenerics<{
 	LoaderData: {
+		goods: IEquipment[],
+		equipment: IEquipment
 	};
 }>;
 

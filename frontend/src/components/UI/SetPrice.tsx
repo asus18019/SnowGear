@@ -8,22 +8,25 @@ interface ISetPriceProps {
 	value: number;
 	changeValue: any;
 	data?: IHoursObject[];
+	changePrice?: any
 }
 
-const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data }) => {
+const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice }) => {
 	const handleIncrement = () => {
 		data && clearIsSelectedProperty(data);
 		let updatedValue: number = Number(value) + 1;
 		if(updatedValue <= 72) {
 			changeValue(updatedValue);
+			changePrice(updatedValue);
 		}
 	};
 
 	const handleDecrement = () => {
 		data && clearIsSelectedProperty(data);
-		let updatedValue: number = Number(value) -1;
+		let updatedValue: number = Number(value) - 1;
 		if(updatedValue >= 1) {
 			changeValue(updatedValue);
+			changePrice(updatedValue);
 		}
 	};
 
@@ -31,6 +34,7 @@ const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data }) => {
 		if(e <= 72) {
 			data && clearIsSelectedProperty(data);
 			changeValue(e);
+			changePrice(e);
 		}
 	};
 
