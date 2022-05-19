@@ -54,13 +54,15 @@
     background: #e2f1e9;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    min-width: 340px;
 }
 
 .price {
     font-family: 'Roboto', sans-serif;
     font-size: 32px;
     font-weight: 500;
-    margin: 20px 30px 20px 0;
+    margin: 20px 30px 20px 30px;
 }
 
 .price span {
@@ -73,6 +75,7 @@
     border-radius: 5px;
     color: #ffffff;
     cursor: pointer;
+    margin-right: 30px;
 }
 
 .checkout__button:hover {

@@ -28,6 +28,7 @@
     font-size: 20px;
     color: #000000;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .cart_item__datatime_starts {
@@ -86,7 +87,7 @@
     font-size: 30px;
     color: #000000;
     margin: 0 20px 0 0;
-    min-width: 70px;
+    min-width: 90px;
 }
 
 .cart_item__cancel {

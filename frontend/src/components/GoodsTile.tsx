@@ -1,18 +1,19 @@
 import React, { FC } from 'react';
+import { Link } from 'react-location';
 // @ts-ignore
 import styles from './GoodsTile.module.css';
 // @ts-ignore
 import test1 from '../assets/test1.jpg';
-import { Link } from 'react-location'; // Todo fix import
 
 interface GoodsTileProps {
 	eid: number
 	image: string,
 	title: string,
-	price: number
+	price: number,
+	size: string[]
 }
 
-const GoodsTile: FC<GoodsTileProps> = ({ eid, image, title, price }) => {
+const GoodsTile: FC<GoodsTileProps> = ({ eid, image, title, price, size }) => {
 	return (
 		<div className={ styles.item }>
 			<img className={ styles.item__image } src={ test1 } alt="SnowGear"/>
@@ -27,7 +28,11 @@ const GoodsTile: FC<GoodsTileProps> = ({ eid, image, title, price }) => {
 							<div className={ styles.item__reserve_button }>Reserve</div>
 						</Link>
 					</div>
-					<div className={ styles.ready_tag }>ready</div>
+					{
+						size[0]
+							? <div className={ styles.ready_tag }>ready</div>
+							: <div className={ styles.over_tag }>out of stock</div>
+					}
 				</div>
 			</div>
 		</div>

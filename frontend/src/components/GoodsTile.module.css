@@ -102,6 +102,18 @@
     cursor: pointer;
 }
 
+.over_tag {
+    display: inline-block;
+    padding: 1px 12px;
+    border-radius: 5px;
+    background-color: #c74e4e;
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Alegreya Sans SC', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+}
+
 /***   ADAPTIVE   ***/
 
 @media screen and (max-device-width: 550px) {
@@ -165,5 +177,11 @@
         font-family: 'Alegreya Sans SC', sans-serif;
         font-weight: 500;
         cursor: pointer;
+    }
+
+    .over_tag {
+        padding: 1px 6px;
+        border-radius: 3px;
+        font-size: 12px;
     }
 }

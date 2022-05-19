@@ -17,7 +17,7 @@ const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice })
 		let updatedValue: number = Number(value) + 1;
 		if(updatedValue <= 72) {
 			changeValue(updatedValue);
-			changePrice(updatedValue);
+			changePrice && changePrice(updatedValue);
 		}
 	};
 
@@ -26,7 +26,7 @@ const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice })
 		let updatedValue: number = Number(value) - 1;
 		if(updatedValue >= 1) {
 			changeValue(updatedValue);
-			changePrice(updatedValue);
+			changePrice && changePrice(updatedValue);
 		}
 	};
 
@@ -34,7 +34,7 @@ const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice })
 		if(e <= 72) {
 			data && clearIsSelectedProperty(data);
 			changeValue(e);
-			changePrice(e);
+			changePrice && changePrice(e);
 		}
 	};
 

@@ -22,6 +22,7 @@ const Shop: FC = () => {
 								image={ equipment.image }
 								title={ equipment.title }
 								price={ equipment.price }
+								size={ equipment.size }
 							/>;
 						})
 					}

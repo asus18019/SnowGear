@@ -19,9 +19,11 @@ const Basket: FC = () => {
 
 	function countTotalCheckout(cart: ICartItem[]): number {
 		if(cart[0]) {
-			return cart.reduce((sum, current) => {
+			const res: number = cart.reduce((sum, current) => {
 				return sum + current.checkout;
 			}, 0);
+			
+			return Number(res.toFixed(2));
 		}
 
 		return 0;
