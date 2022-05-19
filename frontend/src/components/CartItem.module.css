@@ -10,10 +10,6 @@
     margin-top: 20px;
 }
 
-.cart_item:hover {
-    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0px;
-}
-
 .cart_item:first-child {
     margin-top: 0;
 }
@@ -90,6 +86,7 @@
     font-size: 30px;
     color: #000000;
     margin: 0 20px 0 0;
+    min-width: 70px;
 }
 
 .cart_item__cancel {
@@ -157,6 +154,10 @@
 
     .cart_item__info {
         margin-left: 10px;
+    }
+
+    .cart_item:hover {
+        box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0px;
     }
 }
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
 import { getMockEquipment, getMockEquipmentByID } from '../utils/dbMock';
 import { IEquipment } from '../models/IEquipment';
+import { ICartItem } from '../models/ICartItem';
 
 export const routes: Route[] = [
 	{
@@ -34,6 +35,9 @@ export const routes: Route[] = [
 	{
 		path: '/basket',
 		element: () => import('../pages/Basket').then(mod => <mod.default />),
+		loader: () => {
+			return { cartGoods: JSON.parse(localStorage.getItem('cart') || '{}') }
+		}
 	},
 	{
 		path: '/registration',
@@ -63,7 +67,8 @@ export const routes: Route[] = [
 export type LocationGenerics = MakeGenerics<{
 	LoaderData: {
 		goods: IEquipment[],
-		equipment: IEquipment
+		equipment: IEquipment,
+		cartGoods: ICartItem[]
 	};
 }>;
 

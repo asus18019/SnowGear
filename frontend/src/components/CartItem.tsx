@@ -11,15 +11,38 @@ import cancel from '../assets/cancel-item.png'; // Todo fix import
 import SetPrice from './UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
+import { ICartItem } from '../models/ICartItem';
+import { removeFromCart } from '../utils/cartUtils';
 
-const CartItem: FC = () => {
-	const [hours, setHours] = useState<number>(1);
+interface CartItemProps extends ICartItem {
+	changeCart: any,
+	recalculateCheckout: any,
+	setNewCheckout: any
+}
+
+const CartItem: FC<CartItemProps> = ({
+	item,
+	itemId,
+	size,
+	duration,
+	start,
+	checkout,
+	changeCart,
+	recalculateCheckout,
+	setNewCheckout
+}) => {
+	const [hours, setHours] = useState<number>(duration);
 	const [expiresDatetime, setExpiresDatetime] = useState<undefined | Date>(undefined);
 
 	const setExpiresDatetimeWrapper = (selectedDates: any, dateStr: any) => {
-		let hours: number = 4;
-		const updatedDateTime = addHoursToDatetime(selectedDates, dateStr, hours);
+		const updatedDateTime = addHoursToDatetime(selectedDates, dateStr, duration);
 		updatedDateTime && setExpiresDatetime(new Date(updatedDateTime));
+	};
+
+	const removeItemHandler = (itemId: string) => {
+		const updatedCart: ICartItem[] = removeFromCart(itemId);
+		changeCart(updatedCart);
+		setNewCheckout(recalculateCheckout(updatedCart));
 	};
 
 	return (
@@ -27,7 +50,7 @@ const CartItem: FC = () => {
 			<div className={ styles.cart_item__info }>
 				<img className={ styles.cart_item__prev } src={ test1 } alt="prev"/>
 				<div className={ styles.cart_item__info_container }>
-					<h2 className={ styles.cart_item__title }>Atomic Vantage 77 Ti Skis w/ M10 GW Bindings Womens</h2>
+					<h2 className={ styles.cart_item__title }>{ item?.title }</h2>
 					<div className={ styles.cart_item__datatime_container }>
 						<h3 className={ styles.cart_item__datatime_text }>From: </h3>
 						<Flatpickr
@@ -36,7 +59,7 @@ const CartItem: FC = () => {
 							onReady={ setExpiresDatetimeWrapper }
 							onChange={ setExpiresDatetimeWrapper }
 							options={ flatpickrConfig }
-							defaultValue={ flatpickr.formatDate(new Date('2022-05-06T14:30:31+03:00'), 'F j, Y H:i') }
+							defaultValue={ flatpickr.formatDate(new Date(start), 'F j, Y H:i') }
 						/>
 						<h3 className={ styles.cart_item__datatime_text }>To: </h3>
 						<Flatpickr
@@ -52,8 +75,9 @@ const CartItem: FC = () => {
 			<div className={ styles.cart_item__pricing }>
 				<SetPrice value={ hours } changeValue={ setHours }/>
 				<h4 className={ styles.cart_item__hours }>hours</h4>
-				<h2 className={ styles.cart_item__price }>75$</h2>
-				<img className={ styles.cart_item__cancel } src={ cancel } alt=""/>
+				<h2 className={ styles.cart_item__price }>{ checkout }$</h2>
+				<img className={ styles.cart_item__cancel } src={ cancel } alt="Remove"
+				     onClick={ () => removeItemHandler(itemId) }/>
 			</div>
 		</div>
 	);

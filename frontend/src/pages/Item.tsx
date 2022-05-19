@@ -3,6 +3,7 @@ import Flatpickr from 'react-flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { Link, useMatch } from 'react-location';
 import moment from 'moment';
+import uniqid from 'uniqid';
 import { sizeParser } from '../utils/clearIsSelectedProperty';
 // @ts-ignore
 import styles from './Item.module.css';
@@ -17,6 +18,7 @@ import { ICartItem } from '../models/ICartItem';
 import { ModalTypes } from '../utils/modalTypes';
 import { IModal } from './Login';
 import ModalWindow from '../components/UI/ModalWindow';
+import { addInCart } from '../utils/cartUtils';
 
 export interface IisSelected {
 	isSelected: boolean;
@@ -93,7 +95,7 @@ const Item: FC = () => {
 		updatedDateTime && setExpiresDatatime(new Date(updatedDateTime));
 		let hours1 = selectedDates[0].toString().substring(16, 18);
 		let minutes1 = selectedDates[0].toString().substring(19, 21);
-		setStartDatatime(moment(dateStr).hours(hours1).minutes(minutes1).format())
+		setStartDatatime(moment(dateStr).hours(hours1).minutes(minutes1).format());
 	};
 
 	const getCurrentSize = (): ISizeObject => {
@@ -107,12 +109,14 @@ const Item: FC = () => {
 			setModal({ type: ModalTypes.fail, information: ['Pick your rental start date'] });
 		} else {
 			let order: ICartItem = {
+				itemId: uniqid(),
 				item: equipment,
 				size: getCurrentSize().size,
 				duration: hours,
 				start: startDatatime,
 				checkout: currentPrice,
 			};
+			addInCart(order);
 			setModal({ type: ModalTypes.success, information: ['Item was added to cart'] });
 		}
 	};
