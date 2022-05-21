@@ -43,4 +43,9 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|moderator|admin']], fu
     Route::prefix('user')->group(function () {
         Route::put('/updateuser', [\App\Http\Controllers\UserController::class, 'userUpdate']);
     });
+
+    Route::prefix('cart')->group(function () {
+        Route::post('/cart', [\App\Http\Controllers\CartController::class, 'AddToCart']);
+        Route::post('/price', [\App\Http\Controllers\CartEquipmentController::class, 'MakeOrderToCart']);
+    });
 });
