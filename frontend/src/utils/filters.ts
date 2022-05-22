@@ -21,7 +21,7 @@ export const initialFilters: IFilters = {
 	sizeFilter: {
 		sizes: []
 	}
-}
+};
 
 export const isAnyFilter = (filters: IFilters): boolean => {
 	return isCategoryFiltering(filters.categoryFilter) || isTitleFiltering(filters.titleFilter) || isPriceFiltering(filters.priceFilter) || isSizeFiltering(filters.sizeFilter)
