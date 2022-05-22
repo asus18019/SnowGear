@@ -6,7 +6,13 @@ import Filters from '../components/Filters';
 import { useMatch } from 'react-location';
 import { LocationGenerics } from '../router/router';
 import { IEquipment } from '../models/IEquipment';
-import { filterByCategory, filterByTitle, isCategoryFiltering, isTitleFiltering } from '../utils/filters';
+import {
+	filterByCategory, filterByPrice, filterBySize,
+	filterByTitle, isAnyFilter,
+	isCategoryFiltering,
+	isPriceFiltering, isSizeFiltering,
+	isTitleFiltering,
+} from '../utils/filters';
 import { IFilters } from '../models/IFilters';
 import { useAppSelector } from '../hooks/redux';
 
@@ -19,7 +25,7 @@ const Shop: FC = () => {
 	const [filters, setFilters] = useState<IFilters>(initialFiltersData);
 
 	const isFiltering = (): boolean => {
-		if(isCategoryFiltering(filters.categoryFilter) || isTitleFiltering(filters.titleFilter)) {
+		if(isAnyFilter(filters)) {
 			let res: IEquipment[] = goodsArray;
 			if(isCategoryFiltering(filters.categoryFilter)) {
 				res = filterByCategory(res, filters.categoryFilter);
@@ -27,6 +33,14 @@ const Shop: FC = () => {
 
 			if(isTitleFiltering(filters.titleFilter)) {
 				res = filterByTitle(res, filters.titleFilter);
+			}
+
+			if(isPriceFiltering(filters.priceFilter)) {
+				res = filterByPrice(res, filters.priceFilter);
+			}
+
+			if(isSizeFiltering(filters.sizeFilter)) {
+				res = filterBySize(res, filters.sizeFilter);
 			}
 
 			filteredGoodsArray = res;
@@ -39,12 +53,11 @@ const Shop: FC = () => {
 	return (
 		<div className={ styles.shop__wrapper }>
 			<div className={ styles.shop }>
-				<Filters changeFilters={ setFilters } filters={filters}/>
+				<Filters changeFilters={ setFilters } filters={ filters }/>
 				<div className={ styles.item__wrapper }>
 					{
 						!isFiltering()
 							? goodsArray.map(equipment => {
-								console.log('not filtering');
 								return <GoodsTile
 									key={ equipment.eid }
 									eid={ equipment.eid }
@@ -55,8 +68,6 @@ const Shop: FC = () => {
 								/>;
 							})
 							: filteredGoodsArray.map(equipment => {
-								console.log('filtering');
-
 								return <GoodsTile
 									key={ equipment.eid }
 									eid={ equipment.eid }

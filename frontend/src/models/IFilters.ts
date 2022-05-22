@@ -1,6 +1,8 @@
 export interface IFilters {
-	categoryFilter: ICategoryFilter
-	titleFilter: ITitleFilter
+	categoryFilter: ICategoryFilter,
+	titleFilter: ITitleFilter,
+	priceFilter: IPriceFilter,
+	sizeFilter: ISizeFilter
 }
 
 export interface ICategoryFilter {
@@ -15,4 +17,13 @@ export interface ICategoryFilter {
 
 export interface ITitleFilter {
 	title: string
+}
+
+export interface IPriceFilter {
+	min: number,
+	max: number
+}
+
+export interface ISizeFilter {
+	sizes: string[]
 }

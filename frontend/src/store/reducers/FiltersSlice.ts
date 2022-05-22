@@ -13,6 +13,13 @@ const initialState: IFilters = {
 	},
 	titleFilter: {
 		title: ''
+	},
+	priceFilter: {
+		min: -1,
+		max: -1
+	},
+	sizeFilter: {
+		sizes: []
 	}
 };
 

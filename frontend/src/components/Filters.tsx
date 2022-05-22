@@ -18,33 +18,91 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 	const [showFilters, setShowFilters] = useState<boolean>(false);
 
 	const categoryCheckboxHandler = (property: string) => {
-		dispatch(setFilterProperty(property));
+		// dispatch(setFilterProperty(property));
 		const updatedFilters = {
 			categoryFilter: {
 				...filters.categoryFilter,
 				// @ts-ignore
-				[property]: !filters.categoryFilter[property]
+				[property]: !filters.categoryFilter[property],
 			},
 			titleFilter: {
-				...filters.titleFilter
+				...filters.titleFilter,
+			},
+			priceFilter: {
+				...filters.priceFilter,
+			},
+			sizeFilter: {
+				...filters.sizeFilter
 			}
 		};
 		changeFilters(updatedFilters);
 	};
 
 	const categoryTitleHandler = (title: string) => {
-		dispatch(setFilterTitleProperty(title));
+		// dispatch(setFilterTitleProperty(title));
 		const updatedFilters = {
 			categoryFilter: {
 				...filters.categoryFilter,
 			},
 			titleFilter: {
-				title
+				title,
+			},
+			priceFilter: {
+				...filters.priceFilter,
+			},
+			sizeFilter: {
+				...filters.sizeFilter
 			}
 		};
 		changeFilters(updatedFilters);
 	};
 
+	const categoryPriceHandler = (minmax: string, value: string) => {
+		const updatedFilters = {
+			categoryFilter: {
+				...filters.categoryFilter,
+			},
+			titleFilter: {
+				...filters.titleFilter,
+			},
+			priceFilter: {
+				...filters.priceFilter,
+				[minmax]: Number(value),
+			},
+			sizeFilter: {
+				...filters.sizeFilter
+			}
+		};
+		if(value === '') {
+			// @ts-ignore
+			updatedFilters.priceFilter[minmax] = -1;
+		}
+
+		changeFilters(updatedFilters);
+	};
+
+	const SizeHandler = (size: string) => {
+		let sizes: string[] = [...filters.sizeFilter.sizes];
+		if(!sizes.includes(size)) {
+			sizes = [...filters.sizeFilter.sizes, size];
+		} else {
+			sizes = [...filters.sizeFilter.sizes.filter(elem => elem !== size)];
+		}
+
+		const updatedFilters = {
+			categoryFilter: {
+				...filters.categoryFilter,
+			},
+			titleFilter: {
+				...filters.titleFilter,
+			},
+			priceFilter: {
+				...filters.priceFilter,
+			},
+			sizeFilter: { sizes }
+		};
+		changeFilters(updatedFilters);
+	};
 
 	return (
 		<div>
@@ -58,7 +116,8 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 
 			<div className={ `${ styles.filters } ${ showFilters ? styles.filters_show : false }` }>
 				<div className={ styles.filters__search__wrapper }>
-					<input className={ styles.filters__search } type="text" placeholder="Search..." onChange={ (e) => categoryTitleHandler(e.target.value) }/>
+					<input className={ styles.filters__search } type="text" placeholder="Search..."
+					       onChange={ e => categoryTitleHandler(e.target.value) }/>
 				</div>
 
 				<div className={ styles.filters__price }>
@@ -107,11 +166,13 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 				<hr/>
 				<div className={ styles.filters__price_wrapper }>
 					<div className={ styles.filters__min_price_wrapper }>
-						<input className={ styles.filters__min_price } type="number" placeholder="min"/>
+						<input className={ styles.filters__min_price } type="number" placeholder="min"
+						       onChange={ e => categoryPriceHandler('min', e.target.value) }/>
 					</div>
 					&#8212;
 					<div className={ styles.filters__max_price_wrapper }>
-						<input className={ styles.filters__max_price } type="number" placeholder="max"/>
+						<input className={ styles.filters__max_price } type="number" placeholder="max"
+						       onChange={ e => categoryPriceHandler('max', e.target.value) }/>
 					</div>
 				</div>
 
@@ -120,27 +181,28 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 				</div>
 				<hr/>
 				<label className={ styles.filters__checkbox_wrapper }>
-					<input className={ styles.filters__checkbox } type="checkbox"/>
+					<input className={ styles.filters__checkbox } type="checkbox" onChange={ () => SizeHandler('xs') }/>
 					<span className={ styles.filters__checkbox_title }>XS</span>
 				</label>
 				<label className={ styles.filters__checkbox_wrapper }>
-					<input className={ styles.filters__checkbox } type="checkbox"/>
+					<input className={ styles.filters__checkbox } type="checkbox" onChange={ () => SizeHandler('s') }/>
 					<span className={ styles.filters__checkbox_title }>S</span>
 				</label>
 				<label className={ styles.filters__checkbox_wrapper }>
-					<input className={ styles.filters__checkbox } type="checkbox"/>
+					<input className={ styles.filters__checkbox } type="checkbox" onChange={ () => SizeHandler('m') }/>
 					<span className={ styles.filters__checkbox_title }>M</span>
 				</label>
 				<label className={ styles.filters__checkbox_wrapper }>
-					<input className={ styles.filters__checkbox } type="checkbox"/>
+					<input className={ styles.filters__checkbox } type="checkbox" onChange={ () => SizeHandler('l') }/>
 					<span className={ styles.filters__checkbox_title }>L</span>
 				</label>
 				<label className={ styles.filters__checkbox_wrapper }>
-					<input className={ styles.filters__checkbox } type="checkbox"/>
+					<input className={ styles.filters__checkbox } type="checkbox" onChange={ () => SizeHandler('xl') }/>
 					<span className={ styles.filters__checkbox_title }>XL</span>
 				</label>
 				<label className={ styles.filters__checkbox_wrapper }>
-					<input className={ styles.filters__checkbox } type="checkbox"/>
+					<input className={ styles.filters__checkbox } type="checkbox"
+					       onChange={ () => SizeHandler('xxl') }/>
 					<span className={ styles.filters__checkbox_title }>XXL</span>
 				</label>
 

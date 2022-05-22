@@ -18,7 +18,9 @@ const GoodsTile: FC<GoodsTileProps> = ({ eid, image, title, price, size }) => {
 		<div className={ styles.item }>
 			<img className={ styles.item__image } src={ test1 } alt="SnowGear"/>
 			<div className={ styles.item__about }>
-				<h4 className={ styles.item__title }>{ title }</h4>
+				<Link className={ styles.link } to={ `/item/${ eid }` }>
+					<h4 className={ styles.item__title }>{ title }</h4>
+				</Link>
 				<div>
 					<div className={ styles.item__price_wrapper }>
 						<h2 className={ styles.item__price }>{ price }$ <span
