@@ -1,27 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFilters } from '../../models/IFilters';
+import { initialFilters } from '../../utils/filters';
 
-const initialState: IFilters = {
-	categoryFilter: {
-		skies: false,
-		snowboard: false,
-		sleds: false,
-		boots: false,
-		overalls: false,
-		gloves: false,
-		hats: false,
-	},
-	titleFilter: {
-		title: ''
-	},
-	priceFilter: {
-		min: -1,
-		max: -1
-	},
-	sizeFilter: {
-		sizes: []
-	}
-};
+const initialState: IFilters = initialFilters;
 
 export const FiltersSlice = createSlice({
 	name: 'user',

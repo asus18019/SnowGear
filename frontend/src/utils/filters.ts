@@ -1,6 +1,28 @@
 import { ICategoryFilter, IFilters, IPriceFilter, ISizeFilter, ITitleFilter } from '../models/IFilters';
 import { IEquipment } from '../models/IEquipment';
 
+export const initialFilters: IFilters = {
+	categoryFilter: {
+		skies: false,
+		snowboard: false,
+		sleds: false,
+		boots: false,
+		overalls: false,
+		gloves: false,
+		hats: false,
+	},
+	titleFilter: {
+		title: ''
+	},
+	priceFilter: {
+		min: -1,
+		max: -1
+	},
+	sizeFilter: {
+		sizes: []
+	}
+}
+
 export const isAnyFilter = (filters: IFilters): boolean => {
 	return isCategoryFiltering(filters.categoryFilter) || isTitleFiltering(filters.titleFilter) || isPriceFiltering(filters.priceFilter) || isSizeFiltering(filters.sizeFilter)
 };
