@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+.account__wrapper {
+    display: flex;
+    justify-content: center;
+    /*min-height: calc(100vh - 98px);*/
+    padding: 20px 0;
+}
+
+.account {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    width: 1200px;
+}
+
+.account__topbar {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 0 14px;
+}
+
+.navbar__exit {
+    padding: 3px 12px;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    display: inline-flex;
+    box-shadow: rgba(17, 12, 46, 0.15) 0 48px 100px 0;
+    white-space: nowrap;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.navbar__exit:hover {
+    background-color: rgb(238, 238, 238);
+}
+
+.navbar__name_wrapper {
+    width: 100%;
+}
+
+.navbar__name {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    margin: 10px 0 5px 0;
+    cursor: pointer;
+}
+
+.navbar__subtitle {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 400;
+    color: #4d4d4d;
+    font-size: 15px;
+    margin: 0;
+}
+
+.account__content {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 15px;
+}
+
+.account__navbar {
+    display: flex;
+    width: 20%;
+}
+
+.account__navbar ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.menu__item {
+    text-decoration: none;
+    list-style: none;
+    padding: 7px 14px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 7px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.menu__icon {
+    font-weight: lighter;
+    margin-right: 10px;
+    color: #3c3c3c;
+    height: 15px;
+    width: 15px;
+}
+
+.menu__item:hover {
+    background-color: #f1f1f1;
+}
+
+.account__info {
+    margin-left: 70px;
+}

@@ -36,7 +36,7 @@ export const routes: Route[] = [
 		path: '/basket',
 		element: () => import('../pages/Basket').then(mod => <mod.default />),
 		loader: () => {
-			return { cartGoods: JSON.parse(localStorage.getItem('cart') || '{}') }
+			return { cartGoods: JSON.parse(localStorage.getItem('cart') || '{}') };
 		}
 	},
 	{
@@ -47,6 +47,10 @@ export const routes: Route[] = [
 		path: '/login',
 		element: () => import('../pages/Login').then(mod => <mod.default />),
 	},
+	{
+		path: 'account',
+		element: () => import('../pages/Account').then(mod => <mod.default />)
+	}
 	// {
 	// 	path: 'product',
 	// 	children: [
