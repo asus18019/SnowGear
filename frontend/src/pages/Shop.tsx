@@ -24,6 +24,10 @@ const Shop: FC = () => {
 	let filteredGoodsArray: IEquipment[] = goods || [];
 	const [filters, setFilters] = useState<IFilters>(initialFiltersData);
 
+	const initialGoodsPerPage = 5;
+	const [goodsPerPage, setGoodsPerPage] = useState(initialGoodsPerPage);
+	const [showLoadMoreBtn, setShowLoadMoreBtn] = useState(true);
+
 	const isFiltering = (): boolean => {
 		if(isAnyFilter(filters)) {
 			let res: IEquipment[] = goodsArray;
@@ -43,7 +47,7 @@ const Shop: FC = () => {
 				res = filterBySize(res, filters.sizeFilter);
 			}
 
-			filteredGoodsArray = res;
+			filteredGoodsArray = res.slice(0, goodsPerPage);
 			return true;
 		}
 
@@ -54,30 +58,40 @@ const Shop: FC = () => {
 		<div className={ styles.shop__wrapper }>
 			<div className={ styles.shop }>
 				<Filters changeFilters={ setFilters } filters={ filters }/>
-				<div className={ styles.item__wrapper }>
-					{
-						!isFiltering()
-							? goodsArray.map(equipment => {
-								return <GoodsTile
-									key={ equipment.eid }
-									eid={ equipment.eid }
-									image={ equipment.image }
-									title={ equipment.title }
-									price={ equipment.price }
-									size={ equipment.size }
-								/>;
-							})
-							: filteredGoodsArray.map(equipment => {
-								return <GoodsTile
-									key={ equipment.eid }
-									eid={ equipment.eid }
-									image={ equipment.image }
-									title={ equipment.title }
-									price={ equipment.price }
-									size={ equipment.size }
-								/>;
-							})
-					}
+				<div className={ styles.goods__wrapper }>
+					<div className={ styles.item__wrapper }>
+						{
+							isFiltering()
+								? filteredGoodsArray.map(equipment => {
+									return <GoodsTile
+										key={ equipment.eid }
+										eid={ equipment.eid }
+										image={ equipment.image }
+										title={ equipment.title }
+										price={ equipment.price }
+										size={ equipment.size }
+									/>;
+								})
+								: goodsArray.slice(0, goodsPerPage).map(equipment => {
+									return <GoodsTile
+										key={ equipment.eid }
+										eid={ equipment.eid }
+										image={ equipment.image }
+										title={ equipment.title }
+										price={ equipment.price }
+										size={ equipment.size }
+									/>;
+								})
+						}
+					</div>
+					<div className={ styles.showMore_wrapper }>
+						{
+							showLoadMoreBtn && <div
+								className={ styles.showMore_button }
+								onClick={ () => setGoodsPerPage(prevState => prevState + initialGoodsPerPage) }
+							>LOAD MORE</div>
+						}
+					</div>
 				</div>
 			</div>
 		</div>
