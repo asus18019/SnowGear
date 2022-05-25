@@ -57,11 +57,14 @@
     font-family: 'Quicksand', sans-serif;
     color: #4d4d4d;
     max-width: 550px;
+    margin: 0;
+    margin-top: 15px;
 }
 
 .update__profile {
+    margin-top: 15px;
     cursor: pointer;
-    display: inline;
+    display: inline-block;
     padding: 7px 20px;
     background-color: #2da44e;
     border-radius: 6px;
@@ -69,7 +72,6 @@
     font-weight: 600;
     color: white;
     font-size: 15px;
-    margin: 20px 0;
 }
 
 .update__profile:hover {

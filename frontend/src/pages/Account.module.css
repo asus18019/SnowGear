@@ -79,11 +79,22 @@
 .menu__item {
     text-decoration: none;
     list-style: none;
+    border-radius: 7px
+}
+
+.menu__item_link {
+    text-decoration: none;
     padding: 7px 14px;
-    width: 100%;
-    cursor: pointer;
     border-radius: 7px;
+    width: 100%;
     font-family: 'Quicksand', sans-serif;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.menu__item_link:hover {
+    background-color: #f1f1f1;
 }
 
 .menu__icon {

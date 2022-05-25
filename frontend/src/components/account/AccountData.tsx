@@ -45,7 +45,7 @@ const AccountData = () => {
 					<input className={ styles.property__value } defaultValue="Ukraine" type="text"/>
 				</div>
 			</div>
-			<p className={ styles.property__subtitle }>All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears. Please see our privacy statement to learn more about how we use this information.</p>
+			<p className={ styles.property__subtitle }>Please see our privacy statement to learn more about how we use this information.</p>
 			<div className={ styles.update__profile }>Update profile</div>
 		</div>
 	);
