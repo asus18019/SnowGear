@@ -18,3 +18,37 @@
     height: 1px;
     background-color: lightgrey;
 }
+
+table {
+    margin-top: 25px;
+    border-collapse: collapse;
+    font-family: 'Quicksand', sans-serif;
+    vertical-align: middle;
+    text-align: center;
+}
+
+th, td {
+    border: 1px solid lightgrey;
+    padding: 8px;
+}
+
+thead th {
+    /*width: 25%;*/
+    /*white-space: pre;*/
+}
+
+thead {
+    background-color: lightcyan;
+    color: black;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    /*letter-spacing: 2%;*/
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+tbody tr:nth-child(even) {
+    background-color: rgba(245, 245, 245, 0.56);
+}
