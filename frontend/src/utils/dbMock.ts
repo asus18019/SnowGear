@@ -106,7 +106,8 @@ export const orders: IOrder[] = [
 		category: 'gloves',
 		datestart: 'April 30, 2022 08:00',
 		dateend: 'May 1, 2022 08:00',
-		duration: 5
+		duration: 5,
+		status: 'expired'
 	},
 	{
 		eid: 1,
@@ -116,7 +117,8 @@ export const orders: IOrder[] = [
 		category: 'boots',
 		datestart: 'April 30, 2022 08:00',
 		dateend: 'May 1, 2022 08:00',
-		duration: 3
+		duration: 3,
+		status: 'current'
 	},
 	{
 		eid: 1,
@@ -126,7 +128,8 @@ export const orders: IOrder[] = [
 		category: 'boots',
 		datestart: 'April 2, 2022 08:00',
 		dateend: 'May 5, 2022 08:00',
-		duration: 45
+		duration: 45,
+		status: 'expired'
 	},
 	{
 		eid: 3,
@@ -136,7 +139,8 @@ export const orders: IOrder[] = [
 		category: 'sleds',
 		datestart: 'April 30, 2022 08:00',
 		dateend: 'May 1, 2022 08:00',
-		duration: 9
+		duration: 9,
+		status: 'expired'
 	}
 ];
 
@@ -145,3 +149,50 @@ export const getMockOrders = () => {
 		setTimeout(() => res(orders), 100);
 	});
 };
+
+// export const expiredOrders: IOrder[] = [
+// 	{
+// 		eid: 9,
+// 		title: 'Перчатки женские Descente 85 DWCMGD02',
+// 		price: 10,
+// 		size: 'XL',
+// 		category: 'gloves',
+// 		datestart: 'April 30, 2022 08:00',
+// 		dateend: 'May 1, 2022 08:00',
+// 		duration: 5,
+// 		status: 'expired'
+// 	},
+// 	{
+// 		eid: 1,
+// 		title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
+// 		price: 13.5,
+// 		size: 'S',
+// 		category: 'boots',
+// 		datestart: 'April 30, 2022 08:00',
+// 		dateend: 'May 1, 2022 08:00',
+// 		duration: 3,
+// 		status: 'current'
+// 	},
+// 	{
+// 		eid: 1,
+// 		title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
+// 		price: 13.5,
+// 		size: 'L',
+// 		category: 'boots',
+// 		datestart: 'April 2, 2022 08:00',
+// 		dateend: 'May 5, 2022 08:00',
+// 		duration: 45,
+// 		status: 'expired'
+// 	},
+// 	{
+// 		eid: 3,
+// 		title: 'Sleds LC1412400',
+// 		price: 20.5,
+// 		size: 'M',
+// 		category: 'sleds',
+// 		datestart: 'April 30, 2022 08:00',
+// 		dateend: 'May 1, 2022 08:00',
+// 		duration: 9,
+// 		status: 'expired'
+// 	}
+// ];

@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useMatch } from 'react-location';
+import { useMatch, useNavigate } from 'react-location';
 // @ts-ignore
 import styles from './Basket.module.css';
 // @ts-ignore
@@ -9,13 +9,44 @@ import test1 from '../assets/test1.jpg'; // Todo fix import
 import CartItem from '../components/CartItem';
 import { LocationGenerics } from '../router/router';
 import { ICartItem } from '../models/ICartItem';
+import { useAppSelector } from '../hooks/redux';
+import fetchResource from '../api/apiWrapper';
+import moment from 'moment';
+import { IModal } from './Login';
+import ModalWindow from '../components/UI/ModalWindow';
+import { ModalTypes } from '../utils/modalTypes';
 
 const Basket: FC = () => {
+	const navigate = useNavigate();
+	const { isAuthenticated } = useAppSelector(state => state.userReducer);
 	const { cartGoods } = useMatch<LocationGenerics>().data;
 
 	const [cart, setCart] = useState<ICartItem[]>((cartGoods && cartGoods) || []);
+	const [modal, setModal] = useState<IModal | undefined>(undefined);
 
 	const [totalCheckout, setTotalCheckout] = useState<number>(countTotalCheckout(cart));
+
+	const handleCheckout = () => {
+		const cartItems = cartGoods?.map(elem => {
+			const date_end = moment(elem.start).add(elem.duration, 'hours').format();
+			return { eid: elem.item?.eid, date_start: elem.start, date_end, duration: elem.duration };
+		});
+		console.log('cartItems', JSON.stringify({ data: cartItems }));
+		if(isAuthenticated) {
+			console.log(cart);
+			fetchResource('cart/cart', {
+				method: 'POST',
+				body: JSON.stringify({ data: cartItems })
+			}, true)
+				.then(() => {
+					localStorage.removeItem('cart');
+					setCart([]);
+					setModal({ type: ModalTypes.success, information: ['Successfully payed. Check your account rents'] });
+				});
+		} else {
+			navigate({ to: '../login', fromCurrent: true });
+		}
+	};
 
 	function countTotalCheckout(cart: ICartItem[]): number {
 		if(cart[0]) {
@@ -31,6 +62,11 @@ const Basket: FC = () => {
 
 	return (
 		<div className={ styles.basket__wrapper }>
+			{
+				modal
+					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					: false
+			}
 			<div className={ styles.basket }>
 				{
 					cart[0]
@@ -53,7 +89,7 @@ const Basket: FC = () => {
 							}
 							<div className={ styles.checkout }>
 								<h3 className={ styles.price }>{ totalCheckout }<span> $</span></h3>
-								<div className={ styles.checkout__button }>Checkout</div>
+								<div className={ styles.checkout__button } onClick={ handleCheckout }>Checkout</div>
 							</div>
 						</>
 						: <div className={ styles.empty_basket }>

@@ -7,4 +7,5 @@ export interface IOrder {
 	datestart: string,
 	dateend: string,
 	duration: number
+	status: string
 }

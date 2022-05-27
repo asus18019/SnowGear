@@ -7,7 +7,6 @@ import { LocationGenerics } from '../../router/accountRouter';
 
 const CurrentOrders = () => {
 	const { currentOrders } = useMatch<LocationGenerics>().data;
-	console.log(currentOrders);
 
 	const data = useMemo(() => currentOrders?.length ? currentOrders : [], []);
 	const columns = useMemo(() => ([
@@ -19,16 +18,35 @@ const CurrentOrders = () => {
 		{ Header: 'Datestart', accessor: 'datestart' },
 		{ Header: 'Dateend', accessor: 'dateend' },
 		{ Header: 'Duration (hours)', accessor: 'duration' },
+		{ Header: 'Status', accessor: 'status' },
 	]), []);
 
+	const initialState = { hiddenColumns: [''] };
+
+	const tableHooks = (hooks: any) => {
+		hooks.visibleColumns.push((columns: any) => [
+			...columns,
+			{
+				id: "totalprice",
+				Header: "Total Price($)",
+				// @ts-ignore
+				Cell: ({ row }) => (
+					<p>
+						{ row.values.duration * row.values.price }
+					</p>
+				),
+			},
+		]);
+	};
+
 	const ordersData = useMemo(() => [...data], [data]);
+	console.log(ordersData);
 	const ordersColumn = useMemo(() => data[0] ? Object.keys(data[0]).filter(key => key !== 'rating').map(key => {
-		console.log('key', key);
 		return { Header: key, accessor: key };
 	}) : [], [columns]);
 
 	// @ts-ignore
-	const tableInstance = useTable({ columns, data: ordersData }, useSortBy);
+	const tableInstance = useTable({ columns, data: ordersData, initialState }, useSortBy, tableHooks);
 	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
 
 	return (

@@ -1,20 +1,35 @@
 import React from 'react';
 // @ts-ignore
 import styles from './Account.module.css';
+import { Outlet, Router, Link, useNavigate } from 'react-location';
 import { location1, accountRoutes } from '../router/accountRouter';
-import { Outlet, Router, Link } from 'react-location';
+import Cookies from 'js-cookie';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { logout } from '../store/reducers/AuthenticatedUserSlice';
+import { userState } from '../store/reducers/AuthenticatedUserSlice';
 
 const Account = () => {
+	const dispatch = useAppDispatch();
+	const userState: userState = useAppSelector(state => state.userReducer);
+	const navigate = useNavigate();
+
+	const handleLogout = (e: any) => {
+		e.preventDefault();
+		Cookies.remove('token');
+		dispatch(logout());
+		navigate({ to: '../../', fromCurrent: true });
+	};
+
 	return (
 		<div className={ styles.account__wrapper }>
 			<Router routes={ accountRoutes } location={ location1 }>
 				<div className={ styles.account }>
 					<div className={ styles.account__topbar }>
 						<div className={ styles.navbar__name_wrapper }>
-							<h3 className={ styles.navbar__name }>Viktor Volokhan</h3>
+							<h3 className={ styles.navbar__name }>{ userState.user?.name } { userState.user?.surname }</h3>
 							<p className={ styles.navbar__subtitle }>Your personal account</p>
 						</div>
-						<div className={ styles.navbar__exit }>Sign out</div>
+						<div className={ styles.navbar__exit } onClick={ e => handleLogout(e) }>Sign out</div>
 					</div>
 					<div className={ styles.account__content }>
 						<div className={ styles.account__navbar }>

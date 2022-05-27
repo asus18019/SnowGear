@@ -1,5 +1,5 @@
 import React, { FC, useState, useRef, useEffect } from 'react';
-import { Link } from 'react-location';
+import { Link, useNavigate } from 'react-location';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
@@ -10,6 +10,7 @@ import { logout, userState } from '../store/reducers/AuthenticatedUserSlice';
 
 const Navbar: FC = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const dropdownRef = useRef(null);
 	const menuRef = useRef(null);
 
@@ -50,6 +51,7 @@ const Navbar: FC = () => {
 		e.preventDefault();
 		Cookies.remove('token');
 		dispatch(logout());
+		navigate({ to: '../../', fromCurrent: true });
 	};
 
 	return (
@@ -84,7 +86,7 @@ const Navbar: FC = () => {
 								/>
 								{ showDropdown
 									? <div className={ styles.menu__account_options }>
-										<Link className={ styles.menu__account_link } to="/basket">Account</Link>
+										<Link className={ styles.menu__account_link } to="/account/profile">Account</Link>
 										<a className={ styles.menu__account_link }
 										   onClick={ e => handleLogout(e) }>Logout</a>
 									</div>

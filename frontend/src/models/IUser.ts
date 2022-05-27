@@ -6,6 +6,7 @@ export interface IUser {
 	password: string,
 	age: number,
 	address: string,
+	phone: string,
 	bid: number,
 	reid: number
 }

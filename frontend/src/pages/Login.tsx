@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 // @ts-ignore
 import styles from './Login.module.css';
-import { Link } from 'react-location';
+import { Link, useNavigate } from 'react-location';
 import fetchResource from '../api/apiWrapper';
 import {
 	fetchToken,
@@ -24,10 +24,11 @@ export interface IModal {
 
 const Login: FC = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
-	const [modal, setModal] = useState<IModal | undefined>({ type: ModalTypes.success, information: ['invalid password length'] });
+	const [modal, setModal] = useState<IModal | undefined>(undefined);
 
 	const handleLogin = (e: any) => {
 		e.preventDefault();
@@ -42,9 +43,11 @@ const Login: FC = () => {
 				Cookies.set('token', res.token);
 			})
 			.then(fetchUserFn)
+			.then(() => navigate({ to: '../account/profile', fromCurrent: true }))
 			.catch((error: IFetchedTokenFailed) => {
 				dispatch(setErrors(error.message));
 				dispatch(stopFetching());
+				setModal({ type: ModalTypes.fail, information: [error.message] });
 			});
 	};
 
