@@ -12,17 +12,18 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CartEquipmentController extends Controller
 {
-    public function MakeOrderToCart(CreatePostRequest $request){
-        $price = EquipmentModel::find($request->eid)
-            ->get('price');
-
-        $cart = CartEquipmentModel::create([
-            'eid' => $request->input('eid'),
-            'cid' => $request->input('cid'),
-            'date_start' => $request->input('date_start'),
-            'date_end' => $request->input('date_end'),
-            'duration' => $request->input('duration'),
-            'price' => ((int)$price * (int)$request->input('duration')),
+    public function MakeOrderToCart($cid, $date_start, $date_end, $duration, $eid){
+        $price = EquipmentModel::find($eid)
+            ->where('eid', $eid)
+            ->first('price');
+//        return $price;
+            $cart = CartEquipmentModel::create([
+            'eid' => $eid,
+            'cid' => $cid,
+            'date_start' => $date_start,
+            'date_end' => $date_end,
+            'duration' => $duration,
+            'price' => ((int)$price->price * $duration),
         ]);
         return response([$cart], Response::HTTP_OK);
     }
