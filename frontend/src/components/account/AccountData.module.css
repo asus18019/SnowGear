@@ -77,3 +77,27 @@
 .update__profile:hover {
     background-color: #2a9246;
 }
+
+@media screen and (max-device-width: 750px) {
+    .property__subtitle {
+        max-width: 350px;
+    }
+
+    .property__value {
+        width: 270px;
+    }
+}
+
+@media screen and (max-device-width: 550px) {
+    .account_data__wrapper {
+        margin-top: 35px;
+    }
+
+    .property__subtitle {
+        max-width: 100%;
+    }
+
+    .property__value {
+        width: 270px;
+    }
+}

@@ -113,3 +113,60 @@
     margin-left: 70px;
     width: 100%;
 }
+
+@media screen and (max-device-width: 1300px) {
+    .account__topbar {
+        width: 95%;
+    }
+
+    .account__info {
+        margin-left: 45px;
+        width: 95%;
+    }
+
+    .account__navbar {
+        margin-left: 14px;
+    }
+}
+
+@media screen and (max-device-width: 1000px) {
+    .account {
+        margin-top: 66px;
+    }
+
+    .account__topbar {
+        width: 90%;
+    }
+
+    .account__info {
+        margin-left: 35px;
+    }
+
+    .account__navbar {
+        width: 25%;
+    }
+}
+
+@media screen and (max-device-width: 750px) {
+    .account__navbar {
+        width: 35%;
+    }
+}
+
+@media screen and (max-device-width: 550px) {
+    .account__content {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: 15px;
+        flex-direction: column;
+    }
+
+    .account__navbar {
+        width: 80%;
+    }
+
+    .account__info {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}

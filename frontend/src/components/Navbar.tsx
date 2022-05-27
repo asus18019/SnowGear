@@ -96,7 +96,7 @@ const Navbar: FC = () => {
 
 							{/* For mobile */ }
 							<div className={ `${ styles.auth__link_wrapper } ${ styles.auth__account__mobile }` }>
-								<Link className={ styles.link } to="/basket" onClick={ toggleMenu }>Account</Link>
+								<Link className={ styles.link } to="/account/profile" onClick={ toggleMenu }>Account</Link>
 								<a className={ styles.link } onClick={ e => {
 									handleLogout(e);
 									toggleMenu();
