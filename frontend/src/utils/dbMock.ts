@@ -1,4 +1,5 @@
 import { IEquipment } from '../models/IEquipment';
+import { IOrder } from '../models/IOrder';
 
 const goods: IEquipment[] = [
 	{
@@ -93,5 +94,54 @@ export const getMockEquipment = () => {
 export const getMockEquipmentByID = (id: number) => {
 	return new Promise((res) => {
 		setTimeout(() => res(goods.filter(goods => goods.eid === id)[0]), 100);
+	});
+};
+
+export const orders: IOrder[] = [
+	{
+		eid: 9,
+		title: 'Перчатки женские Descente 85 DWCMGD02',
+		price: 10,
+		size: 'XL',
+		category: 'gloves',
+		datestart: 'April 30, 2022 08:00',
+		dateend: 'May 1, 2022 08:00',
+		duration: 5
+	},
+	{
+		eid: 1,
+		title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
+		price: 13.5,
+		size: 'S',
+		category: 'boots',
+		datestart: 'April 30, 2022 08:00',
+		dateend: 'May 1, 2022 08:00',
+		duration: 3
+	},
+	{
+		eid: 1,
+		title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
+		price: 13.5,
+		size: 'L',
+		category: 'boots',
+		datestart: 'April 2, 2022 08:00',
+		dateend: 'May 5, 2022 08:00',
+		duration: 45
+	},
+	{
+		eid: 3,
+		title: 'Sleds LC1412400',
+		price: 20.5,
+		size: 'M',
+		category: 'sleds',
+		datestart: 'April 30, 2022 08:00',
+		dateend: 'May 1, 2022 08:00',
+		duration: 9
+	}
+];
+
+export const getMockOrders = () => {
+	return new Promise((res) => {
+		setTimeout(() => res(orders), 100);
 	});
 };

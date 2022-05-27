@@ -100,6 +100,25 @@
     color: #000000;
 }
 
+.filters__reset_wrapper {
+    margin-top: 25px;
+}
+
+.filters__reset {
+    padding: 3px 10px;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    font-weight: normal;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid lightgray;
+    border-radius: 7px;
+}
+
+.filters__reset:hover {
+    background-color: rgb(241, 241, 241);
+}
+
 .filters__min_price::-webkit-outer-spin-button,
 .filters__min_price::-webkit-inner-spin-button,
 .filters__max_price::-webkit-outer-spin-button,
@@ -145,6 +164,16 @@
 
     .filters__search__wrapper {
         justify-content: flex-start;
+    }
+
+    .filters__reset_wrapper {
+        display: flex;
+        justify-content: center;
+        align-self: center;
+    }
+
+    .filters__reset {
+        width: 300px;
     }
 }
 
@@ -194,6 +223,20 @@
     .filters__button {
         width: calc(97% - 48px);
         margin: 0 auto 20px auto;
+    }
+
+    .filters__reset_wrapper {
+        display: flex;
+        justify-content: flex-start;
+    }
+
+    .filters__reset {
+        width: 100%;
+        padding: 5px 7px;
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid lightgray;
+        border-radius: 7px;
     }
 
     /*.filters__show_button {*/

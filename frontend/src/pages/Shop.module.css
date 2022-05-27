@@ -17,9 +17,35 @@
 
 .item__wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     flex-wrap: wrap;
     gap: 30px;
+    width: 100%;
+}
+
+.goods__wrapper {
+    margin-left: 25px;
+    width: 100%;
+}
+
+.showMore_wrapper {
+    margin-top: 25px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.showMore_button {
+    background-color: #529edf;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 15px;
+    border-radius: 7px;
+    height: 30px;
+    color: white;
+    font-weight: bolder;
 }
 
 /***   ADAPTIVE   ***/
