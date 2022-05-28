@@ -16,8 +16,8 @@ export const accountRoutes: Route[] = [
 		}
 	},
 	{
-		path: '/account/expiredorders',
-		element: () => import('../components/account/ExpiredOrders').then(mod => <mod.default/>),
+		path: '/account/returnitem',
+		element: () => import('../components/account/ReturnItem').then(mod => <mod.default/>),
 	},
 ];
 

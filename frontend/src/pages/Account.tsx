@@ -20,6 +20,7 @@ const Account = () => {
 		navigate({ to: '../../', fromCurrent: true });
 	};
 
+	// @ts-ignore
 	return (
 		<div className={ styles.account__wrapper }>
 			<Router routes={ accountRoutes } location={ location1 }>
@@ -47,9 +48,9 @@ const Account = () => {
 									</Link>
 								</li>
 								<li className={ styles.menu__item }>
-									<Link className={ styles.menu__item_link } to="/account/expiredorders">
-										<svg className={ styles.menu__icon } version="1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" enableBackground="new 0 0 48 48"><circle fill="#00ACC1" cx="17" cy="17" r="14"/><circle fill="#eee" cx="17" cy="17" r="11"/><rect x="16" y="8" width="2" height="9"/><rect x="18.2" y="16" transform="matrix(-.707 .707 -.707 -.707 46.834 19.399)" width="2.4" height="6.8"/><circle cx="17" cy="17" r="2"/><circle fill="#00ACC1" cx="17" cy="17" r="1"/><path fill="#FFC107" d="M11.9,42l14.4-24.1c0.8-1.3,2.7-1.3,3.4,0L44.1,42c0.8,1.3-0.2,3-1.7,3H13.6C12.1,45,11.1,43.3,11.9,42z"/><path fill="#263238" d="M26.4,39.9c0-0.2,0-0.4,0.1-0.6s0.2-0.3,0.3-0.5s0.3-0.2,0.5-0.3s0.4-0.1,0.6-0.1s0.5,0,0.7,0.1 s0.4,0.2,0.5,0.3s0.2,0.3,0.3,0.5s0.1,0.4,0.1,0.6s0,0.4-0.1,0.6s-0.2,0.3-0.3,0.5s-0.3,0.2-0.5,0.3s-0.4,0.1-0.7,0.1 s-0.5,0-0.6-0.1s-0.4-0.2-0.5-0.3s-0.2-0.3-0.3-0.5S26.4,40.1,26.4,39.9z M29.2,36.8h-2.3L26.5,27h3L29.2,36.8z"/></svg>
-										Expired orders
+									<Link className={ styles.menu__item_link } to="/account/returnitem">
+										<svg id="Layer_1" className={ styles.menu__icon } data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><title>Back</title><path d="M352,170.667H94.17l70.249-70.248a21.334,21.334,0,1,0-30.171-30.171L27.581,176.915a21.336,21.336,0,0,0,0,30.171L134.248,313.752a21.334,21.334,0,1,0,30.171-30.171L94.17,213.333H352a96,96,0,0,1,0,192H128A21.333,21.333,0,1,0,128,448H352c76.461,0,138.667-62.205,138.667-138.667S428.461,170.667,352,170.667Z"/></svg>
+										Return item
 									</Link>
 								</li>
 							</ul>
