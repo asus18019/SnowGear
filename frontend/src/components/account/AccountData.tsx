@@ -8,6 +8,8 @@ import { IUser } from '../../models/IUser';
 import { IModal } from '../../pages/Login';
 import ModalWindow from '../UI/ModalWindow';
 import { ModalTypes } from '../../utils/modalTypes';
+import { validateBodyObject } from '../../utils/validateBodyObject';
+import { handleAgeInput } from '../../utils/inputHandlers';
 
 const AccountData = () => {
 	const dispatch = useAppDispatch();
@@ -30,12 +32,8 @@ const AccountData = () => {
 	};
 
 	const handleAge = (e: string) => {
-		const age: number = Number(e);
-		if(age >= 1 && age <= 99) {
-			setAge(age);
-		} else if(e === '') {
-			setAge(undefined);
-		}
+		const age: number | undefined = handleAgeInput(e);
+		setAge(age);
 	};
 
 	const handleUpdateProfile = () => {
@@ -45,19 +43,11 @@ const AccountData = () => {
 			email: email === userState.user?.email ? undefined : email,
 			password,
 			age: age === userState.user?.age ? undefined : age,
-			phone,
+			phone: phone === userState.user?.phone ? undefined : phone,
 			address: address === userState.user?.address ? undefined : address
 		};
 
-		const body = Object.keys(fields).reduce((acc, key) => {
-			// @ts-ignore
-			if(fields[key] !== '' && fields[key] !== null && fields[key] !== undefined && fields[key] !== 0 && fields[key] !== '380') {
-				// @ts-ignore
-				acc[key] = fields[key];
-			}
-
-			return acc;
-		}, {});
+		const body = validateBodyObject(fields);
 
 		if(Object.keys(body).length) {
 			fetchResource('user/updateuser', {
@@ -127,8 +117,7 @@ const AccountData = () => {
 			<div className={ styles.property__container }>
 				<h3 className={ styles.property__title }>Age</h3>
 				<div className={ styles.input__wrapper }>
-					<input className={ styles.property__value } defaultValue={ age }
-					       onChange={ e => handleAge(e.target.value) } type="text"/>
+					<input className={ styles.property__value } value={ age } onChange={ e => handleAge(e.target.value) } type="number"/>
 				</div>
 			</div>
 			<div className={ styles.property__container }>

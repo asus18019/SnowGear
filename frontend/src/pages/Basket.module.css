@@ -9,6 +9,7 @@
 
 .basket {
     width: 86%;
+    max-width: 1200px;
     border-right: 1px solid rgba(0, 0, 0, 0.15);
     border-left: 1px solid rgba(0, 0, 0, 0.15);
     padding: 30px;
@@ -80,6 +81,11 @@
 
 .checkout__button:hover {
     background: #27a927;
+}
+
+.paypal__button {
+    font-size: 30px;
+    padding: 15px 0;
 }
 
 /***   ADAPTIVE   ***/

@@ -1,5 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useMatch, useNavigate } from 'react-location';
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 // @ts-ignore
 import styles from './Basket.module.css';
 // @ts-ignore
@@ -25,6 +26,19 @@ const Basket: FC = () => {
 	const [modal, setModal] = useState<IModal | undefined>(undefined);
 
 	const [totalCheckout, setTotalCheckout] = useState<number>(countTotalCheckout(cart));
+
+	const initialOptions = {
+		'client-id': 'ARiZIxjMa-OUlRjs8fRo4UloRg7t6qYBUu-ajG6OU_-kcYt8bZjOQWyrwTDIBjSNpkSqW4py0XtiBeiu',
+		currency: 'USD',
+		intent: 'capture',
+	};
+
+	const getCartItems = () => {
+		return cartGoods?.map(elem => {
+			const date_end = moment(elem.start).add(elem.duration, 'hours').format();
+			return { eid: elem.item?.eid, date_start: elem.start, date_end, duration: elem.duration };
+		});
+	};
 
 	const handleCheckout = () => {
 		const cartItems = cartGoods?.map(elem => {
@@ -53,7 +67,7 @@ const Basket: FC = () => {
 			const res: number = cart.reduce((sum, current) => {
 				return sum + current.checkout;
 			}, 0);
-			
+
 			return Number(res.toFixed(2));
 		}
 
@@ -64,7 +78,8 @@ const Basket: FC = () => {
 		<div className={ styles.basket__wrapper }>
 			{
 				modal
-					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					? <ModalWindow type={ modal.type } information={ modal.information }
+					               closeHandler={ () => setModal(undefined) }/>
 					: false
 			}
 			<div className={ styles.basket }>
@@ -89,7 +104,36 @@ const Basket: FC = () => {
 							}
 							<div className={ styles.checkout }>
 								<h3 className={ styles.price }>{ totalCheckout }<span> $</span></h3>
-								<div className={ styles.checkout__button } onClick={ handleCheckout }>Checkout</div>
+								{/*<div className={ styles.checkout__button } onClick={ handleCheckout }>Checkout</div>*/ }
+								<PayPalScriptProvider options={ initialOptions }>
+									<PayPalButtons
+										style={ { layout: 'vertical' } }
+										createOrder={ (data, actions) => {
+											return fetchResource('paypal/order/create', {
+												method: 'POST',
+												body: JSON.stringify({ equipments: getCartItems() }),
+											}, true)
+												.then(res => {
+													return res.json();
+												})
+												.then(orderData => {
+													return orderData.id;
+												});
+										} }
+										onApprove={ (data, actions) => {
+											return fetchResource('paypal/order/capture', {
+												method: 'POST',
+												body: JSON.stringify({ orderId: data.orderID })
+											}, true)
+												.then(res => {
+													return res.json;
+												})
+												.then(check => {
+													console.log(check);
+												});
+										} }
+									/>
+								</PayPalScriptProvider>
 							</div>
 						</>
 						: <div className={ styles.empty_basket }>

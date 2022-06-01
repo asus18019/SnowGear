@@ -6,6 +6,8 @@ import fetchResource from '../api/apiWrapper';
 import { IModal } from './Login';
 import { ModalTypes } from '../utils/modalTypes';
 import ModalWindow from '../components/UI/ModalWindow';
+import { validateBodyObject } from '../utils/validateBodyObject';
+import { handleAgeInput } from '../utils/inputHandlers';
 
 const Registration: FC = () => {
 	const navigate = useNavigate();
@@ -15,7 +17,7 @@ const Registration: FC = () => {
 	const [name, setName] = useState<string>('');
 	const [surname, setSurname] = useState<string>('');
 	const [phone, setPhone] = useState<number>(+380);
-	const [age, setAge] = useState<number | undefined>(0);
+	const [age, setAge] = useState<number | undefined>(undefined);
 	const [address, setAddress] = useState<string>('');
 
 	const [modal, setModal] = useState<IModal | undefined>(undefined);
@@ -27,28 +29,15 @@ const Registration: FC = () => {
 	};
 
 	const handleAge = (e: string) => {
-		const age: number = Number(e);
-		if(age >= 1 && age <= 99) {
-			setAge(age);
-		} else if(e === '') {
-			setAge(undefined);
-		}
+		const age: number | undefined = handleAgeInput(e);
+		setAge(age);
 	};
 
 	const handleRegistration = (e: any) => {
 		e.preventDefault();
 
-		const fields = { name, surname, email, password, age: age && age.toString() || 0, phone: phone.toString(), address };
-
-		const body = Object.keys(fields).reduce((acc, key) => {
-			// @ts-ignore
-			if(fields[key] !== '' && fields[key] !== null && fields[key] !== undefined && fields[key] !== 0 && fields.phone !== 380) {
-				// @ts-ignore
-				acc[key] = fields[key];
-			}
-
-			return acc;
-		}, {});
+		const fields = { name, surname, email, password, age: age ? age.toString() : 0, phone: phone.toString(), address };
+		const body = validateBodyObject(fields);
 
 		fetchResource('register', {
 			method: 'POST',

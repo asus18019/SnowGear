@@ -63,3 +63,13 @@
         margin-top: 20px;
     }
 }
+
+@media screen and (max-device-width: 1000px) {
+    .goods__wrapper {
+        margin-left: 0;
+    }
+
+    .item__wrapper {
+        justify-content: center;
+    }
+}
