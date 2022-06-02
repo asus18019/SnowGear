@@ -40,7 +40,6 @@ const CurrentOrders = () => {
 	};
 
 	const ordersData = useMemo(() => [...data], [data]);
-	console.log(ordersData);
 	const ordersColumn = useMemo(() => data[0] ? Object.keys(data[0]).filter(key => key !== 'rating').map(key => {
 		return { Header: key, accessor: key };
 	}) : [], [columns]);
@@ -78,7 +77,7 @@ const CurrentOrders = () => {
 							return <tr { ...row.getRowProps() }>
 								{
 									row.cells.map(cell => (
-										<td { ...cell.getCellProps }>{ cell.render('Cell') }</td>
+										<td key={ cell.column.id } data-label={ cell.column.Header } { ...cell.getCellProps }>{ cell.render('Cell') }</td>
 									))
 								}
 							</tr>;
