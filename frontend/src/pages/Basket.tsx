@@ -28,7 +28,7 @@ const Basket: FC = () => {
 	const [totalCheckout, setTotalCheckout] = useState<number>(countTotalCheckout(cart));
 
 	const initialOptions = {
-		'client-id': 'ARiZIxjMa-OUlRjs8fRo4UloRg7t6qYBUu-ajG6OU_-kcYt8bZjOQWyrwTDIBjSNpkSqW4py0XtiBeiu',
+		'client-id': 'AReEDraM-UKgnUXLV7OVtJKzjt-Wv0WdhtNl77e6sTF2xFuCwWPW6vdrY-OPZKnP9Hru-yVNrO2kbREk',
 		currency: 'USD',
 		intent: 'capture',
 	};
