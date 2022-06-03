@@ -10,6 +10,7 @@ import ModalWindow from '../UI/ModalWindow';
 import { ModalTypes } from '../../utils/modalTypes';
 import { validateBodyObject } from '../../utils/validateBodyObject';
 import { handleAgeInput } from '../../utils/inputHandlers';
+import { changeLoader } from '../../store/reducers/LoaderSlice';
 
 const AccountData = () => {
 	const dispatch = useAppDispatch();
@@ -50,12 +51,15 @@ const AccountData = () => {
 		const body = validateBodyObject(fields);
 
 		if(Object.keys(body).length) {
+			dispatch(changeLoader(true));
+
 			fetchResource('user/updateuser', {
 				method: 'PUT',
 				body: JSON.stringify(body),
 			}, true)
 				.then(fetchUserFn)
-				.catch(e => setModal({ type: ModalTypes.fail, information: [e.message] }));
+				.catch(e => setModal({ type: ModalTypes.fail, information: [e.message] }))
+				.finally(() => dispatch(changeLoader(false)));
 		} else {
 			console.log('empty body');
 		}

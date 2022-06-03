@@ -25,6 +25,7 @@ table {
     font-family: 'Quicksand', sans-serif;
     vertical-align: middle;
     text-align: center;
+    table-layout: fixed;
 }
 
 th, td {
@@ -51,4 +52,66 @@ tbody tr:nth-child(odd) {
 
 tbody tr:nth-child(even) {
     background-color: rgba(245, 245, 245, 0.56);
+}
+
+@media screen and (max-device-width: 1250px) {
+    table {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    th, td {
+        border: none;
+    }
+
+    table {
+        border: 0;
+        margin-right: 0;
+        margin-left: 0;
+    }
+
+    table thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    table tr {
+        display: block;
+        margin-bottom: .625em;
+        border: 1px solid lightgrey;
+        border-bottom: none;
+    }
+
+    table td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .9em;
+        text-align: right;
+    }
+
+    table td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    tbody tr td:nth-child(even) {
+        background-color: rgba(245, 245, 245, 0.56);
+    }
+    tbody tr td:nth-child(odd) {
+        background-color: white;
+    }
+
+    .current_orders__wrapper {
+        margin-top: 25px;
+    }
 }

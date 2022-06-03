@@ -147,8 +147,12 @@ tbody tr:nth-child(even) {
 }
 
 @media screen and (max-device-width: 550px) {
+    th, td {
+        border: none;
+    }
+
     .return_item__wrapper {
-        margin-top: 35px;
+        margin-top: 25px;
     }
 
     .property__subtitle {
