@@ -4,20 +4,28 @@ import styles from './ReturnItem.module.css';
 import { useSortBy, useTable } from 'react-table';
 import { IFoundedItem } from '../../models/IFoundedItem';
 import { getMockFoundedItems } from '../../utils/dbMock';
+import { changeLoader } from '../../store/reducers/LoaderSlice';
+import { useAppDispatch } from '../../hooks/redux';
 
 const ReturnItem = () => {
+	const dispatch = useAppDispatch();
+
 	const [items, setItems] = useState<IFoundedItem[]>([]);
 	const [idInput, setIdInput] = useState<string>('');
 	const [notFoundString, setNotFoundString] = useState<string | undefined>();
 
 	const handleFindItems = async () => {
 		setNotFoundString(undefined);
+		dispatch(changeLoader(true));
+
 		const data = await getMockFoundedItems();
 		if(data.length > 0) {
 			setItems(data);
 		} else {
 			setNotFoundString('Nothing found. Try other ID...');
 		}
+
+		dispatch(changeLoader(false));
 	};
 
 	const handleClearItems = () => {

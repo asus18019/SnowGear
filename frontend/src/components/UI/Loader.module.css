@@ -1,0 +1,54 @@
+@keyframes loader-animation {
+    0% {
+        left: -100%;
+    }
+    49% {
+        left: 100%;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: -100%;
+    }
+}
+
+/*body {margin: 0; padding: 0}*/
+@keyframes loader-animation {
+    0% {
+        left: -100%;
+    }
+    49% {
+        left: 100%;
+    }
+    50% {
+        left: 100%;
+    }
+    100% {
+        left: -100%;
+    }
+}
+.loader {
+    position: absolute;
+    top: 0;
+    height: 5px;
+    width: 100%;
+    overflow: hidden;
+    z-index: 999;
+}
+.loader .bar {
+    width: 100%;
+    position: absolute;
+    height: 5px;
+    background-color: dodgerblue;
+    animation-name: loader-animation;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+@media screen and (max-device-width: 1000px) {
+    .loader {
+        margin-top: 66px;
+    }
+}

@@ -10,12 +10,13 @@ import {
 	startFetching,
 	stopFetching,
 } from '../store/reducers/AuthenticatedUserSlice';
-import { useAppDispatch } from '../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import Cookies from 'js-cookie';
 import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
 import { IUser } from '../models/IUser';
 import ModalWindow from '../components/UI/ModalWindow';
 import { ModalTypes } from '../utils/modalTypes';
+import Loader from '../components/UI/Loader';
 
 export interface IModal {
 	type: ModalTypes,
@@ -25,6 +26,7 @@ export interface IModal {
 const Login: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const { isLoading } = useAppSelector(state => state.userReducer);
 
 	const [email, setEmail] = useState<string>();
 	const [password, setPassword] = useState<string>();
@@ -64,6 +66,9 @@ const Login: FC = () => {
 
 	return (
 		<div className={ styles.login_page__wrapper }>
+			{
+				isLoading ? <Loader/> : false
+			}
 			{
 				modal
 					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>

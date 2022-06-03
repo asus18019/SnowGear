@@ -6,11 +6,16 @@ import fetchResource from '../api/apiWrapper';
 import { IModal } from './Login';
 import { ModalTypes } from '../utils/modalTypes';
 import ModalWindow from '../components/UI/ModalWindow';
+import Loader from '../components/UI/Loader';
 import { validateBodyObject } from '../utils/validateBodyObject';
 import { handleAgeInput } from '../utils/inputHandlers';
+import { useAppDispatch, useAppSelector } from '../hooks/redux';
+import { changeLoader } from '../store/reducers/LoaderSlice';
 
 const Registration: FC = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+
 
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
@@ -21,6 +26,7 @@ const Registration: FC = () => {
 	const [address, setAddress] = useState<string>('');
 
 	const [modal, setModal] = useState<IModal | undefined>(undefined);
+	const { isLoading } = useAppSelector(state => state.loaderReducer);
 
 	const handlePhoneNumber = (e: string) => {
 		if(Number(e.substring(0, 3)) === +380 && e.length <= 12) {
@@ -35,6 +41,7 @@ const Registration: FC = () => {
 
 	const handleRegistration = (e: any) => {
 		e.preventDefault();
+		dispatch(changeLoader(true));
 
 		const fields = { name, surname, email, password, age: age ? age.toString() : 0, phone: phone.toString(), address };
 		const body = validateBodyObject(fields);
@@ -44,11 +51,15 @@ const Registration: FC = () => {
 			body: JSON.stringify(body),
 		}, false)
 			.then(() => navigate({ to: '../login', fromCurrent: true }))
-			.catch(e => setModal({ type: ModalTypes.fail, information: [e.message] }));
+			.catch(e => setModal({ type: ModalTypes.fail, information: [e.message] }))
+			.finally(() => dispatch(changeLoader(false)));
 	};
 
 	return (
 		<div className={ styles.registration_page__wrapper }>
+			{
+				isLoading ? <Loader/> : false
+			}
 			{
 				modal
 					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
