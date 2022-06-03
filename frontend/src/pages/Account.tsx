@@ -7,11 +7,15 @@ import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { logout } from '../store/reducers/AuthenticatedUserSlice';
 import { userState } from '../store/reducers/AuthenticatedUserSlice';
+import Loader from '../components/UI/Loader';
 
 const Account = () => {
 	const dispatch = useAppDispatch();
 	const userState: userState = useAppSelector(state => state.userReducer);
 	const navigate = useNavigate();
+
+	const { isLoading } = useAppSelector(state => state.loaderReducer);
+
 
 	const handleLogout = (e: any) => {
 		e.preventDefault();
@@ -20,9 +24,11 @@ const Account = () => {
 		navigate({ to: '../../', fromCurrent: true });
 	};
 
-	// @ts-ignore
 	return (
 		<div className={ styles.account__wrapper }>
+			{
+				isLoading ? <Loader /> : false
+			}
 			<Router routes={ accountRoutes } location={ location1 }>
 				<div className={ styles.account }>
 					<div className={ styles.account__topbar }>
@@ -57,7 +63,6 @@ const Account = () => {
 						</div>
 						<div className={ styles.account__info }>
 							<Outlet />
-
 						</div>
 					</div>
 				</div>
