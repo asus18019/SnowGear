@@ -10,7 +10,7 @@
     font-family: 'Quicksand', sans-serif;
     font-weight: 500;
     background-color: #f6f8fa;
-    width: 300px;
+    max-width: 250px;
 }
 
 .input__wrapper {
