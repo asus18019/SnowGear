@@ -1,6 +1,7 @@
 import { IEquipment } from '../models/IEquipment';
 import { IOrder } from '../models/IOrder';
 import { IFoundedItem } from '../models/IFoundedItem';
+import { IUser } from '../models/IUser';
 
 const goods: IEquipment[] = [
 	{
@@ -178,5 +179,62 @@ const findOrderDb: IFoundedItem[] = [
 export const getMockFoundedItems = (): Promise<IFoundedItem[]> => {
 	return new Promise((res) => {
 		setTimeout(() => res(findOrderDb), 100);
+	});
+};
+
+const users: IUser[] = [
+	{
+		id: 1,
+		name: 'Maxim',
+		surname: 'Ivanov',
+		email: 'test@gmail.com',
+		password: '1',
+		age: 20,
+		address: 'Kiev',
+		phone: '3905505204023',
+		bid: 1,
+		reid: 2
+	},
+	{
+		id: 2,
+		name: 'Carl',
+		surname: 'Johnson',
+		email: '23231@gmail.com',
+		password: '1',
+		age: 35,
+		address: 'LA',
+		phone: '84055052040',
+		bid: 1,
+		reid: 2
+	},
+	{
+		id: 3,
+		name: 'Lina',
+		surname: 'Maxico',
+		email: '233221@gmail.com',
+		password: '1',
+		age: 24,
+		address: 'SF',
+		phone: '84055052040',
+		bid: 1,
+		reid: 2
+	},
+	{
+		id: 4,
+		name: 'Cindy',
+		surname: 'Black',
+		email: 'sisiss@gmail.com',
+		password: '1',
+		age: 24,
+		address: 'NY',
+		phone: '84055052040',
+		bid: 1,
+		reid: 2
+	}
+];
+
+export const getMockUsers = (): Promise<IUser[]> => {
+	return new Promise((res) => {
+		setTimeout(() => res(users), 100);
 	});
 };

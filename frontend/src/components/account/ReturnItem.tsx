@@ -95,13 +95,15 @@ const ReturnItem = () => {
 				{
 					items.length > 0
 						? <div className={ styles.test }>
-							<table { ...getTableProps() }>
-								<thead>
+							<table { ...getTableProps() } className={ styles.return_item_table }>
+								<thead className={ styles.return_item_table__thead }>
 									{ headerGroups.map((headerGroup) => (
 										<tr { ...headerGroup.getHeaderGroupProps() }>
 											{ headerGroup.headers.map((column) => (
 												// @ts-ignore
-												<th { ...column.getHeaderProps(column.getSortByToggleProps()) }>
+												<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
+												    className={ styles.return_item_table__th }
+												>
 													{ column.render('Header') }
 													{
 														// @ts-ignore
@@ -117,10 +119,11 @@ const ReturnItem = () => {
 										rows.map(row => {
 											prepareRow(row);
 
-											return <tr { ...row.getRowProps() }>
+											return <tr { ...row.getRowProps() } className={ styles.return_item_table__tr }>
 												{
 													row.cells.map(cell => (
 														<td key={ cell.column.id }
+														    className={ styles.return_item_table__td }
 														    data-label={ cell.column.Header } { ...cell.getCellProps }>{ cell.render('Cell') }</td>
 													))
 												}

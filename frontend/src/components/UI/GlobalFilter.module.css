@@ -1,0 +1,22 @@
+.global_filter__wrapper {
+    margin-top: 25px;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.global_filter__input {
+    border: none;
+    outline: none;
+    font-size: 17px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    background-color: #f6f8fa;
+    width: 300px;
+}
+
+.input__wrapper {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+    display: inline;
+    padding: 7px 14px;
+    background-color: #f6f8fa;
+}

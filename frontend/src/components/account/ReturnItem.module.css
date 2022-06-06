@@ -76,8 +76,7 @@
     overflow-x: auto;
 }
 
-table {
-    width: 100%;
+.return_item_table {
     margin-top: 25px;
     border-collapse: collapse;
     font-family: 'Quicksand', sans-serif;
@@ -85,23 +84,23 @@ table {
     text-align: center;
 }
 
-th, td {
+.return_item_table__th, .return_item_table__td {
     border: 1px solid lightgrey;
     padding: 8px;
 }
 
-thead {
+.return_item_table__thead {
     background-color: lightcyan;
     color: black;
     font-size: 0.875rem;
     text-transform: uppercase;
 }
 
-tbody tr:nth-child(odd) {
+.return_item_table__tr:nth-child(odd) {
     background-color: #fff;
 }
 
-tbody tr:nth-child(even) {
+.return_item_table__tr:nth-child(even) {
     background-color: rgba(245, 245, 245, 0.56);
 }
 
@@ -121,6 +120,69 @@ tbody tr:nth-child(even) {
 
 .form__wrapper {
     display: flex;
+}
+
+@media screen and (max-device-width: 1250px) {
+    .return_item_table {
+        margin-right: 20px;
+        margin-left: 20px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .return_item_table__th, .return_item_table__td {
+        border: none;
+    }
+
+    .return_item_table {
+        border: 0;
+        margin-right: 0;
+        margin-left: 0;
+        min-width: 60%;
+    }
+
+    .return_item_table__thead {
+        border: none;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+
+    .return_item_table__tr {
+        display: block;
+        margin-bottom: .625em;
+        border: 1px solid lightgrey;
+        border-bottom: none;
+    }
+
+    .return_item_table__td {
+        border-bottom: 1px solid #ddd;
+        display: block;
+        font-size: .9em;
+        text-align: right;
+    }
+
+    .return_item_table__td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .return_item_table__td:nth-child(even) {
+        background-color: rgba(245, 245, 245, 0.56);
+    }
+    .return_item_table__td:nth-child(odd) {
+        background-color: white;
+    }
+
+    .current_orders__wrapper {
+        margin-top: 25px;
+    }
 }
 
 @media screen and (max-device-width: 800px) {
@@ -147,8 +209,12 @@ tbody tr:nth-child(even) {
 }
 
 @media screen and (max-device-width: 550px) {
-    th, td {
-        border: none;
+    /*.return_item_table__th, .return_item_table__td {*/
+    /*    border: none;*/
+    /*}*/
+
+    .return_item_table {
+        width: 100%;
     }
 
     .return_item__wrapper {

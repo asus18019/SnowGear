@@ -1,7 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap');
-
-.current_orders__wrapper {
+.users__wrapper {
     width: 100%;
 }
 
@@ -19,7 +16,7 @@
     background-color: lightgrey;
 }
 
-.orders_table {
+.users_table {
     margin-top: 25px;
     border-collapse: collapse;
     font-family: 'Quicksand', sans-serif;
@@ -28,45 +25,51 @@
     table-layout: fixed;
 }
 
-.orders_table__th, .orders_table__td {
+.users_table__th, .users_table__td {
     border: 1px solid lightgrey;
     padding: 8px;
+    width: 1fr;
 }
 
-.orders_table__thead {
+.users_table__thead {
     background-color: lightcyan;
     color: black;
     font-size: 0.875rem;
     text-transform: uppercase;
 }
 
-.orders_table__tbody tr:nth-child(odd) {
+/*.users_table__th, .users_table__td {*/
+/*    width: max-content;*/
+/*}*/
+
+.users_table__tbody tr:nth-child(odd) {
     background-color: #fff;
 }
 
-.orders_table__tbody tr:nth-child(even) {
+.users_table__tbody tr:nth-child(even) {
     background-color: rgba(245, 245, 245, 0.56);
 }
 
 @media screen and (max-device-width: 1250px) {
-    .orders_table {
+    .users_table {
         margin-right: 20px;
         margin-left: 20px;
     }
 }
 
 @media screen and (max-width: 1000px) {
-    .orders_table__th, .orders_table__td {
+    .users_table__th, .users_table__td {
         border: none;
     }
 
-    .orders_table {
+    .users_table {
         border: 0;
         margin-right: 0;
         margin-left: 0;
+        min-width: 60%;
     }
 
-    .orders_table__thead {
+    .users_table__thead {
         border: none;
         clip: rect(0 0 0 0);
         height: 1px;
@@ -77,37 +80,45 @@
         width: 1px;
     }
 
-    .orders_table__tr {
+    .users_table__tr {
         display: block;
         margin-bottom: .625em;
         border: 1px solid lightgrey;
         border-bottom: none;
     }
 
-    .orders_table__td {
+    .users_table__td {
         border-bottom: 1px solid #ddd;
         display: block;
         font-size: .9em;
         text-align: right;
     }
 
-    .orders_table__td::before {
+    .users_table__td::before {
         content: attr(data-label);
         float: left;
         font-weight: bold;
         text-transform: uppercase;
     }
 
-    .orders_table__td:nth-child(even) {
+    .users_table__td:nth-child(even) {
         background-color: rgba(245, 245, 245, 0.56);
     }
-    .orders_table__td:nth-child(odd) {
+    .users_table__td:nth-child(odd) {
         background-color: white;
+    }
+
+    .current_orders__wrapper {
+        margin-top: 25px;
     }
 }
 
-@media screen and (max-device-width: 550px) {
-    .current_orders__wrapper {
+@media screen and (max-width: 550px) {
+    .users__wrapper {
         margin-top: 25px;
+    }
+
+    .users_table {
+        width: 100%;
     }
 }
