@@ -1,13 +1,64 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 // @ts-ignore
 import styles from './Users.module.css';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
 import { useMatch } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
 import GlobalFilter from '../UI/GlobalFilter';
+import { IUser } from '../../models/IUser';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
+
+	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
+	const [editFormData, setEditFormData] = useState<IUser>({
+		id: 0,
+		name: '',
+		surname: '',
+		email: '',
+		password: '',
+		age: 0,
+		address: '',
+		phone: '',
+		bid: 0,
+		reid: 0
+	});
+
+	const handleEditChange = (event: any) => {
+		const fieldName = event.target.getAttribute('name');
+		const fieldValue = event.target.value;
+		const newFormData = { ...editFormData };
+		// @ts-ignore
+		newFormData[fieldName] = fieldValue;
+
+		setEditFormData(newFormData);
+	};
+
+	const handleEditClick = (user: IUser) => {
+		setUpdatedRow(user.id);
+		const formValues: IUser = {
+			id: user.id,
+			name: user.name,
+			surname: user.surname,
+			email: user.email,
+			password: '',
+			age: user.age,
+			address: user.address,
+			phone: user.phone,
+			bid: 0,
+			reid: 0
+		};
+		setEditFormData(formValues);
+	};
+
+	const handleSave = () => {
+		console.log(editFormData);
+		setUpdatedRow(null);
+	};
+
+	const handleDelete = (id: number) => {
+		console.log(id);
+	};
 
 	const data = useMemo(() => users?.length ? users : [], []);
 	const columns = useMemo(() => ([
@@ -28,9 +79,14 @@ const Users = () => {
 				Header: 'Action',
 				// @ts-ignore
 				Cell: ({ row }) => (
-					<p>
-						{ row.values.id }
-					</p>
+					<>
+						<button onClick={ () => handleEditClick(row.original) }>
+							Edit
+						</button>
+						<button onClick={ () => handleDelete(row.values.id) }>
+							Delete
+						</button>
+					</>
 				),
 			},
 		]);
@@ -83,7 +139,23 @@ const Users = () => {
 											data-label={ cell.column.Header }
 											{ ...cell.getCellProps }
 										>
-											{ cell.render('Cell') }
+											{
+												Number(row.values.id) === updatedRow && cell.column.id !== 'action' && cell.column.id !== 'id'
+												    ? <input
+														className={ styles.row__edit_input }
+														type="text"
+														// @ts-ignore
+														value={ editFormData[cell.column.id].toString() }
+														onChange={ e => handleEditChange(e) }
+														name={ cell.column.id }
+													/>
+													: Number(row.values.id) === updatedRow && cell.column.id === 'action'
+														? <div className={ styles.save_row__buttons }>
+															<button onClick={ handleSave }>Save</button>
+															<button onClick={ () => setUpdatedRow(null) }>Cancel</button>
+														</div>
+														: cell.render('Cell')
+											}
 										</td>
 									))
 								}

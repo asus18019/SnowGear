@@ -184,7 +184,7 @@ export const getMockFoundedItems = (): Promise<IFoundedItem[]> => {
 
 const users: IUser[] = [
 	{
-		id: 1,
+		id: 0,
 		name: 'Maxim',
 		surname: 'Ivanov',
 		email: 'test@gmail.com',

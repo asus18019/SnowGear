@@ -22,13 +22,17 @@
     font-family: 'Quicksand', sans-serif;
     vertical-align: middle;
     text-align: center;
-    table-layout: fixed;
+    /*table-layout: fixed;*/
+    width: 100%;
 }
 
 .users_table__th, .users_table__td {
     border: 1px solid lightgrey;
     padding: 8px;
-    width: 1fr;
+}
+
+.users_table__tbody {
+    overflow:hidden
 }
 
 .users_table__thead {
@@ -88,6 +92,20 @@
     padding: 3px 5px;
     margin-left: 7px;
     outline: none;
+}
+
+.row__edit_input {
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    text-align: center;
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.save_row__buttons {
+    margin: 0;
+    width: 110px;
 }
 
 @media screen and (max-device-width: 1250px) {
