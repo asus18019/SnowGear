@@ -29,6 +29,12 @@
 .users_table__th, .users_table__td {
     border: 1px solid lightgrey;
     padding: 8px;
+    word-break: break-word;
+    min-width: 30px;
+}
+
+.users_table__td:last-child {
+    word-break: normal;
 }
 
 .users_table__tbody {
@@ -54,46 +60,6 @@
     background-color: rgba(245, 245, 245, 0.56);
 }
 
-.pagination__wrapper {
-    padding: 15px 0;
-    width: 100%;
-    display: flex;
-}
-
-.pagination__button {
-    padding: 3px 10px;
-    margin: 0 0 0 7px;
-    cursor: pointer;
-    border: 1px solid #dedede;
-    font-size: 14px;
-    border-radius: 3px;
-}
-
-.pagination__button:disabled {
-    cursor: inherit;
-}
-
-.pagination__button:hover {
-    background-color: #e5e5e5;;
-}
-
-.pagination__button:disabled {
-    background-color: inherit;
-}
-
-.pagination__size_select {
-    padding: 3px 5px;
-    margin-left: 7px;
-    cursor: pointer;
-    border-radius: 3px;
-}
-
-.pagination__goto_input {
-    padding: 3px 5px;
-    margin-left: 7px;
-    outline: none;
-}
-
 .row__edit_input {
     outline: none;
     border-radius: 5px;
@@ -101,11 +67,26 @@
     text-align: center;
     width: 100%;
     font-family: 'Quicksand', sans-serif;
+    word-break: break-word;
 }
 
 .save_row__buttons {
     margin: 0;
-    width: 110px;
+    display: flex;
+    flex-direction: column;
+}
+
+.table__button {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    padding: 3px 12px;
+    cursor: pointer;
+    font-size: 14px;
+    margin: 5px;
+}
+
+.table__button:hover {
+    background-color: #e7e7e7;
 }
 
 @media screen and (max-device-width: 1250px) {
@@ -168,18 +149,6 @@
 
     .current_orders__wrapper {
         margin-top: 25px;
-    }
-
-    .pagination__wrapper {
-        flex-direction: column;
-    }
-
-    .pagination__buttons {
-        margin-top: 15px;
-    }
-
-    .pagination__button:first-child {
-        margin: 0;
     }
 }
 

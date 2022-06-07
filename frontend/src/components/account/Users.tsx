@@ -6,6 +6,7 @@ import { useMatch } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
 import GlobalFilter from '../UI/GlobalFilter';
 import { IUser } from '../../models/IUser';
+import Pagination from '../UI/Pagination';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
@@ -79,14 +80,14 @@ const Users = () => {
 				Header: 'Action',
 				// @ts-ignore
 				Cell: ({ row }) => (
-					<>
-						<button onClick={ () => handleEditClick(row.original) }>
+					<div className={ styles.save_row__buttons }>
+						<button className={ styles.table__button } onClick={ () => handleEditClick(row.original) }>
 							Edit
 						</button>
-						<button onClick={ () => handleDelete(row.values.id) }>
+						<button className={ styles.table__button } onClick={ () => handleDelete(row.values.id) }>
 							Delete
 						</button>
-					</>
+					</div>
 				),
 			},
 		]);
@@ -151,8 +152,8 @@ const Users = () => {
 													/>
 													: Number(row.values.id) === updatedRow && cell.column.id === 'action'
 														? <div className={ styles.save_row__buttons }>
-															<button onClick={ handleSave }>Save</button>
-															<button onClick={ () => setUpdatedRow(null) }>Cancel</button>
+															<button className={ styles.table__button } onClick={ handleSave }>Save</button>
+															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
 														</div>
 														: cell.render('Cell')
 											}
@@ -164,37 +165,18 @@ const Users = () => {
 					}
 				</tbody>
 			</table>
-			<div className={ styles.pagination__wrapper }>
-				<div className={ styles.pagination__info }>
-					<span>Page <strong>{ pageIndex + 1 } of {pageOptions.length} </strong></span>
-					<span>| Go to page: <input
-						className={ styles.pagination__goto_input }
-						type="number"
-						defaultValue={pageIndex + 1}
-						onChange={e => {
-							const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
-							gotoPage(pageNumber);
-						}}
-						style={{ width: '50px' }}
-					/>
-					</span>
-					<select className={ styles.pagination__size_select }
-						value={pageSize}
-						onChange={e => setPageSize(Number(e.target.value))}>
-						{[5, 10, 25, 50].map(pageSize => (
-							<option key={pageSize} value={pageSize}>
-								Show {pageSize}
-							</option>
-						))}
-					</select>
-				</div>
-				<div className={ styles.pagination__buttons }>
-					<button className={ styles.pagination__button } onClick={ () => gotoPage(0) } disabled={ !canPreviousPage }>{'<<'}</button>
-					<button className={ styles.pagination__button } onClick={ () => previousPage() } disabled={ !canPreviousPage }>Previous</button>
-					<button className={ styles.pagination__button } onClick={ () => nextPage() } disabled={ !canNextPage }>Next</button>
-					<button className={ styles.pagination__button } onClick={ () => gotoPage(pageCount - 1) } disabled={ !canNextPage }>{'>>'}</button>
-				</div>
-			</div>
+			<Pagination
+				pageIndex={ pageIndex }
+				pageOptions={ pageOptions }
+				gotoPage={ gotoPage }
+				canPreviousPage={ canPreviousPage }
+				canNextPage={ canNextPage }
+				previousPage={ previousPage }
+				nextPage={ nextPage }
+				pageCount={ pageCount }
+				pageSize={ pageSize }
+				setPageSize={ setPageSize }
+			/>
 		</div>
 	);
 };
