@@ -27,8 +27,8 @@ const CurrentOrders = () => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
-				id: "totalprice",
-				Header: "Total Price($)",
+				id: 'totalprice',
+				Header: 'Total Price($)',
 				// @ts-ignore
 				Cell: ({ row }) => (
 					<p>
@@ -40,9 +40,6 @@ const CurrentOrders = () => {
 	};
 
 	const ordersData = useMemo(() => [...data], [data]);
-	const ordersColumn = useMemo(() => data[0] ? Object.keys(data[0]).filter(key => key !== 'rating').map(key => {
-		return { Header: key, accessor: key };
-	}) : [], [columns]);
 
 	// @ts-ignore
 	const tableInstance = useTable({ columns, data: ordersData, initialState }, useSortBy, tableHooks);
@@ -52,13 +49,14 @@ const CurrentOrders = () => {
 		<div className={ styles.current_orders__wrapper }>
 			<h2 className={ styles.component__title }>Current rents</h2>
 			<div className={ styles.line }></div>
-			<table { ...getTableProps() }>
-				<thead>
+			<table { ...getTableProps() } className={ styles.orders_table }>
+				<thead className={ styles.orders_table__thead }>
 					{ headerGroups.map((headerGroup) => (
 						<tr { ...headerGroup.getHeaderGroupProps() }>
 							{ headerGroup.headers.map((column) => (
 								// @ts-ignore
-								<th { ...column.getHeaderProps(column.getSortByToggleProps()) }>
+								<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
+								    className={ styles.orders_table__th }>
 									{ column.render('Header') }
 									{
 										// @ts-ignore
@@ -69,15 +67,22 @@ const CurrentOrders = () => {
 						</tr>
 					)) }
 				</thead>
-				<tbody { ...getTableBodyProps() }>
+				<tbody { ...getTableBodyProps() } className={ styles.orders_table__tbody }>
 					{
 						rows.map(row => {
 							prepareRow(row);
 
-							return <tr { ...row.getRowProps() }>
+							return <tr { ...row.getRowProps() } className={ styles.orders_table__tr }>
 								{
 									row.cells.map(cell => (
-										<td key={ cell.column.id } data-label={ cell.column.Header } { ...cell.getCellProps }>{ cell.render('Cell') }</td>
+										<td
+											className={ styles.orders_table__td }
+											key={ cell.column.id }
+											data-label={ cell.column.Header }
+											{ ...cell.getCellProps }
+										>
+											{ cell.render('Cell') }
+										</td>
 									))
 								}
 							</tr>;

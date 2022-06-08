@@ -1,7 +1,8 @@
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
 import React from 'react';
 import { IOrder } from '../models/IOrder';
-import { getMockOrders } from '../utils/dbMock';
+import { getMockOrders, getMockUsers } from '../utils/dbMock';
+import { IUser } from '../models/IUser';
 
 export const accountRoutes: Route[] = [
 	{
@@ -19,11 +20,19 @@ export const accountRoutes: Route[] = [
 		path: '/account/returnitem',
 		element: () => import('../components/account/ReturnItem').then(mod => <mod.default/>),
 	},
+	{
+		path: '/account/users',
+		element: () => import('../components/account/Users').then(mod => <mod.default/>),
+		loader: async () => {
+			return { users: await getMockUsers() };
+		}
+	},
 ];
 
 export type LocationGenerics = MakeGenerics<{
 	LoaderData: {
-		currentOrders: IOrder[]
+		currentOrders: IOrder[],
+		users: IUser[]
 	};
 }>;
 
