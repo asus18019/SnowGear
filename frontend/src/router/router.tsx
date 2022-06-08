@@ -50,11 +50,7 @@ export const routes: Route[] = [
 	{
 		path: 'account',
 		element: () => import('../pages/Account').then(mod => <mod.default />)
-	},
-    {
-        path: 'stripe',
-        element: () => import('../pages/stripe').then(mod => <mod.default />)
-    }
+	}
 	// {
 	// 	path: 'product',
 	// 	children: [

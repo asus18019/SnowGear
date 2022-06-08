@@ -113,19 +113,18 @@ const Basket: FC = () => {
 												method: 'POST',
 												body: JSON.stringify({ equipments: getCartItems() }),
 											}, true)
-                                                    .then((response) => response.json())
-                                                    .then((order) => order.id);
+												.then((response) => {
+													console.log(response);
+													return response.id;
+												});
 										} }
 										onApprove={ (data, actions) => {
-											return fetchResource('paypal/order/capture', {
-												method: 'POST',
-												body: JSON.stringify({ orderId: data.orderID })
+											console.log(data);
+											return fetchResource(`paypal/${data.orderID}/capture`, {
+												method: 'POST'
 											}, true)
-												.then(res1 => {
-													return res1.json();
-												})
-												.then(check => {
-													console.log(check);
+												.then(res => {
+													console.log(res);
 												});
 										} }
 									/>

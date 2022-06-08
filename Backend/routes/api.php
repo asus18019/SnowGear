@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|moderator|admin']], fu
 Route::namespace('App\Http\Controllers')->group(function () {
 
     Route::post('paypal/order/create','PaypalController@create');
-    Route::post('paypal/order/capture','PaypalController@capture');
+    Route::post('paypal/{orderId}/capture','PaypalController@capture');
 
 });
 
