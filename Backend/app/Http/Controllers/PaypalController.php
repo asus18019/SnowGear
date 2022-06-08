@@ -44,8 +44,8 @@ class PaypalController extends Controller
     }
 
 
-    private function capturePayment($orderId) {
-
+    private function capturePayment(Request $request) {
+        $orderId = $request->input('title');
         $url = $this->getBaseUrl()."/v2/checkout/orders/$orderId/capture";
         $accessToken = $this->generateAccessToken();
         $response =Http::withHeaders([
