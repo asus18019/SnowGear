@@ -16,7 +16,6 @@ class CartEquipmentController extends Controller
         $price = EquipmentModel::find($eid)
             ->where('eid', $eid)
             ->first('price');
-//        return $price;
             $cart = CartEquipmentModel::create([
             'eid' => $eid,
             'cid' => $cid,

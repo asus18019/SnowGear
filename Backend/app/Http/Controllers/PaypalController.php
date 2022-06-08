@@ -8,16 +8,23 @@ use App\Http\Controllers\AuthController;
 
 class PaypalController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
-        return $this->createOrder();
+        return $this->createOrder($request);
     }
-    public function capture($orderId)
+    public function  capture($orderId)
     {
-        return  $this->capturePayment($orderId);
+        return $this->capturePayment($orderId);
     }
 
-    private function createOrder() {
+    private function createOrder(Request $request) {
+//        return (new CartController)->Price(1);
+        $totalprice = 0;
+        foreach($request->equipments as $item ){
+            $obj = json_decode(json_encode($item));
+            $totalprice += (new CartController)->Price(((int)$obj->eid))->price * (int)$obj->duration;
+
+        }
 
         $accessToken = $this->generateAccessToken();
         $url = $this->getBaseUrl()."/v2/checkout/orders";
@@ -30,7 +37,7 @@ class PaypalController extends Controller
                 [
                     "amount"=> [
                         "currency_code"=> "USD",
-                        "value"=> "50.00",
+                        "value"=> $totalprice,
                     ],
                 ],
             ],
@@ -38,14 +45,15 @@ class PaypalController extends Controller
             ->post($url);
         $data = $response->json();
         if($response->successful()){
+            (new CartController)->AddToCart($request);
             return response()->json($data, 200);
+
         }
         return response()->json($data, 500);//error
     }
 
 
-    private function capturePayment(Request $request) {
-        $orderId = $request->input('title');
+    private function capturePayment($orderId) {
         $url = $this->getBaseUrl()."/v2/checkout/orders/$orderId/capture";
         $accessToken = $this->generateAccessToken();
         $response =Http::withHeaders([
