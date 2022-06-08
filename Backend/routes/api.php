@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PayPalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,12 +40,6 @@ Route::group(['middleware' => ['auth:sanctum', 'role:moderator|admin']], functio
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:user|moderator|admin']], function () {
-
-    Route::group(['prefix'=>'paypal'],function(){
-        Route::post('/order/create', [\App\Http\Controllers\PayPalController::class, 'create']);
-        Route::post('/order/capture', [\App\Http\Controllers\PayPalController::class, 'capture']);
-    });
-
     Route::prefix('user')->group(function () {
         Route::put('/updateuser', [\App\Http\Controllers\UserController::class, 'userUpdate']);
     });
@@ -55,3 +48,11 @@ Route::group(['middleware' => ['auth:sanctum', 'role:user|moderator|admin']], fu
         Route::post('/cart', [\App\Http\Controllers\CartController::class, 'AddToCart']);
     });
 });
+
+Route::namespace('App\Http\Controllers')->group(function () {
+
+    Route::post('orders','PaypalController@create');
+    Route::post('orders/{orderId}/capture','PaypalController@capture');
+
+});
+
