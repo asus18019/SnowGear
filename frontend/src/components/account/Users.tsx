@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 // @ts-ignore
 import styles from './Users.module.css';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
@@ -7,10 +7,13 @@ import { LocationGenerics } from '../../router/accountRouter';
 import GlobalFilter from '../UI/GlobalFilter';
 import { IUser } from '../../models/IUser';
 import Pagination from '../UI/Pagination';
+import MainModal from '../UI/MainModal';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
 
+	const showOrdersRef = useRef<HTMLDivElement>(null);
+	const [userOrders, setUserOrders] = useState<number | null>(null);
 	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
 	const [editFormData, setEditFormData] = useState<IUser>({
 		id: 0,
@@ -72,6 +75,16 @@ const Users = () => {
 		{ Header: 'Phone', accessor: 'phone' }
 	]), []);
 
+	const toggleOrders = (type: boolean, userId: number) => {
+		setUserOrders(userId);
+		if(type) {
+			showOrdersRef.current!.style.display = 'block';
+		} else {
+			showOrdersRef.current!.style.display = 'none';
+		}
+		console.log(showOrdersRef.current);
+	};
+
 	const tableHooks = (hooks: any) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
@@ -86,6 +99,9 @@ const Users = () => {
 						</button>
 						<button className={ styles.table__button } onClick={ () => handleDelete(row.values.id) }>
 							Delete
+						</button>
+						<button className={ styles.table__button } onClick={ () => toggleOrders(true, row.values.id) }>
+							Orders
 						</button>
 					</div>
 				),
@@ -104,6 +120,9 @@ const Users = () => {
 
 	return (
 		<div className={ styles.users__wrapper }>
+			<div className={ styles.orders__wrapper } ref={ showOrdersRef }>
+				<MainModal toggle={ toggleOrders } userId={userOrders} />
+			</div>
 			<h2 className={ styles.component__title }>Users list</h2>
 			<div className={ styles.line }></div>
 			<GlobalFilter filter={ globalFilter } setFilter={ setGlobalFilter } />
