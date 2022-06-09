@@ -1,0 +1,91 @@
+/* Modal Header */
+.modal__header {
+    font-family: 'Quicksand', sans-serif;
+    padding: 2px 16px;
+    color: black;
+    border-bottom: 1px solid lightgray;
+}
+
+/* Modal Body */
+.modal__body {
+    padding: 0 16px 16px 16px;
+    overflow-y: scroll;
+}
+
+/* Modal Content */
+.modal__content {
+    position: relative;
+    background-color: #fefefe;
+    border: 1px solid #888;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    width: 60%;
+    max-height: 600px;
+}
+
+/* Add Animation */
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.modal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: visible; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1500px) {
+    .modal__content {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .modal__content {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .modal__body {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 550px) {
+    .modal__content {
+        width: 100%;
+    }
+}
