@@ -4,7 +4,7 @@ import styles from './CurrentOrders.module.css';
 import { useMatch } from 'react-location';
 import { useTable, useSortBy } from 'react-table';
 import { LocationGenerics } from '../../router/accountRouter';
-import OrdersTable from '../UI/OrdersTable';
+import OrdersTable from '../OrdersTable';
 
 const CurrentOrders = () => {
 	const { currentOrders } = useMatch<LocationGenerics>().data;

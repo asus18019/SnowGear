@@ -3,7 +3,7 @@ import React, { FC, useMemo } from 'react';
 import styles from './MainModal.module.css';
 import { useSortBy, useTable } from 'react-table';
 import { IOrder } from '../../models/IOrder';
-import OrdersTable from './OrdersTable';
+import OrdersTable from '../OrdersTable';
 
 interface MainModalProps {
 	toggle: any,
