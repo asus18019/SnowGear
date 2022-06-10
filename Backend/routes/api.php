@@ -31,11 +31,13 @@ Route::group(['middleware' => ['auth:sanctum', 'role:moderator|admin']], functio
     Route::prefix('user')->group(function () {
         Route::delete('delete', [\App\Http\Controllers\UserController::class, 'userDelete']);
         Route::put('update', [\App\Http\Controllers\UserController::class, 'userUpdateForAdmins']);
+        Route::get('users', [\App\Http\Controllers\UserController::class, 'getUsers']);
     });
     Route::prefix('equipment')->group(function () {
         Route::get('/equipment', [\App\Http\Controllers\EquipmentController::class, 'getEquipment']);
         Route::put('/update', [\App\Http\Controllers\EquipmentController::class, 'updateEquipment']);
         Route::post('/create', [\App\Http\Controllers\EquipmentController::class, 'createEquipment']);
+        Route::post('/delete', [\App\Http\Controllers\EquipmentController::class, 'deleteEquipment']);
     });
 });
 

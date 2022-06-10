@@ -45,4 +45,9 @@ class UserController extends Controller
         $user->delete();
         return response(['messages' => 'success'], Response::HTTP_OK);
     }
+    public function getUsers(){
+        return USER::leftJoin('model_has_roles', 'user.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->get();
+    }
 }

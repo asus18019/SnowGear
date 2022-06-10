@@ -28,6 +28,7 @@ class UpdatePutRequest extends FormRequest
             'location' => ['string','min:8', 'max:255'],
             'size' => ['string','min:8', 'max:255'],
             'title' => ['string','min:3', 'max:255'],
+            'category' => ['required', 'string','min:3', 'max:255'],
         ];
     }
 }

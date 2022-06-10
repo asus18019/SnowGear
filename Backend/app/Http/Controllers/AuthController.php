@@ -48,7 +48,10 @@ class AuthController extends Controller
     }
 
     public function user(){
-        return Auth::user();
+        return USER::leftJoin('model_has_roles', 'user.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('user.id', Auth::user()->getAuthIdentifier())
+            ->get();
     }
 
     public function logout(Request $request)

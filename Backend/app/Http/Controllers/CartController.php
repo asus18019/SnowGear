@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\CartEquipmentController;
-use App\Http\Requests\CartRequests\CreatePostRequest;
-use App\Models\cartModel;
+use App\Models\User;
+use App\Models\CartModel;
 use App\Models\EquipmentModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +15,7 @@ class CartController extends Controller
     public function AddToCart(Request $request){
 
         $cart = CartModel::create([
-            'id' => Auth::user()->getAuthIdentifier(),
-//            'id' => 7,
+            'id' => $request->id,
             'date_order' => date('Y-m-d H:i:s'),
             'status' => 'payed',
         ]);

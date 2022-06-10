@@ -23,6 +23,8 @@ class EquipmentModel extends Model
         'size',
         'description',
         'image',
+        'category',
+        'price',
     ];
 
 }

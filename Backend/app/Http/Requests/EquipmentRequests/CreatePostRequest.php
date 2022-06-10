@@ -27,6 +27,7 @@ class CreatePostRequest extends FormRequest
             'size' => ['required', 'string','min:8', 'max:255'],
             'description' => ['required', 'string','min:8', 'max:255'],
             'title' => ['required', 'string','min:3', 'max:255', 'unique:App\Models\EquipmentModel,title'],
+            'category' => ['required', 'string','min:3', 'max:255'],
         ];
     }
 }
