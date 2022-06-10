@@ -1,0 +1,44 @@
+
+.submit_deleting__wrapper {
+    margin: 20px 0 0 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.submit_deleting__btn {
+    font-size: 20px;
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: none;
+    margin-right: 30px;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.submit_deleting__btn:last-child {
+    margin-right: 0;
+}
+
+.submit_deleting__btn_submit {
+    background-color: #76d876;
+}
+
+.submit_deleting__btn_submit:hover {
+    background-color: #66c066;
+}
+
+.submit_deleting__btn_cancel {
+    background-color: #ed8a72;
+}
+
+.submit_deleting__btn_cancel:hover {
+    background-color: #ea775c;
+}
+
+@media screen and (max-device-width: 550px) {
+    .submit_deleting__btn {
+        font-size: 17px;
+    }
+}

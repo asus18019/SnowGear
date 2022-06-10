@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useRef, useEffect } from 'react';
+import React, { useMemo, useState, useRef } from 'react';
 // @ts-ignore
 import styles from './Users.module.css';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
@@ -8,6 +8,8 @@ import GlobalFilter from '../UI/GlobalFilter';
 import { IUser } from '../../models/IUser';
 import Pagination from '../UI/Pagination';
 import MainModal from '../UI/MainModal';
+import { IOrder } from '../../models/IOrder';
+import OrdersTable from '../OrdersTable';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
@@ -64,6 +66,133 @@ const Users = () => {
 		console.log(id);
 	};
 
+	/////
+
+	const currentOrders1: IOrder[] = [
+		{
+			eid: 9,
+			title: 'Перчатки женские Descente 85 DWCMGD02',
+			price: 10,
+			size: 'XL',
+			category: 'gloves',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 5,
+			status: 'expired'
+		},
+		{
+			eid: 1,
+			title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
+			price: 13.5,
+			size: 'S',
+			category: 'boots',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 3,
+			status: 'current'
+		},
+		{
+			eid: 1,
+			title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
+			price: 13.5,
+			size: 'L',
+			category: 'boots',
+			datestart: 'April 2, 2022 08:00',
+			dateend: 'May 5, 2022 08:00',
+			duration: 45,
+			status: 'expired'
+		},
+		{
+			eid: 3,
+			title: 'Sleds LC1412400',
+			price: 20.5,
+			size: 'M',
+			category: 'sleds',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 9,
+			status: 'expired'
+		},
+		{
+			eid: 3,
+			title: 'Sleds LC1412400',
+			price: 20.5,
+			size: 'M',
+			category: 'sleds',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 9,
+			status: 'expired'
+		},
+		{
+			eid: 3,
+			title: 'Sleds LC1412400',
+			price: 20.5,
+			size: 'M',
+			category: 'sleds',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 9,
+			status: 'expired'
+		},
+		{
+			eid: 3,
+			title: 'Sleds LC1412400',
+			price: 20.5,
+			size: 'M',
+			category: 'sleds',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 9,
+			status: 'expired'
+		},
+		{
+			eid: 3,
+			title: 'Sleds LC1412400',
+			price: 20.5,
+			size: 'M',
+			category: 'sleds',
+			datestart: 'April 30, 2022 08:00',
+			dateend: 'May 1, 2022 08:00',
+			duration: 9,
+			status: 'expired'
+		}
+	];
+
+	const data1 = useMemo(() => currentOrders1?.length ? currentOrders1 : [], []);
+	const columns1 = useMemo(() => ([
+		{ Header: 'Id', accessor: 'eid' },
+		{ Header: 'Title', accessor: 'title' },
+		{ Header: 'Price ($/hour)', accessor: 'price' },
+		{ Header: 'Size', accessor: 'size' },
+		{ Header: 'Category', accessor: 'category' },
+		{ Header: 'Datestart', accessor: 'datestart' },
+		{ Header: 'Dateend', accessor: 'dateend' },
+		{ Header: 'Duration (hours)', accessor: 'duration' },
+		{ Header: 'Status', accessor: 'status' },
+	]), []);
+
+	const tableHooks1 = (hooks: any) => {
+		hooks.visibleColumns.push((columns: any) => [
+			...columns,
+			{
+				id: 'totalprice',
+				Header: 'Total Price($)',
+				// @ts-ignore
+				Cell: ({ row }) => (
+					<p>
+						{ row.values.duration * row.values.price }
+					</p>
+				),
+			},
+		]);
+	};
+
+	// @ts-ignore
+	const tableInstance1 = useTable({ columns: columns1, data: data1 }, useSortBy, tableHooks1);
+
+	/////
+
 	const data = useMemo(() => users?.length ? users : [], []);
 	const columns = useMemo(() => ([
 		{ Header: 'Id', accessor: 'id' },
@@ -119,7 +248,9 @@ const Users = () => {
 
 	return (
 		<div className={ styles.users__wrapper }>
-			<MainModal toggle={ toggleOrders } userId={userOrders} showOrdersRef={showOrdersRef} />
+			<MainModal toggle={ toggleOrders } userId={userOrders} showOrdersRef={showOrdersRef} title={ 'All orders made by {user.name} {user.surname}' }>
+				<OrdersTable tableInstance={ tableInstance1 } />
+			</MainModal>
 			<h2 className={ styles.component__title }>Users list</h2>
 			<div className={ styles.line }></div>
 			<GlobalFilter filter={ globalFilter } setFilter={ setGlobalFilter } />

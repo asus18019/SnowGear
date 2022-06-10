@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 // @ts-ignore
 import styles from './Equipments.module.css';
 import { useMatch } from 'react-location';
@@ -11,13 +11,17 @@ import fetchResource from '../../api/apiWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import Loader from '../UI/Loader';
+import MainModal from '../UI/MainModal';
+import SubmitDeleting from '../UI/SubmitDeleting';
 
 const Equipments = () => {
 	const dispatch = useAppDispatch();
 	const { equipments } = useMatch<LocationGenerics>().data;
+	const showModalRef = useRef<HTMLDivElement>(null);
 	const { isLoading } = useAppSelector(state => state.userReducer);
 
 	const [equipmentsState, setEquipmentsState] = useState<IEquipment[]>(equipments?.length ? equipments : []);
+	const [deleteRow, setDeleteRow] = useState<number | null>(null);
 	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
 	const [editFormData, setEditFormData] = useState<IEquipment>({
 		eid: 0,
@@ -31,6 +35,18 @@ const Equipments = () => {
 
 	const handleDeleteEquipment = (id: number) => {
 		console.log('Delete: ' + id);
+		setDeleteRow(id);
+		toggleModal(true);
+		return () => {
+			dispatch(changeLoader(true));
+			fetchResource('equipment/delete', {
+				method: 'POST',
+				body: JSON.stringify({ eid: id })
+			}, true)
+				.then(() => setEquipmentsState(prevState => prevState.filter(e => e.eid !== id)))
+				.finally(() => dispatch(changeLoader(false)));
+			toggleModal(false);
+		};
 	};
 
 	const handleEditEquipment = (equip: IEquipment) => {
@@ -62,7 +78,7 @@ const Equipments = () => {
 		setEditFormData(newFormData);
 	};
 
-	const handleSave = () => {
+	const handleSaveEquipment = () => {
 		dispatch(changeLoader(true));
 		setUpdatedRow(null);
 		fetchResource('equipment/update', {
@@ -98,6 +114,14 @@ const Equipments = () => {
 				setEquipmentsState([...equip1]);
 			})
 			.finally(() => dispatch(changeLoader(false)));
+	};
+
+	const toggleModal = (type: boolean) => {
+		if(type) {
+			showModalRef.current!.style.display = 'flex';
+		} else {
+			showModalRef.current!.style.display = 'none';
+		}
 	};
 
 	const data = useMemo(() => equipmentsState, [equipmentsState]);
@@ -158,6 +182,11 @@ const Equipments = () => {
 			{
 				isLoading ? <Loader/> : false
 			}
+			{
+				<MainModal toggle={ toggleModal } showOrdersRef={ showModalRef } title={ 'Are you sure you want to delete?' }>
+					<SubmitDeleting onSubmit={ handleDeleteEquipment } onCancel={ toggleModal } deletingID={ deleteRow } />
+				</MainModal>
+			}
 
 			<h2 className={ styles.component__title }>Equipments</h2>
 			<div className={ styles.line }></div>
@@ -211,7 +240,7 @@ const Equipments = () => {
 													/>
 													: Number(row.values.eid) === updatedRow && cell.column.id === 'action'
 														? <div className={ styles.save_row__buttons }>
-															<button className={ styles.table__button } onClick={ handleSave }>Save</button>
+															<button className={ styles.table__button } onClick={ handleSaveEquipment }>Save</button>
 															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
 														</div>
 														: cell.column.id === 'size'
