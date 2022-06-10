@@ -1,4 +1,7 @@
-.users__wrapper {
+@import url('https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600&display=swap');
+
+.equipments__wrapper {
     width: 100%;
 }
 
@@ -16,64 +19,33 @@
     background-color: lightgrey;
 }
 
-.users_table {
+.equipment_table {
     margin-top: 25px;
     border-collapse: collapse;
     font-family: 'Quicksand', sans-serif;
     vertical-align: middle;
     text-align: center;
-    /*table-layout: fixed;*/
     width: 100%;
 }
 
-.users_table__th, .users_table__td {
+.equipment_table__th, .equipment_table__td {
     border: 1px solid lightgrey;
     padding: 8px;
-    word-break: break-word;
-    min-width: 30px;
 }
 
-.users_table__td:last-child {
-    word-break: normal;
-}
-
-.users_table__tbody {
-    overflow:hidden
-}
-
-.users_table__thead {
-    background-color: palegoldenrod;
+.equipment_table__thead {
+    background-color: #baf0f0;
     color: black;
     font-size: 0.875rem;
     text-transform: uppercase;
 }
 
-/*.users_table__th, .users_table__td {*/
-/*    width: max-content;*/
-/*}*/
-
-.users_table__tbody tr:nth-child(odd) {
+.equipment_table__tbody tr:nth-child(odd) {
     background-color: #fff;
 }
 
-.users_table__tbody tr:nth-child(even) {
+.equipment_table__tbody tr:nth-child(even) {
     background-color: rgba(245, 245, 245, 0.56);
-}
-
-.row__edit_input {
-    outline: none;
-    border-radius: 5px;
-    border: 1px solid lightgray;
-    text-align: center;
-    width: 100%;
-    font-family: 'Quicksand', sans-serif;
-    word-break: break-word;
-}
-
-.save_row__buttons {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
 }
 
 .table__button {
@@ -89,27 +61,35 @@
     background-color: #e7e7e7;
 }
 
+.row__edit_input {
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    text-align: center;
+    width: 100%;
+    font-family: 'Quicksand', sans-serif;
+    word-break: break-word;
+}
+
 @media screen and (max-device-width: 1250px) {
-    .users_table {
+    .equipment_table {
         margin-right: 20px;
-        /*margin-left: 20px;*/
-        width: auto;
+        margin-left: 20px;
     }
 }
 
 @media screen and (max-width: 1000px) {
-    .users_table__th, .users_table__td {
+    .equipment_table__th, .equipment_table__td {
         border: none;
     }
 
-    .users_table {
+    .equipment_table {
         border: 0;
-        margin-right: 20px;
+        margin-right: 0;
         margin-left: 0;
-        min-width: 60%;
     }
 
-    .users_table__thead {
+    .equipment_table__thead {
         border: none;
         clip: rect(0 0 0 0);
         height: 1px;
@@ -120,45 +100,37 @@
         width: 1px;
     }
 
-    .users_table__tr {
+    .equipment_table__tr {
         display: block;
         margin-bottom: .625em;
         border: 1px solid lightgrey;
         border-bottom: none;
     }
 
-    .users_table__td {
+    .equipment_table__td {
         border-bottom: 1px solid #ddd;
         display: block;
         font-size: .9em;
         text-align: right;
     }
 
-    .users_table__td::before {
+    .equipment_table__td::before {
         content: attr(data-label);
         float: left;
         font-weight: bold;
         text-transform: uppercase;
     }
 
-    .users_table__td:nth-child(even) {
+    .equipment_table__td:nth-child(even) {
         background-color: rgba(245, 245, 245, 0.56);
     }
-    .users_table__td:nth-child(odd) {
+    .equipment_table__td:nth-child(odd) {
         background-color: white;
-    }
-
-    .current_orders__wrapper {
-        margin-top: 25px;
     }
 }
 
-@media screen and (max-width: 550px) {
-    .users__wrapper {
+@media screen and (max-device-width: 550px) {
+    .equipments__wrapper {
         margin-top: 25px;
-    }
-
-    .users_table {
-        width: 100%;
     }
 }

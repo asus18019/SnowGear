@@ -3,6 +3,8 @@ import React from 'react';
 import { IOrder } from '../models/IOrder';
 import { getMockOrders, getMockUsers } from '../utils/dbMock';
 import { IUser } from '../models/IUser';
+import fetchResource from '../api/apiWrapper';
+import { IEquipment } from '../models/IEquipment';
 
 export const accountRoutes: Route[] = [
 	{
@@ -27,12 +29,25 @@ export const accountRoutes: Route[] = [
 			return { users: await getMockUsers() };
 		}
 	},
+	{
+		path: '/account/equipments',
+		element: () => import('../components/account/Equipments').then(mod => <mod.default/>),
+		loader: async () => {
+			let { all_equipment }: {all_equipment: IEquipment[]} = await fetchResource('equipment/equipment', {
+				method: 'GET'
+			}, true);
+			return { equipments: all_equipment };
+		},
+		pendingElement: async () => <div>Taking a long time...</div>,
+		pendingMs: 500
+	},
 ];
 
 export type LocationGenerics = MakeGenerics<{
 	LoaderData: {
 		currentOrders: IOrder[],
-		users: IUser[]
+		users: IUser[],
+		equipments: IEquipment[]
 	};
 }>;
 

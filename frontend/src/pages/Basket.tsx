@@ -34,32 +34,11 @@ const Basket: FC = () => {
 	};
 
 	const getCartItems = () => {
-		return cartGoods?.map(elem => {
+		const cart: ICartItem[] = JSON.parse(localStorage.getItem('cart') || '{}');
+		return cart?.map(elem => {
 			const date_end = moment(elem.start).add(elem.duration, 'hours').format();
-			return { eid: elem.item?.eid, date_start: elem.start, date_end, duration: elem.duration };
+			return { eid: elem.item?.eid, date_start: elem.start, date_end, duration: Number(elem.duration) };
 		});
-	};
-
-	const handleCheckout = () => {
-		const cartItems = cartGoods?.map(elem => {
-			const date_end = moment(elem.start).add(elem.duration, 'hours').format();
-			return { eid: elem.item?.eid, date_start: elem.start, date_end, duration: elem.duration };
-		});
-		console.log('cartItems', JSON.stringify({ data: cartItems }));
-		if(isAuthenticated) {
-			console.log(cart);
-			fetchResource('cart/cart', {
-				method: 'POST',
-				body: JSON.stringify({ data: cartItems })
-			}, true)
-				.then(() => {
-					localStorage.removeItem('cart');
-					setCart([]);
-					setModal({ type: ModalTypes.success, information: ['Successfully payed. Check your account rents'] });
-				});
-		} else {
-			navigate({ to: '../login', fromCurrent: true });
-		}
 	};
 
 	function countTotalCheckout(cart: ICartItem[]): number {
@@ -104,11 +83,15 @@ const Basket: FC = () => {
 							}
 							<div className={ styles.checkout }>
 								<h3 className={ styles.price }>{ totalCheckout }<span> $</span></h3>
-								{/*<div className={ styles.checkout__button } onClick={ handleCheckout }>Checkout</div>*/ }
 								<PayPalScriptProvider options={ initialOptions }>
 									<PayPalButtons
 										style={ { layout: 'vertical' } }
+										// @ts-ignore
 										createOrder={ (data, actions) => {
+											if(!isAuthenticated) {
+												return navigate({ to: '../login', fromCurrent: true });
+											}
+
 											return fetchResource('paypal/order/create', {
 												method: 'POST',
 												body: JSON.stringify({ equipments: getCartItems() }),
@@ -125,6 +108,9 @@ const Basket: FC = () => {
 											}, true)
 												.then(res => {
 													console.log(res);
+													localStorage.removeItem('cart');
+													setCart([]);
+													setModal({ type: ModalTypes.success, information: ['Successfully payed. Check your account rents'] });
 												});
 										} }
 									/>

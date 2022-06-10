@@ -1,0 +1,233 @@
+import React, { useMemo, useState } from 'react';
+// @ts-ignore
+import styles from './Equipments.module.css';
+import { useMatch } from 'react-location';
+import { LocationGenerics } from '../../router/accountRouter';
+import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
+import GlobalFilter from '../UI/GlobalFilter';
+import Pagination from '../UI/Pagination';
+import { IEquipment } from '../../models/IEquipment';
+import fetchResource from '../../api/apiWrapper';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { changeLoader } from '../../store/reducers/LoaderSlice';
+import Loader from '../UI/Loader';
+
+const Equipments = () => {
+	const dispatch = useAppDispatch();
+	const { equipments } = useMatch<LocationGenerics>().data;
+	const { isLoading } = useAppSelector(state => state.userReducer);
+
+	const [equipmentsState, setEquipmentsState] = useState<IEquipment[]>(equipments?.length ? equipments : []);
+	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
+	const [editFormData, setEditFormData] = useState<IEquipment>({
+		eid: 0,
+		title: '',
+		description: '',
+		image: '',
+		price: 0,
+		size: [],
+		category: ''
+	});
+
+	const handleDeleteEquipment = (id: number) => {
+		console.log('Delete: ' + id);
+	};
+
+	const handleEditEquipment = (equip: IEquipment) => {
+		setUpdatedRow(equip.eid);
+		const formValues: IEquipment = {
+			eid: equip.eid,
+			title: equip.title,
+			description: equip.description,
+			image: equip.image,
+			price: equip.price,
+			size: ['s', 'm'],
+			category: equip.category
+		};
+		setEditFormData(formValues);
+	};
+
+	const handleEditChange = (event: any) => {
+		const fieldName = event.target.getAttribute('name');
+		const fieldValue = event.target.value;
+		const newFormData = { ...editFormData };
+		// @ts-ignore
+		newFormData[fieldName] = fieldValue;
+
+		setEditFormData(newFormData);
+	};
+
+	const handleSave = () => {
+		dispatch(changeLoader(true));
+		setUpdatedRow(null);
+		fetchResource('equipment/update', {
+			method: 'PUT',
+			body: JSON.stringify({
+				eid: editFormData.eid,
+				title: editFormData.title,
+				description: editFormData.description,
+				image: editFormData.image,
+				price: editFormData.price,
+				size: ['s'].join(', '),
+				category: editFormData.category
+			})
+		}, true)
+			.then(res => {
+				console.log(res);
+				let equip1: IEquipment[];
+				if(equipments?.length) {
+					equip1 = equipments;
+				} else {
+					equip1 = [];
+				}
+
+				let index: number = -1;
+				for(let i = 0; i < equip1.length; i++) {
+					if(equip1[i].eid === editFormData.eid) {
+						index = i;
+					}
+				}
+				equip1[index] = res.updated_equipment;
+				setEquipmentsState([...equip1]);
+				console.log(equip1);
+			})
+			.finally(() => dispatch(changeLoader(false)));
+	};
+
+	const data = useMemo(() => equipmentsState, [equipmentsState]);
+	const columns = useMemo(() => ([
+		{ Header: 'Id', accessor: 'eid' },
+		{ Header: 'Title', accessor: 'title' },
+		{ Header: 'Price', accessor: 'price' },
+		{ Header: 'Size', accessor: 'size' },
+		{ Header: 'Description', accessor: 'description' },
+		{ Header: 'Category', accessor: 'category' },
+		{ Header: 'Image', accessor: 'image1' },
+	]), []);
+
+	const initialState = { hiddenColumns: ['image1'] };
+
+	const tableHooks = (hooks: any) => {
+		hooks.visibleColumns.push((columns: any) => [
+			...columns,
+			{
+				id: 'image',
+				Header: 'Image',
+				// @ts-ignore
+				Cell: ({ row }) => (
+					<p onClick={ () => console.log(row.original.image) }>
+						{ row.original.image }
+					</p>
+				)
+			},
+			{
+				id: 'action',
+				Header: 'Actions',
+				// @ts-ignore
+				Cell: ({ row }) => (
+					<>
+						<button className={ styles.table__button } onClick={ () => handleEditEquipment(row.original) }>
+							Edit
+						</button>
+						<button className={ styles.table__button } onClick={ () => handleDeleteEquipment(row.values.eid) }>
+							Delete
+						</button>
+					</>
+				),
+			}
+		]);
+	};
+
+	// @ts-ignore
+	const tableInstance = useTable({ columns, data, initialState }, tableHooks, useGlobalFilter, useSortBy, usePagination);
+
+	// @ts-ignore
+	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter, state, pageOptions, gotoPage, canPreviousPage, canNextPage, previousPage, nextPage, pageCount, setPageSize } = tableInstance;
+
+	// @ts-ignore
+	const { globalFilter, pageIndex, pageSize } = state;
+
+	return (
+		<div className={ styles.equipments__wrapper }>
+			{
+				isLoading ? <Loader/> : false
+			}
+
+			<h2 className={ styles.component__title }>Equipments</h2>
+			<div className={ styles.line }></div>
+
+			<GlobalFilter filter={ globalFilter } setFilter={ setGlobalFilter } />
+			<table { ...getTableProps() } className={ styles.equipment_table }>
+				<thead className={ styles.equipment_table__thead }>
+					{ headerGroups.map((headerGroup: any) => (
+						<tr { ...headerGroup.getHeaderGroupProps() }>
+							{ headerGroup.headers.map((column: any) => (
+								// @ts-ignore
+								<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
+								    className={ styles.equipment_table__th }>
+									{ column.render('Header') }
+									{
+										// @ts-ignore
+										column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''
+									}
+								</th>
+							)) }
+						</tr>
+					)) }
+				</thead>
+				<tbody { ...getTableBodyProps() } className={ styles.equipment_table__tbody }>
+					{
+						rows.map((row: any) => {
+							prepareRow(row);
+
+							return <tr { ...row.getRowProps() } className={ styles.equipment_table__tr }>
+								{
+									row.cells.map((cell: any) => (
+										<td
+											className={ styles.equipment_table__td }
+											key={ cell.column.id }
+											data-label={ cell.column.Header }
+											{ ...cell.getCellProps }
+										>
+											{
+												Number(row.values.eid) === updatedRow && cell.column.id !== 'action' && cell.column.id !== 'eid'
+													? <input
+														className={ styles.row__edit_input }
+														type="text"
+														//@ts-ignore
+														value={ (editFormData[cell.column.id] && editFormData[cell.column.id].toString()) || '' }
+														onChange={ e => handleEditChange(e) }
+														name={ cell.column.id }
+													/>
+													: Number(row.values.eid) === updatedRow && cell.column.id === 'action'
+														? <div className={ styles.save_row__buttons }>
+															<button className={ styles.table__button } onClick={ handleSave }>Save</button>
+															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
+														</div>
+														: cell.render('Cell')
+											}
+										</td>
+									))
+								}
+							</tr>;
+						})
+					}
+				</tbody>
+			</table>
+			<Pagination
+				pageIndex={ pageIndex }
+				pageOptions={ pageOptions }
+				gotoPage={ gotoPage }
+				canPreviousPage={ canPreviousPage }
+				canNextPage={ canNextPage }
+				previousPage={ previousPage }
+				nextPage={ nextPage }
+				pageCount={ pageCount }
+				pageSize={ pageSize }
+				setPageSize={ setPageSize }
+			/>
+		</div>
+	);
+};
+
+export default Equipments;
