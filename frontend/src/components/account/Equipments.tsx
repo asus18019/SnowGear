@@ -100,7 +100,6 @@ const Equipments = () => {
 			})
 		}, true)
 			.then(res => {
-				console.log(res);
 				let equip1: IEquipment[];
 				if(equipments?.length) {
 					equip1 = equipmentsState;
@@ -183,7 +182,7 @@ const Equipments = () => {
 	const tableInstance = useTable({ columns, data, initialState }, tableHooks, useGlobalFilter, useSortBy, usePagination);
 
 	// @ts-ignore
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter, state, pageOptions, gotoPage, canPreviousPage, canNextPage, previousPage, nextPage, pageCount, setPageSize } = tableInstance;
+	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow, setGlobalFilter, state, pageOptions, gotoPage, canPreviousPage, canNextPage, previousPage, nextPage, pageCount, setPageSize } = tableInstance;
 
 	// @ts-ignore
 	const { globalFilter, pageIndex, pageSize } = state;
@@ -227,7 +226,7 @@ const Equipments = () => {
 				</thead>
 				<tbody { ...getTableBodyProps() } className={ styles.equipment_table__tbody }>
 					{
-						rows.map((row: any) => {
+						page.map((row: any) => {
 							prepareRow(row);
 
 							return <tr { ...row.getRowProps() } className={ styles.equipment_table__tr }>
