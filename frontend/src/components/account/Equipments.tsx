@@ -13,6 +13,11 @@ import { changeLoader } from '../../store/reducers/LoaderSlice';
 import Loader from '../UI/Loader';
 import MainModal from '../UI/MainModal';
 import SubmitDeleting from '../UI/SubmitDeleting';
+import AddEquipment from '../AddEquipment';
+import { validateErrorsObject } from '../../utils/validateBodyObject';
+import { ModalTypes } from '../../utils/modalTypes';
+import { IModal } from '../../pages/Login';
+import ModalWindow from '../UI/ModalWindow';
 
 const Equipments = () => {
 	const dispatch = useAppDispatch();
@@ -32,6 +37,8 @@ const Equipments = () => {
 		size: [],
 		category: ''
 	});
+
+	const [modal, setModal] = useState<IModal | undefined>(undefined);
 
 	const handleDeleteEquipment = (id: number) => {
 		console.log('Delete: ' + id);
@@ -80,7 +87,6 @@ const Equipments = () => {
 
 	const handleSaveEquipment = () => {
 		dispatch(changeLoader(true));
-		setUpdatedRow(null);
 		fetchResource('equipment/update', {
 			method: 'PUT',
 			body: JSON.stringify({
@@ -97,7 +103,7 @@ const Equipments = () => {
 				console.log(res);
 				let equip1: IEquipment[];
 				if(equipments?.length) {
-					equip1 = equipments;
+					equip1 = equipmentsState;
 				} else {
 					equip1 = [];
 				}
@@ -112,6 +118,11 @@ const Equipments = () => {
 				let updated_equipment = { ...res.updated_equipment, size: res.updated_equipment.size.split(', ') };
 				equip1[index] = updated_equipment;
 				setEquipmentsState([...equip1]);
+				setUpdatedRow(null);
+			})
+			.catch(message => {
+				const errorsValidated: string[] = validateErrorsObject(message.errors);
+				setModal({ type: ModalTypes.fail, information: errorsValidated.length ? errorsValidated : ['Unexpected error happened'] });
 			})
 			.finally(() => dispatch(changeLoader(false)));
 	};
@@ -187,7 +198,11 @@ const Equipments = () => {
 					<SubmitDeleting onSubmit={ handleDeleteEquipment } onCancel={ toggleModal } deletingID={ deleteRow } />
 				</MainModal>
 			}
-
+			{
+				modal
+					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					: false
+			}
 			<h2 className={ styles.component__title }>Equipments</h2>
 			<div className={ styles.line }></div>
 
@@ -267,6 +282,13 @@ const Equipments = () => {
 				pageSize={ pageSize }
 				setPageSize={ setPageSize }
 			/>
+			<div className={ styles.add_equip__wrapper }>
+				<AddEquipment
+					// @ts-ignore
+					updateEquipments={ setEquipmentsState }
+					updateInfoModal={ setModal }
+				/>
+			</div>
 		</div>
 	);
 };

@@ -9,3 +9,13 @@ export const validateBodyObject = (fields: Object) => {
 		return acc;
 	}, {});
 };
+
+export const validateErrorsObject = (errors: any): string[] => {
+	const errorsValidated: string[] = [];
+	for(let key in errors) {
+		errors[key].forEach((error: string) => {
+			errorsValidated.push(error);
+		});
+	}
+	return errorsValidated;
+};

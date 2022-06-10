@@ -55,8 +55,9 @@ const Login: FC = () => {
 
 	const fetchUserFn = () => {
 		return fetchResource('user', {}, true)
-			.then((data: IUser) => {
-				dispatch(fetchUser(data));
+			.then((data) => {
+				console.log(data);
+				dispatch(fetchUser(data[0]));
 			})
 			.catch(error => {
 				dispatch(setErrors(error.toString()));

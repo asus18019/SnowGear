@@ -71,6 +71,10 @@
     word-break: break-word;
 }
 
+.add_equip__wrapper {
+    margin-top: 40px;
+}
+
 @media screen and (max-device-width: 1250px) {
     .equipment_table {
         margin-right: 20px;
