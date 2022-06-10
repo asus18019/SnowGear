@@ -41,7 +41,7 @@ const Equipments = () => {
 			description: equip.description,
 			image: equip.image,
 			price: equip.price,
-			size: ['s', 'm'],
+			size: equip.size,
 			category: equip.category
 		};
 		setEditFormData(formValues);
@@ -51,8 +51,13 @@ const Equipments = () => {
 		const fieldName = event.target.getAttribute('name');
 		const fieldValue = event.target.value;
 		const newFormData = { ...editFormData };
-		// @ts-ignore
-		newFormData[fieldName] = fieldValue;
+		if(fieldName === 'size') {
+			// @ts-ignore
+			newFormData[fieldName] = fieldValue.split(', ');
+		} else {
+			// @ts-ignore
+			newFormData[fieldName] = fieldValue;
+		}
 
 		setEditFormData(newFormData);
 	};
@@ -68,7 +73,7 @@ const Equipments = () => {
 				description: editFormData.description,
 				image: editFormData.image,
 				price: editFormData.price,
-				size: ['s'].join(', '),
+				size: editFormData.size.join(', ').toUpperCase(),
 				category: editFormData.category
 			})
 		}, true)
@@ -87,9 +92,10 @@ const Equipments = () => {
 						index = i;
 					}
 				}
-				equip1[index] = res.updated_equipment;
+
+				let updated_equipment = { ...res.updated_equipment, size: res.updated_equipment.size.split(', ') };
+				equip1[index] = updated_equipment;
 				setEquipmentsState([...equip1]);
-				console.log(equip1);
 			})
 			.finally(() => dispatch(changeLoader(false)));
 	};
@@ -194,8 +200,12 @@ const Equipments = () => {
 													? <input
 														className={ styles.row__edit_input }
 														type="text"
-														//@ts-ignore
-														value={ (editFormData[cell.column.id] && editFormData[cell.column.id].toString()) || '' }
+														value={
+														    // @ts-ignore
+															cell.column.id === 'size' ? editFormData[cell.column.id].join(', ') :
+															//@ts-ignore
+															(editFormData[cell.column.id] && editFormData[cell.column.id].toString()) || ''
+														}
 														onChange={ e => handleEditChange(e) }
 														name={ cell.column.id }
 													/>
@@ -204,7 +214,9 @@ const Equipments = () => {
 															<button className={ styles.table__button } onClick={ handleSave }>Save</button>
 															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
 														</div>
-														: cell.render('Cell')
+														: cell.column.id === 'size'
+															? cell.value = cell.value.join(', ')
+															: cell.render('Cell')
 											}
 										</td>
 									))
