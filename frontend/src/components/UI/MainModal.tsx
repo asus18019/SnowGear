@@ -6,19 +6,25 @@ interface MainModalProps {
 	toggle: any,
 	showOrdersRef: any,
 	title: string
-	userId?: number| null,
+	userId?: number | null,
 	children: ReactNode
 }
 
-const MainModal: FC<MainModalProps> = ({ toggle, userId, showOrdersRef, children, title }) => {
+const MainModal: FC<MainModalProps> = ({
+	toggle,
+	userId,
+	showOrdersRef,
+	children,
+	title,
+}) => {
 	return (
 		<div id="myModal" className={ styles.modal } ref={ showOrdersRef }>
-			<div className={styles.modal__content}>
-				<div className={styles.modal__header}>
+			<div className={ styles.modal__content }>
+				<div className={ styles.modal__header }>
 					<span className={ styles.close } onClick={ () => toggle(false) }>&times;</span>
 					<h2>{ title }</h2>
 				</div>
-				<div className={styles.modal__body}>
+				<div className={ styles.modal__body }>
 					{ children }
 				</div>
 			</div>
@@ -26,4 +32,4 @@ const MainModal: FC<MainModalProps> = ({ toggle, userId, showOrdersRef, children
 	);
 };
 
-export default MainModal
+export default MainModal;

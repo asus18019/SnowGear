@@ -135,6 +135,7 @@ const Equipments = () => {
 	};
 
 	const data = useMemo(() => equipmentsState, [equipmentsState]);
+
 	const columns = useMemo(() => ([
 		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },

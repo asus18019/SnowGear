@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import { setupStore } from '../store/store';
+
 
 const API_URL = 'http://127.0.0.1:8000/api';
 
@@ -12,7 +12,6 @@ function ApiError(message: string, data: string, status: number) {
 		response = data;
 	}
 
-	// return `${ message }\nResponse:\n${ isObject ? JSON.stringify(response, null, 2) : response}`;
 	return response;
 }
 
@@ -61,27 +60,19 @@ export const fetchResource = (path: string, userOptions: RequestInit = {}, crede
 		.then(responseObject => {
 			response = responseObject;
 
-			// HTTP unauthorized
 			if(response.status === 401) {
 				// Handle unauthorized requests
-				// Maybe redirect to login page?
 			}
 
 			// Check for error HTTP error codes
 			if(response.status < 200 || response.status >= 300) {
-				// Get response as text
 				return response.text();
 			}
 
-			// Get response as json
 			return response.json();
 		})
-		// "parsedResponse" will be either text or javascript object depending if
-		// "response.text()" or "response.json()" got called in the upper scope
 		.then(parsedResponse => {
-			// Check for HTTP error codes
 			if(response && response.status < 200 || response && response.status >= 300) {
-				// Throw error
 				throw parsedResponse;
 			}
 

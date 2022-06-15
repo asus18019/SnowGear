@@ -10,13 +10,19 @@ import Pagination from '../UI/Pagination';
 import MainModal from '../UI/MainModal';
 import { IOrder } from '../../models/IOrder';
 import OrdersTable from '../OrdersTable';
+import fetchResource from '../../api/apiWrapper';
+import { changeLoader } from '../../store/reducers/LoaderSlice';
+import SubmitDeleting from '../UI/SubmitDeleting';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
 
 	const showOrdersRef = useRef<HTMLDivElement>(null);
+	const showDeletingRef = useRef<HTMLDivElement>(null);
+
 	const [userOrders, setUserOrders] = useState<number | null>(null);
 	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
+	const [deletingRow, setDeletingRow] = useState<number | null>(null);
 	const [editFormData, setEditFormData] = useState<IUser>({
 		id: 0,
 		name: '',
@@ -63,7 +69,19 @@ const Users = () => {
 	};
 
 	const handleDelete = (id: number) => {
-		console.log(id);
+		setDeletingRow(id);
+		toggleDeleting(true);
+			return () => {
+				// // dispatch(changeLoader(true));
+				// fetchResource('equipment/delete', {
+				// 	method: 'POST',
+				// 	body: JSON.stringify({ eid: id })
+				// }, true)
+				// 	.then(() => setEquipmentsState(prevState => prevState.filter(e => e.eid !== id)))
+				// 	.finally(() => dispatch(changeLoader(false)));
+				console.log(id);
+				// toggleModal(false);
+			};
 	};
 
 	/////
@@ -206,10 +224,18 @@ const Users = () => {
 
 	const toggleOrders = (type: boolean, userId: number | null) => {
 		setUserOrders(userId);
+		toggleModal(showOrdersRef, type);
+	};
+
+	const toggleDeleting = (type: boolean) => {
+		toggleModal(showDeletingRef, type);
+	};
+
+	const toggleModal = (ref: any, type: boolean) => {
 		if(type) {
-			showOrdersRef.current!.style.display = 'flex';
+			ref.current!.style.display = 'flex';
 		} else {
-			showOrdersRef.current!.style.display = 'none';
+			ref.current!.style.display = 'none';
 		}
 	};
 
@@ -248,8 +274,12 @@ const Users = () => {
 
 	return (
 		<div className={ styles.users__wrapper }>
-			<MainModal toggle={ toggleOrders } userId={userOrders} showOrdersRef={showOrdersRef} title={ 'All orders made by {user.name} {user.surname}' }>
+			<MainModal toggle={ toggleOrders } userId={ userOrders } showOrdersRef={ showOrdersRef } title={ 'All orders made by {user.name} {user.surname}' }>
 				<OrdersTable tableInstance={ tableInstance1 } />
+			</MainModal>
+
+			<MainModal toggle={ toggleDeleting } showOrdersRef={ showDeletingRef } title={ 'Are you sure you want to delete?' }>
+				<SubmitDeleting onSubmit={ handleDelete } onCancel={ toggleDeleting } deletingID={ deletingRow } />
 			</MainModal>
 			<h2 className={ styles.component__title }>Users list</h2>
 			<div className={ styles.line }></div>
@@ -293,7 +323,7 @@ const Users = () => {
 														className={ styles.row__edit_input }
 														type="text"
 														// @ts-ignore
-														value={ editFormData[cell.column.id].toString() }
+														value={ editFormData[cell.column.id] ? editFormData[cell.column.id].toString() : '' }
 														onChange={ e => handleEditChange(e) }
 														name={ cell.column.id }
 													/>

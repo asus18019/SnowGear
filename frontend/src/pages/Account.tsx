@@ -14,6 +14,10 @@ const Account = () => {
 	const userState: userState = useAppSelector(state => state.userReducer);
 	const navigate = useNavigate();
 
+	if(!userState.isAuthenticated) {
+		navigate({ to: '../../login', fromCurrent: true });
+	}
+
 	const { isLoading } = useAppSelector(state => state.loaderReducer);
 
 
