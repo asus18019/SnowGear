@@ -7,7 +7,5 @@ export interface IUser {
 	age: number,
 	address: string,
 	phone: string,
-	bid: number,
-	reid: number,
 	role_id: number
 }

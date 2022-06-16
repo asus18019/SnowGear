@@ -75,6 +75,18 @@
     margin-top: 40px;
 }
 
+.table__image__wrapper {
+    width: 100px;
+    height: 100px;
+}
+
+.table__image {
+    width: 97%;
+    height: 97%;
+    object-fit: contain;
+    object-position: top;
+}
+
 @media screen and (max-device-width: 1250px) {
     .equipment_table {
         margin-right: 20px;

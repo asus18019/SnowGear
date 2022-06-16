@@ -41,8 +41,6 @@ const Users = () => {
 		age: 0,
 		address: '',
 		phone: '',
-		bid: 0,
-		reid: 0,
 		role_id: 0
 	});
 
@@ -67,8 +65,6 @@ const Users = () => {
 			age: user.age,
 			address: user.address,
 			phone: user.phone,
-			bid: 0,
-			reid: 0,
 			role_id: user.role_id
 		};
 		setEditFormData(formValues);

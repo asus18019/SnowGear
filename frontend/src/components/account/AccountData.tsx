@@ -67,8 +67,8 @@ const AccountData = () => {
 
 	const fetchUserFn = () => {
 		return fetchResource('user', {}, true)
-			.then((data: IUser) => {
-				dispatch(fetchUser(data));
+			.then((data: IUser[]) => {
+				dispatch(fetchUser(data[0]));
 				setModal({ type: ModalTypes.success, information: ['Succesfully updated'] });
 			})
 			.catch(error => {

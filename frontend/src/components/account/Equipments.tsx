@@ -19,6 +19,8 @@ import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
 import ModalWindow from '../UI/ModalWindow';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
+// @ts-ignore
+import noImage from '../../assets/no_image.png';
 
 
 const Equipments = () => {
@@ -165,9 +167,9 @@ const Equipments = () => {
 				Header: 'Image',
 				// @ts-ignore
 				Cell: ({ row }) => (
-					<p onClick={ () => console.log(row.original.image) }>
-						{ row.original.image }
-					</p>
+					<div className={ styles.table__image__wrapper }>
+						<img className={ styles.table__image } src={ row.original.image || noImage } alt="a"/>
+					</div>
 				)
 			},
 			{

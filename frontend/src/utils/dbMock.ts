@@ -192,8 +192,6 @@ const users: IUser[] = [
 		age: 20,
 		address: 'Kiev',
 		phone: '3905505204023',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 	},
 	{
@@ -205,8 +203,6 @@ const users: IUser[] = [
 		age: 35,
 		address: 'LA',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -219,8 +215,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'ADadADadADadADadADadADadADadADadADadADadADadADadADad',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -233,8 +227,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'NY',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -247,8 +239,6 @@ const users: IUser[] = [
 		age: 20,
 		address: 'Kiev',
 		phone: '3905505204023',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -261,8 +251,6 @@ const users: IUser[] = [
 		age: 35,
 		address: 'LA',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -275,8 +263,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'SF',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -289,8 +275,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'NY',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -303,8 +287,6 @@ const users: IUser[] = [
 		age: 20,
 		address: 'Kiev',
 		phone: '3905505204023',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -317,8 +299,6 @@ const users: IUser[] = [
 		age: 35,
 		address: 'LA',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -331,8 +311,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'SF',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -345,8 +323,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'NY',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -359,8 +335,6 @@ const users: IUser[] = [
 		age: 20,
 		address: 'Kiev',
 		phone: '3905505204023',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -373,8 +347,6 @@ const users: IUser[] = [
 		age: 35,
 		address: 'LA',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -387,8 +359,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'SF',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 
 	},
@@ -401,8 +371,6 @@ const users: IUser[] = [
 		age: 24,
 		address: 'NY',
 		phone: '84055052040',
-		bid: 1,
-		reid: 2,
 		role_id: 2
 	}
 ];
