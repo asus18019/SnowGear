@@ -21,8 +21,6 @@ class AuthController extends Controller
             'age' => $request->input('age'),
             'phone' => $request->input('phone'),
             'address' => $request->input('address'),
-            'bid' => $request->input('bid'),
-            'reid' => $request->input('reid'),
         ]);
         $user->assignRole('user');
         return $user;

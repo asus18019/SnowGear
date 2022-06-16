@@ -18,7 +18,6 @@ class PaypalController extends Controller
     }
 
     private function createOrder(Request $request) {
-//        return (new CartController)->Price(1);
         $totalprice = 0;
         foreach($request->equipments as $item ){
             $obj = json_decode(json_encode($item));

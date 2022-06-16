@@ -15,4 +15,13 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+    public function testAuth()
+    {
+        $response = $this->post('/login', [
+            'email' => 'admin@gmail.com',
+            'password' => 'admin password'
+        ]);
+        $response = $this->get('admin/test');
+        dd($response->status());
+    }
 }

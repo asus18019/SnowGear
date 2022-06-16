@@ -27,7 +27,7 @@ class EquipmentController extends Controller
             return response(['error' => 'Equipment doesnt exist'], Response::HTTP_EXPECTATION_FAILED);
         }
         $equipment->update($request->all());
-        return response(['updated equipment' => $equipment], Response::HTTP_OK);
+        return response(['updated_equipment' => $equipment], Response::HTTP_OK);
     }
 
     public function getEquipment(){
@@ -39,5 +39,11 @@ class EquipmentController extends Controller
         $equipment->delete();
         return response(['messages' => 'success'], Response::HTTP_OK);
     }
-
+    public function getEquipmentById(Request $request) {
+        $equipment = EquipmentModel::find($request -> eid);
+        if(is_null($equipment)){
+            return response()-> json(['error' => true, 'message' => 'Not found'], 404);
+        }
+        return response()->json($equipment,200);
+    }
 }

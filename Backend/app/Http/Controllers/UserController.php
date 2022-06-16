@@ -16,13 +16,13 @@ class UserController extends Controller
 {
     public function userUpdate(UpdatePutRequest $request)
     {
-        if(!$request->query()){
+        if(!$request->input()){
             return response(['messages' => 'empty data'], Response::HTTP_BAD_REQUEST);
         }
         $user = Auth::user();
         $user->update($request->except('password'));
-        if($request->query('password')){
-            $user->password = Hash::make($request->query('password'));
+        if($request->input('password')){
+            $user->password = Hash::make($request->input('password'));
             $user->save();
         }
         return response(['messages' => 'success', 'updater user' => $user, $user->password], Response::HTTP_OK);
@@ -46,8 +46,7 @@ class UserController extends Controller
         return response(['messages' => 'success'], Response::HTTP_OK);
     }
     public function getUsers(){
-        return USER::leftJoin('model_has_roles', 'user.id', '=', 'model_has_roles.model_id')
-            ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->get();
+        $user =  USER::all();
+        return response($user, Response::HTTP_OK);
     }
 }

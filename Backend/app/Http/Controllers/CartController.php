@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-
 class CartController extends Controller
 {
     public function AddToCart(Request $request){
@@ -37,5 +36,29 @@ class CartController extends Controller
             ->where('eid', $eid)
             ->first('price');
         return $price;
+    }
+    public function userOrders(Request $request){
+        $result = CartModel::where('cart.id', $request->id)
+            ->leftJoin('cart_eq','cart.cid','=','cart_eq.cid')
+            ->leftJoin('equipment','cart_eq.eid','=','equipment.eid')
+            ->select('cart.id','cart.cid','cart_eq.date_start','cart_eq.date_end','equipment.eid', 'equipment.price','equipment.title','equipment.category')
+                ->get();
+        return response($result, Response::HTTP_OK);
+    }
+    public function getCartById(Request $request){
+        $result = CartModel::where('cart.cid',$request->cid)
+            ->leftJoin('cart_eq','cart.cid','=','cart_eq.cid')
+            ->leftJoin('equipment','cart_eq.eid','=','equipment.eid')
+            ->select('cart.cid','cart.status','cart_eq.date_start','cart_eq.date_end','cart_eq.price','equipment.title' )
+            ->get();
+        return response( $result, Response::HTTP_OK);
+    }
+    public function updateCart(Request $request){
+        $cart = CartModel::find($request->cid);
+        if(!$cart){
+            return response(['error' => 'Cart doesnt exist'], Response::HTTP_EXPECTATION_FAILED);
+        }
+        $cart->update($request->all());
+        return response(['updated_cart' => $cart], Response::HTTP_OK);
     }
 }

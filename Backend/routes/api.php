@@ -38,12 +38,19 @@ Route::group(['middleware' => ['auth:sanctum', 'role:moderator|admin']], functio
         Route::put('/update', [\App\Http\Controllers\EquipmentController::class, 'updateEquipment']);
         Route::post('/create', [\App\Http\Controllers\EquipmentController::class, 'createEquipment']);
         Route::post('/delete', [\App\Http\Controllers\EquipmentController::class, 'deleteEquipment']);
+        Route::get('/equipmentbyid', [\App\Http\Controllers\EquipmentController::class, 'getEquipmentById']);
+    });
+    Route::prefix('cart')->group(function () {
+        Route::get('/userorders', [\App\Http\Controllers\CartController::class, 'userOrders']);
+        Route::get('/getcartbyid', [\App\Http\Controllers\CartController::class, 'getCartById']);
+        Route::put('/updatecart', [\App\Http\Controllers\CartController::class, 'updateCart']);
     });
 });
 
 Route::group(['middleware' => ['auth:sanctum', 'role:user|moderator|admin']], function () {
     Route::prefix('user')->group(function () {
         Route::put('/updateuser', [\App\Http\Controllers\UserController::class, 'userUpdate']);
+        Route::get('/userorders', [\App\Http\Controllers\CartEquipmentController::class, 'userOrders']);
     });
 
     Route::prefix('cart')->group(function () {
