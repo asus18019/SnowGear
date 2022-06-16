@@ -16,7 +16,7 @@ export const routes: Route[] = [
 		loader: async () => {
 			let { all_equipment } = await fetchResource('equipment/equipment', {
 				method: 'GET'
-			}, true);
+			}, false);
 			const equipments = all_equipment.map((e: any) => {
 				return { ...e, size: e.size.split(', ') };
 			});

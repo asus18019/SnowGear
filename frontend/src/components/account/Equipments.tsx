@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 // @ts-ignore
 import styles from './Equipments.module.css';
-import { useMatch } from 'react-location';
+import { useMatch, useNavigate } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
 import GlobalFilter from '../UI/GlobalFilter';
@@ -18,9 +18,18 @@ import { validateErrorsObject } from '../../utils/validateBodyObject';
 import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
 import ModalWindow from '../UI/ModalWindow';
+import { userState } from '../../store/reducers/AuthenticatedUserSlice';
+
 
 const Equipments = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const userState: userState = useAppSelector(state => state.userReducer);
+
+	if(userState.user?.role_id === 1) {
+		navigate({ to: '../profile', fromCurrent: true });
+	}
+
 	const { equipments } = useMatch<LocationGenerics>().data;
 	const showModalRef = useRef<HTMLDivElement>(null);
 	const { isLoading } = useAppSelector(state => state.userReducer);

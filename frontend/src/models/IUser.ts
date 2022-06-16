@@ -8,5 +8,6 @@ export interface IUser {
 	address: string,
 	phone: string,
 	bid: number,
-	reid: number
+	reid: number,
+	role_id: number
 }

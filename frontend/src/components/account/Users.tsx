@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useRef } from 'react';
+import { useNavigate } from 'react-location';
 // @ts-ignore
 import styles from './Users.module.css';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
@@ -13,9 +14,17 @@ import OrdersTable from '../OrdersTable';
 import fetchResource from '../../api/apiWrapper';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import SubmitDeleting from '../UI/SubmitDeleting';
+import { useAppSelector } from '../../hooks/redux';
+import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
+	const navigate = useNavigate();
+	const userState: userState = useAppSelector(state => state.userReducer);
+
+	if(userState.user?.role_id === 1) {
+		navigate({ to: '../profile', fromCurrent: true });
+	}
 
 	const showOrdersRef = useRef<HTMLDivElement>(null);
 	const showDeletingRef = useRef<HTMLDivElement>(null);
@@ -33,7 +42,8 @@ const Users = () => {
 		address: '',
 		phone: '',
 		bid: 0,
-		reid: 0
+		reid: 0,
+		role_id: 0
 	});
 
 	const handleEditChange = (event: any) => {
@@ -58,7 +68,8 @@ const Users = () => {
 			address: user.address,
 			phone: user.phone,
 			bid: 0,
-			reid: 0
+			reid: 0,
+			role_id: user.role_id
 		};
 		setEditFormData(formValues);
 	};

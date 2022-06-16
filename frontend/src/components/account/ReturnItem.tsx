@@ -2,13 +2,21 @@ import React, { useMemo, useState } from 'react';
 // @ts-ignore
 import styles from './ReturnItem.module.css';
 import { useSortBy, useTable } from 'react-table';
+import { useNavigate } from 'react-location';
 import { IFoundedItem } from '../../models/IFoundedItem';
 import { getMockFoundedItems } from '../../utils/dbMock';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
-import { useAppDispatch } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
+import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 
 const ReturnItem = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const userState: userState = useAppSelector(state => state.userReducer);
+
+	if(userState.user?.role_id === 1) {
+		navigate({ to: '../profile', fromCurrent: true });
+	}
 
 	const [items, setItems] = useState<IFoundedItem[]>([]);
 	const [idInput, setIdInput] = useState<string>('');
