@@ -14,12 +14,17 @@ import OrdersTable from '../OrdersTable';
 import fetchResource from '../../api/apiWrapper';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import SubmitDeleting from '../UI/SubmitDeleting';
-import { useAppSelector } from '../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
+import { validateBodyObject } from '../../utils/validateBodyObject';
+import { ModalTypes } from '../../utils/modalTypes';
+import { IModal } from '../../pages/Login';
+import ModalWindow from '../UI/ModalWindow';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const userState: userState = useAppSelector(state => state.userReducer);
 
 	if(userState.user?.role_id === 1) {
@@ -29,6 +34,8 @@ const Users = () => {
 	const showOrdersRef = useRef<HTMLDivElement>(null);
 	const showDeletingRef = useRef<HTMLDivElement>(null);
 
+	const [modal, setModal] = useState<IModal | undefined>(undefined);
+	const [usersState, setUsersState] = useState<IUser[]>(users || []);
 	const [userOrders, setUserOrders] = useState<number | null>(null);
 	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
 	const [deletingRow, setDeletingRow] = useState<number | null>(null);
@@ -71,8 +78,39 @@ const Users = () => {
 	};
 
 	const handleSave = () => {
-		console.log(editFormData);
-		setUpdatedRow(null);
+		const userBeforeEdit: IUser | undefined = users && users.filter(e => e.id === editFormData.id)[0];
+		const fields = {
+			id: editFormData.id,
+			name: userBeforeEdit?.name !== editFormData.name ? editFormData.name : undefined,
+			surname: userBeforeEdit?.surname !== editFormData.surname ? editFormData.surname : undefined,
+			email: userBeforeEdit?.email !== editFormData.email ? editFormData.email : undefined,
+			password: editFormData.password.length > 0 ? editFormData.password : undefined,
+			age: userBeforeEdit?.age !== editFormData.age ? Number(editFormData.age) : undefined,
+			phone: userBeforeEdit?.phone !== editFormData.phone ? editFormData.phone : undefined,
+			address: userBeforeEdit?.address !== editFormData.address ? editFormData.address : undefined,
+		};
+		const body = validateBodyObject(fields);
+
+		if(Object.keys(body).length) {
+			dispatch(changeLoader(true));
+
+			fetchResource('user/update', {
+				method: 'PUT',
+				body: JSON.stringify(body)
+			}, true)
+				.then(res => {
+					const updatedUser: IUser = res.updated_user;
+					const indexOfUpdatedUser: number = usersState.indexOf(usersState.filter(e => e.id === updatedUser.id)[0]);
+					const updatedUsersState: IUser[] = usersState;
+					updatedUsersState[indexOfUpdatedUser] = updatedUser;
+					setUsersState([...updatedUsersState]);
+					setUpdatedRow(null);
+				})
+				.catch(e => setModal({ type: ModalTypes.fail, information: [e.message] }))
+				.finally(() => dispatch(changeLoader(false)));
+		} else {
+			console.log('empty body');
+		}
 	};
 
 	const handleDelete = (id: number) => {
@@ -218,7 +256,7 @@ const Users = () => {
 
 	/////
 
-	const data = useMemo(() => users?.length ? users : [], []);
+	const data = useMemo(() => usersState, [usersState]);
 	const columns = useMemo(() => ([
 		{ Header: 'Id', accessor: 'id' },
 		{ Header: 'Name', accessor: 'name' },
@@ -270,10 +308,8 @@ const Users = () => {
 		]);
 	};
 
-	const ordersData = useMemo(() => [...data], [data]);
-
 	// @ts-ignore
-	const tableInstance = useTable({ columns, data: ordersData }, tableHooks, useGlobalFilter, useSortBy, usePagination);
+	const tableInstance = useTable({ columns, data }, tableHooks, useGlobalFilter, useSortBy, usePagination);
 	// @ts-ignore
 	const { getTableProps, getTableBodyProps, headerGroups, page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, gotoPage, pageCount, setPageSize, prepareRow, state, setGlobalFilter } = tableInstance;
 	// @ts-ignore
@@ -284,7 +320,11 @@ const Users = () => {
 			<MainModal toggle={ toggleOrders } userId={ userOrders } showOrdersRef={ showOrdersRef } title={ 'All orders made by {user.name} {user.surname}' }>
 				<OrdersTable tableInstance={ tableInstance1 } />
 			</MainModal>
-
+			{
+				modal
+					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					: false
+			}
 			<MainModal toggle={ toggleDeleting } showOrdersRef={ showDeletingRef } title={ 'Are you sure you want to delete?' }>
 				<SubmitDeleting onSubmit={ handleDelete } onCancel={ toggleDeleting } deletingID={ deletingRow } />
 			</MainModal>
