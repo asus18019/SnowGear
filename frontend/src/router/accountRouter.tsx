@@ -26,17 +26,26 @@ export const accountRoutes: Route[] = [
 		path: '/account/users',
 		element: () => import('../components/account/Users').then(mod => <mod.default/>),
 		loader: async () => {
-			return { users: await getMockUsers() };
-		}
+			const response = await fetchResource('user/users', {
+				method: 'GET'
+			}, true);
+			const users: IUser = response.length > 0 ? response : [];
+			return { users };
+		},
+		pendingElement: async () => <div>Taking a long time...</div>,
+		pendingMs: 500
 	},
 	{
 		path: '/account/equipments',
 		element: () => import('../components/account/Equipments').then(mod => <mod.default/>),
 		loader: async () => {
-			let { all_equipment }: {all_equipment: IEquipment[]} = await fetchResource('equipment/equipment', {
+			let { all_equipment } = await fetchResource('equipment/equipment', {
 				method: 'GET'
 			}, true);
-			return { equipments: all_equipment };
+			const equipments = all_equipment.map((e: any) => {
+				return { ...e, size: e.size.split(', ') };
+			});
+			return { equipments };
 		},
 		pendingElement: async () => <div>Taking a long time...</div>,
 		pendingMs: 500

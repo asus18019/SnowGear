@@ -6,7 +6,7 @@ import { Link } from 'react-location';
 // @ts-ignore
 import styles from './CartItem.module.css';
 // @ts-ignore
-import test1 from '../assets/test1.jpg'; // Todo fix import
+import noImage from '../assets/no_image.png'; // Todo fix import
 // @ts-ignore
 import cancel from '../assets/cancel-item.png'; // Todo fix import
 import SetPrice from './UI/SetPrice';
@@ -82,7 +82,9 @@ const CartItem: FC<CartItemProps> = ({
 	return (
 		<div className={ styles.cart_item }>
 			<div className={ styles.cart_item__info }>
-				<img className={ styles.cart_item__prev } src={ test1 } alt="prev"/>
+				<div className={ styles.cart_item__prev__wrapper }>
+					<img className={ styles.cart_item__prev } src={ item?.image || noImage } alt="prev"/>
+				</div>
 				<div className={ styles.cart_item__info_container }>
 					<Link className={ styles.cart_item__title } to={ `/item/${ item?.eid }` }>{ item?.title }</Link>
 					<div className={ styles.cart_item__datatime_container }>

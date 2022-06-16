@@ -9,7 +9,7 @@ import { sizeParser } from '../utils/clearIsSelectedProperty';
 import styles from './Item.module.css';
 import AdditionalButton from '../components/UI/AdditionalButton';
 // @ts-ignore
-import test1 from '../assets/test1.jpg';
+import noImage from '../assets/no_image.png';
 import SetPrice from '../components/UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
@@ -137,7 +137,9 @@ const Item: FC = () => {
 									          points="37,15 20,32 37,49"/>
 								</g>
 							</svg>
-							<img className={ styles.item__image } src={ test1 } alt=""/>
+							<div className={ styles.item__image_container }>
+								<img className={ styles.item__image } src={ equipment.image || noImage } alt=""/>
+							</div>
 							<svg className={ styles.item__image_arrows } xmlns="http://www.w3.org/2000/svg"
 							     xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="64px" height="64px"
 							     viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve">

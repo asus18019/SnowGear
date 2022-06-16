@@ -3,7 +3,7 @@ import { Link } from 'react-location';
 // @ts-ignore
 import styles from './GoodsTile.module.css';
 // @ts-ignore
-import test1 from '../assets/test1.jpg';
+import noImage from '../assets/no_image.png';
 
 interface GoodsTileProps {
 	eid: number
@@ -16,7 +16,10 @@ interface GoodsTileProps {
 const GoodsTile: FC<GoodsTileProps> = ({ eid, image, title, price, size }) => {
 	return (
 		<div className={ styles.item }>
-			<img className={ styles.item__image } src={ test1 } alt="SnowGear"/>
+			<div className={ styles.item__image_container }>
+				<img className={ styles.item__image } src={ image || noImage } alt="SnowGear"/>
+			</div>
+
 			<div className={ styles.item__about }>
 				<Link className={ styles.link } to={ `/item/${ eid }` }>
 					<h4 className={ styles.item__title }>{ title }</h4>

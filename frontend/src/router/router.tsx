@@ -3,6 +3,7 @@ import { Route, ReactLocation, MakeGenerics } from 'react-location';
 import { getMockEquipment, getMockEquipmentByID } from '../utils/dbMock';
 import { IEquipment } from '../models/IEquipment';
 import { ICartItem } from '../models/ICartItem';
+import fetchResource from '../api/apiWrapper';
 
 export const routes: Route[] = [
 	{
@@ -13,8 +14,17 @@ export const routes: Route[] = [
 		path: '/shop',
 		element: () => import('../pages/Shop').then(mod => <mod.default />),
 		loader: async () => {
-			return { goods: await getMockEquipment() };
+			let { all_equipment } = await fetchResource('equipment/equipment', {
+				method: 'GET'
+			}, false);
+			const equipments = all_equipment.map((e: any) => {
+				return { ...e, size: e.size.split(', ') };
+			});
+			return { goods: equipments };
+			// return { goods: await getMockEquipment() };
 		},
+		pendingElement: async () => <div>Taking a long time...</div>,
+		pendingMs: 500
 	},
 	{
 		path: '/item',
@@ -23,8 +33,16 @@ export const routes: Route[] = [
 				path: '/:eid',
 				element: () => import('../pages/Item').then(mod => <mod.default />),
 				loader: async ({ params: { eid } }) => {
-					return { equipment: await getMockEquipmentByID(Number(eid)) };
+					let res = await fetchResource('equipment/equipmentbyid', {
+						method: 'POST',
+						body: JSON.stringify({ eid })
+					}, false);
+					const equipment = { ...res, size: res.size.split(', ') };
+					return { equipment };
+					// return { equipment: await getMockEquipmentByID(Number(eid)) };
 				},
+				pendingElement: async () => <div>Taking a long time...</div>,
+				pendingMs: 500
 			},
 		],
 	},

@@ -19,7 +19,7 @@
 
 .item_container {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 .item__title {
@@ -40,9 +40,17 @@
     align-items: center;
 }
 
-.item__image {
+.item__image_container {
     max-height: inherit;
     cursor: pointer;
+    max-width: 500px;
+}
+
+.item__image {
+    width: 97%;
+    height: 97%;
+    object-fit: contain;
+    object-position: center
 }
 
 .item__about_right {
@@ -256,7 +264,7 @@
         font-size: 20px;
     }
 
-    .item__image {
+    .item__image_container {
         max-width: 300px;
     }
 }
@@ -308,7 +316,7 @@
 }
 
 @media screen and (max-device-width: 550px) {
-    .item__image {
+    .item__image_container {
         max-width: 250px;
     }
 

@@ -8,7 +8,7 @@ const goods: IEquipment[] = [
 		eid: 1,
 		title: 'Ботинки сноубордические Deeluxe Velvet Lara Black/red 571077-1000',
 		description: 'descr 1 1 1',
-		image: 'image',
+		image: 'https://content.rozetka.com.ua/goods/images/big/10711076.jpg',
 		price: 13.5,
 		size: ['S', 'L', 'M'],
 		category: 'boots',
@@ -193,7 +193,8 @@ const users: IUser[] = [
 		address: 'Kiev',
 		phone: '3905505204023',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
 	},
 	{
 		id: 2,
@@ -205,7 +206,9 @@ const users: IUser[] = [
 		address: 'LA',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 3,
@@ -217,7 +220,9 @@ const users: IUser[] = [
 		address: 'ADadADadADadADadADadADadADadADadADadADadADadADadADad',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 4,
@@ -229,7 +234,9 @@ const users: IUser[] = [
 		address: 'NY',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 5,
@@ -241,7 +248,9 @@ const users: IUser[] = [
 		address: 'Kiev',
 		phone: '3905505204023',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 6,
@@ -253,7 +262,9 @@ const users: IUser[] = [
 		address: 'LA',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 7,
@@ -265,7 +276,9 @@ const users: IUser[] = [
 		address: 'SF',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 8,
@@ -277,7 +290,9 @@ const users: IUser[] = [
 		address: 'NY',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 9,
@@ -289,7 +304,9 @@ const users: IUser[] = [
 		address: 'Kiev',
 		phone: '3905505204023',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 10,
@@ -301,7 +318,9 @@ const users: IUser[] = [
 		address: 'LA',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 11,
@@ -313,7 +332,9 @@ const users: IUser[] = [
 		address: 'SF',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 12,
@@ -325,7 +346,9 @@ const users: IUser[] = [
 		address: 'NY',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 13,
@@ -337,7 +360,9 @@ const users: IUser[] = [
 		address: 'Kiev',
 		phone: '3905505204023',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 14,
@@ -349,7 +374,9 @@ const users: IUser[] = [
 		address: 'LA',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 15,
@@ -361,7 +388,9 @@ const users: IUser[] = [
 		address: 'SF',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
+
 	},
 	{
 		id: 16,
@@ -373,7 +402,8 @@ const users: IUser[] = [
 		address: 'NY',
 		phone: '84055052040',
 		bid: 1,
-		reid: 2
+		reid: 2,
+		role_id: 2
 	}
 ];
 

@@ -16,10 +16,20 @@
 }
 
 
-.item__image {
+.item__image_container {
     width: 240px;
     height: 270px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.item__image {
+    width: 97%;
+    height: 97%;
+    object-fit: contain;
+    object-position: center
 }
 
 .item__about {
@@ -124,7 +134,7 @@
         max-height: inherit;
     }
 
-    .item__image {
+    .item__image_container {
         width: 160px;
         height: 170px;
         cursor: pointer;
