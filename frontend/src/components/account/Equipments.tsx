@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 // @ts-ignore
 import styles from './Equipments.module.css';
-import { useMatch } from 'react-location';
+import { useMatch, useNavigate } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
 import GlobalFilter from '../UI/GlobalFilter';
@@ -11,13 +11,31 @@ import fetchResource from '../../api/apiWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import Loader from '../UI/Loader';
+import MainModal from '../UI/MainModal';
+import SubmitDeleting from '../UI/SubmitDeleting';
+import AddEquipment from '../AddEquipment';
+import { validateErrorsObject } from '../../utils/validateBodyObject';
+import { ModalTypes } from '../../utils/modalTypes';
+import { IModal } from '../../pages/Login';
+import ModalWindow from '../UI/ModalWindow';
+import { userState } from '../../store/reducers/AuthenticatedUserSlice';
+
 
 const Equipments = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const userState: userState = useAppSelector(state => state.userReducer);
+
+	if(userState.user?.role_id === 1) {
+		navigate({ to: '../profile', fromCurrent: true });
+	}
+
 	const { equipments } = useMatch<LocationGenerics>().data;
+	const showModalRef = useRef<HTMLDivElement>(null);
 	const { isLoading } = useAppSelector(state => state.userReducer);
 
 	const [equipmentsState, setEquipmentsState] = useState<IEquipment[]>(equipments?.length ? equipments : []);
+	const [deleteRow, setDeleteRow] = useState<number | null>(null);
 	const [updatedRow, setUpdatedRow] = useState<number | null>(null);
 	const [editFormData, setEditFormData] = useState<IEquipment>({
 		eid: 0,
@@ -29,8 +47,22 @@ const Equipments = () => {
 		category: ''
 	});
 
+	const [modal, setModal] = useState<IModal | undefined>(undefined);
+
 	const handleDeleteEquipment = (id: number) => {
 		console.log('Delete: ' + id);
+		setDeleteRow(id);
+		toggleModal(true);
+		return () => {
+			dispatch(changeLoader(true));
+			fetchResource('equipment/delete', {
+				method: 'POST',
+				body: JSON.stringify({ eid: id })
+			}, true)
+				.then(() => setEquipmentsState(prevState => prevState.filter(e => e.eid !== id)))
+				.finally(() => dispatch(changeLoader(false)));
+			toggleModal(false);
+		};
 	};
 
 	const handleEditEquipment = (equip: IEquipment) => {
@@ -41,7 +73,7 @@ const Equipments = () => {
 			description: equip.description,
 			image: equip.image,
 			price: equip.price,
-			size: ['s', 'm'],
+			size: equip.size,
 			category: equip.category
 		};
 		setEditFormData(formValues);
@@ -51,15 +83,19 @@ const Equipments = () => {
 		const fieldName = event.target.getAttribute('name');
 		const fieldValue = event.target.value;
 		const newFormData = { ...editFormData };
-		// @ts-ignore
-		newFormData[fieldName] = fieldValue;
+		if(fieldName === 'size') {
+			// @ts-ignore
+			newFormData[fieldName] = fieldValue.split(', ');
+		} else {
+			// @ts-ignore
+			newFormData[fieldName] = fieldValue;
+		}
 
 		setEditFormData(newFormData);
 	};
 
-	const handleSave = () => {
+	const handleSaveEquipment = () => {
 		dispatch(changeLoader(true));
-		setUpdatedRow(null);
 		fetchResource('equipment/update', {
 			method: 'PUT',
 			body: JSON.stringify({
@@ -68,15 +104,14 @@ const Equipments = () => {
 				description: editFormData.description,
 				image: editFormData.image,
 				price: editFormData.price,
-				size: ['s'].join(', '),
+				size: editFormData.size.join(', ').toUpperCase(),
 				category: editFormData.category
 			})
 		}, true)
 			.then(res => {
-				console.log(res);
 				let equip1: IEquipment[];
 				if(equipments?.length) {
-					equip1 = equipments;
+					equip1 = equipmentsState;
 				} else {
 					equip1 = [];
 				}
@@ -87,14 +122,29 @@ const Equipments = () => {
 						index = i;
 					}
 				}
-				equip1[index] = res.updated_equipment;
+
+				let updated_equipment = { ...res.updated_equipment, size: res.updated_equipment.size.split(', ') };
+				equip1[index] = updated_equipment;
 				setEquipmentsState([...equip1]);
-				console.log(equip1);
+				setUpdatedRow(null);
+			})
+			.catch(message => {
+				const errorsValidated: string[] = validateErrorsObject(message.errors);
+				setModal({ type: ModalTypes.fail, information: errorsValidated.length ? errorsValidated : ['Unexpected error happened'] });
 			})
 			.finally(() => dispatch(changeLoader(false)));
 	};
 
+	const toggleModal = (type: boolean) => {
+		if(type) {
+			showModalRef.current!.style.display = 'flex';
+		} else {
+			showModalRef.current!.style.display = 'none';
+		}
+	};
+
 	const data = useMemo(() => equipmentsState, [equipmentsState]);
+
 	const columns = useMemo(() => ([
 		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },
@@ -142,7 +192,7 @@ const Equipments = () => {
 	const tableInstance = useTable({ columns, data, initialState }, tableHooks, useGlobalFilter, useSortBy, usePagination);
 
 	// @ts-ignore
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, setGlobalFilter, state, pageOptions, gotoPage, canPreviousPage, canNextPage, previousPage, nextPage, pageCount, setPageSize } = tableInstance;
+	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow, setGlobalFilter, state, pageOptions, gotoPage, canPreviousPage, canNextPage, previousPage, nextPage, pageCount, setPageSize } = tableInstance;
 
 	// @ts-ignore
 	const { globalFilter, pageIndex, pageSize } = state;
@@ -152,7 +202,16 @@ const Equipments = () => {
 			{
 				isLoading ? <Loader/> : false
 			}
-
+			{
+				<MainModal toggle={ toggleModal } showOrdersRef={ showModalRef } title={ 'Are you sure you want to delete?' }>
+					<SubmitDeleting onSubmit={ handleDeleteEquipment } onCancel={ toggleModal } deletingID={ deleteRow } />
+				</MainModal>
+			}
+			{
+				modal
+					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					: false
+			}
 			<h2 className={ styles.component__title }>Equipments</h2>
 			<div className={ styles.line }></div>
 
@@ -177,7 +236,7 @@ const Equipments = () => {
 				</thead>
 				<tbody { ...getTableBodyProps() } className={ styles.equipment_table__tbody }>
 					{
-						rows.map((row: any) => {
+						page.map((row: any) => {
 							prepareRow(row);
 
 							return <tr { ...row.getRowProps() } className={ styles.equipment_table__tr }>
@@ -194,17 +253,23 @@ const Equipments = () => {
 													? <input
 														className={ styles.row__edit_input }
 														type="text"
-														//@ts-ignore
-														value={ (editFormData[cell.column.id] && editFormData[cell.column.id].toString()) || '' }
+														value={
+														    // @ts-ignore
+															cell.column.id === 'size' ? editFormData[cell.column.id].join(', ') :
+															//@ts-ignore
+															(editFormData[cell.column.id] && editFormData[cell.column.id].toString()) || ''
+														}
 														onChange={ e => handleEditChange(e) }
 														name={ cell.column.id }
 													/>
 													: Number(row.values.eid) === updatedRow && cell.column.id === 'action'
 														? <div className={ styles.save_row__buttons }>
-															<button className={ styles.table__button } onClick={ handleSave }>Save</button>
+															<button className={ styles.table__button } onClick={ handleSaveEquipment }>Save</button>
 															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
 														</div>
-														: cell.render('Cell')
+														: cell.column.id === 'size'
+															? cell.value = cell.value.join(', ')
+															: cell.render('Cell')
 											}
 										</td>
 									))
@@ -226,6 +291,13 @@ const Equipments = () => {
 				pageSize={ pageSize }
 				setPageSize={ setPageSize }
 			/>
+			<div className={ styles.add_equip__wrapper }>
+				<AddEquipment
+					// @ts-ignore
+					updateEquipments={ setEquipmentsState }
+					updateInfoModal={ setModal }
+				/>
+			</div>
 		</div>
 	);
 };

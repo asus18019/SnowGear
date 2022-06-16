@@ -17,8 +17,8 @@ function App() {
 		const token: string | undefined = Cookies.get('token');
 		if(token) {
 			fetchResource('user', {}, true)
-				.then((data: IUser) => {
-					dispatch(fetchUser(data));
+				.then(data => {
+					dispatch(fetchUser(data[0]));
 				})
 				.catch(error => {
 					dispatch(setErrors(error.toString()));
