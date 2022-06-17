@@ -49,6 +49,7 @@ class AuthController extends Controller
         return USER::leftJoin('model_has_roles', 'user.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->where('user.id', Auth::user()->getAuthIdentifier())
+            ->select('user.id','user.name','user.surname','user.email','user.age','user.phone','user.address','roles.id as role_id' )
             ->get();
     }
 
