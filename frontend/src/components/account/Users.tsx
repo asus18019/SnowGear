@@ -16,7 +16,7 @@ import { changeLoader } from '../../store/reducers/LoaderSlice';
 import SubmitDeleting from '../UI/SubmitDeleting';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
-import { validateBodyObject } from '../../utils/validateBodyObject';
+import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateBodyObject';
 import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
 import ModalWindow from '../UI/ModalWindow';
@@ -79,16 +79,8 @@ const Users = () => {
 
 	const handleSave = () => {
 		const userBeforeEdit: IUser | undefined = users && users.filter(e => e.id === editFormData.id)[0];
-		const fields = {
-			id: editFormData.id,
-			name: userBeforeEdit?.name !== editFormData.name ? editFormData.name : undefined,
-			surname: userBeforeEdit?.surname !== editFormData.surname ? editFormData.surname : undefined,
-			email: userBeforeEdit?.email !== editFormData.email ? editFormData.email : undefined,
-			password: editFormData.password.length > 0 ? editFormData.password : undefined,
-			age: userBeforeEdit?.age !== editFormData.age ? Number(editFormData.age) : undefined,
-			phone: userBeforeEdit?.phone !== editFormData.phone ? editFormData.phone : undefined,
-			address: userBeforeEdit?.address !== editFormData.address ? editFormData.address : undefined,
-		};
+
+		const fields = makeFieldsToUpdate(userBeforeEdit, editFormData);
 		const body = validateBodyObject(fields);
 
 		if(Object.keys(body).length) {

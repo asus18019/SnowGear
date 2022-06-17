@@ -8,7 +8,7 @@ import { IUser } from '../../models/IUser';
 import { IModal } from '../../pages/Login';
 import ModalWindow from '../UI/ModalWindow';
 import { ModalTypes } from '../../utils/modalTypes';
-import { validateBodyObject } from '../../utils/validateBodyObject';
+import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateBodyObject';
 import { handleAgeInput } from '../../utils/inputHandlers';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 
@@ -38,17 +38,11 @@ const AccountData = () => {
 	};
 
 	const handleUpdateProfile = () => {
-		const fields = {
-			name: name === userState.user?.name ? undefined : name,
-			surname: surname === userState.user?.surname ? undefined : surname,
-			email: email === userState.user?.email ? undefined : email,
-			password,
-			age: age === userState.user?.age ? undefined : age,
-			phone: phone === userState.user?.phone ? undefined : phone,
-			address: address === userState.user?.address ? undefined : address
-		};
+		const updatedUser: IUser = { id: userState.user?.id || 0, email, password, name, surname, phone, address, age: age || 0, role_id: userState.user?.role_id || 0 };
+		const fields = makeFieldsToUpdate(userState.user, updatedUser);
 
 		const body = validateBodyObject(fields);
+		console.log(body);
 
 		if(Object.keys(body).length) {
 			dispatch(changeLoader(true));
