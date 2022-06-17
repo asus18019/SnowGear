@@ -4,10 +4,13 @@ import styles from './ReturnItem.module.css';
 import { useSortBy, useTable } from 'react-table';
 import { useNavigate } from 'react-location';
 import { IFoundedItem } from '../../models/IFoundedItem';
-import { getMockFoundedItems } from '../../utils/dbMock';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
+import fetchResource from '../../api/apiWrapper';
+import { IModal } from '../../pages/Login';
+import ModalWindow from '../UI/ModalWindow';
+import { ModalTypes } from '../../utils/modalTypes';
 
 const ReturnItem = () => {
 	const dispatch = useAppDispatch();
@@ -18,22 +21,49 @@ const ReturnItem = () => {
 		navigate({ to: '../profile', fromCurrent: true });
 	}
 
+	const [modal, setModal] = useState<IModal | undefined>(undefined);
+
 	const [items, setItems] = useState<IFoundedItem[]>([]);
 	const [idInput, setIdInput] = useState<string>('');
 	const [notFoundString, setNotFoundString] = useState<string | undefined>();
 
 	const handleFindItems = async () => {
 		setNotFoundString(undefined);
-		dispatch(changeLoader(true));
 
-		const data = await getMockFoundedItems();
-		if(data.length > 0) {
-			setItems(data);
+		if(idInput.trim()) {
+			dispatch(changeLoader(true));
+			fetchResource('cart/getcartbyid', {
+				method: 'POST',
+				body: JSON.stringify({ cid: idInput })
+			}, true)
+				.then(res => {
+					console.log(res);
+					if(res.length > 0) {
+						setItems(res);
+					} else {
+						setNotFoundString('Nothing found. Try other ID...');
+					}
+				})
+				.catch(e => console.log(e))
+				.finally(() => dispatch(changeLoader(false)));
+			dispatch(changeLoader(false));
 		} else {
-			setNotFoundString('Nothing found. Try other ID...');
+			setNotFoundString('Enter id');
 		}
+	};
 
-		dispatch(changeLoader(false));
+	const handleUpdateOrder = (orderId: number) => {
+		dispatch(changeLoader(true));
+		fetchResource('cart/updatecart', {
+			method: 'PUT',
+			body: JSON.stringify({ cid: orderId, status: 'expired' })
+		}, true)
+			.then(() => {
+				setModal({ type: ModalTypes.success, information: ['Returned'] });
+				handleClearItems();
+			})
+			.catch(e => console.log(e))
+			.finally(() => dispatch(changeLoader(false)));
 	};
 
 	const handleClearItems = () => {
@@ -43,35 +73,25 @@ const ReturnItem = () => {
 	};
 
 	const columns = useMemo(() => ([
-		{ Header: 'Id', accessor: 'eid' },
+		{ Header: 'Id', accessor: 'id' },
 		{ Header: 'Title', accessor: 'title' },
 		{ Header: 'Rented by', accessor: 'rented' },
 		{ Header: 'Size', accessor: 'size' },
-		{ Header: 'Datestart', accessor: 'datestart' },
-		{ Header: 'Dateend', accessor: 'dateend' },
+		{ Header: 'Datestart', accessor: 'date_start' },
+		{ Header: 'Dateend', accessor: 'date_end' },
 		{ Header: 'Duration (hours)', accessor: 'duration' },
-		{ Header: 'Price ($/hour)', accessor: 'price' },
+		{ Header: 'Price (total)', accessor: 'price' },
 	]), []);
 
 	const tableHooks = (hooks: any) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
-				id: 'totalprice',
-				Header: 'Total Price($)',
-				// @ts-ignore
-				Cell: ({ row }) => (
-					<p>
-						{ row.values.duration * row.values.price }
-					</p>
-				),
-			},
-			{
 				id: 'rentbtn',
 				Header: 'Return',
 				// @ts-ignore
 				Cell: ({ row }) => (
-					<button className={ styles.return__button } onClick={ () => alert(row.values.eid) }>Return</button>
+					<button className={ styles.return__button } onClick={ () => handleUpdateOrder(row.original.cid) }>Return</button>
 				),
 			},
 		]);
@@ -83,6 +103,11 @@ const ReturnItem = () => {
 
 	return (
 		<div className={ styles.return_item__wrapper }>
+			{
+				modal
+					? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+					: false
+			}
 			<h2 className={ styles.component__title }>Return item</h2>
 			<div className={ styles.line }></div>
 

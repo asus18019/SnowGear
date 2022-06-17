@@ -108,17 +108,19 @@ const Users = () => {
 	const handleDelete = (id: number) => {
 		setDeletingRow(id);
 		toggleDeleting(true);
-			return () => {
-				// // dispatch(changeLoader(true));
-				// fetchResource('equipment/delete', {
-				// 	method: 'POST',
-				// 	body: JSON.stringify({ eid: id })
-				// }, true)
-				// 	.then(() => setEquipmentsState(prevState => prevState.filter(e => e.eid !== id)))
-				// 	.finally(() => dispatch(changeLoader(false)));
-				console.log(id);
-				// toggleModal(false);
-			};
+		return () => {
+			dispatch(changeLoader(true));
+			fetchResource('user/delete', {
+				method: 'DELETE',
+				body: JSON.stringify({ userID: id })
+			}, true)
+				.then(() => setUsersState(prevState => prevState.filter(user => user.id !== id)))
+				.finally(() => {
+					dispatch(changeLoader(false));
+					toggleDeleting(false);
+				});
+			console.log(id);
+		};
 	};
 
 	/////
