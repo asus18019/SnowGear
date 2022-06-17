@@ -17,6 +17,8 @@ class EquipmentController extends Controller
             'size' => $request->input('size'),
             'description' => $request->input('description'),
             'image' => $request->input('image'),
+            'price' => $request->input('price'),
+            'category' => $request->input('category'),
         ]);
         return response([$equipment], Response::HTTP_OK);
     }
