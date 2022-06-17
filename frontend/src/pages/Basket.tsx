@@ -21,6 +21,7 @@ const Basket: FC = () => {
 	const navigate = useNavigate();
 	const { isAuthenticated } = useAppSelector(state => state.userReducer);
 	const { cartGoods } = useMatch<LocationGenerics>().data;
+	const userState = useAppSelector(state => state.userReducer);
 
 	const [cart, setCart] = useState<ICartItem[]>((cartGoods && cartGoods) || []);
 	const [modal, setModal] = useState<IModal | undefined>(undefined);
@@ -94,7 +95,7 @@ const Basket: FC = () => {
 
 											return fetchResource('paypal/order/create', {
 												method: 'POST',
-												body: JSON.stringify({ equipments: getCartItems() }),
+												body: JSON.stringify({ id: userState.user?.id, equipments: getCartItems() }),
 											}, true)
 												.then((response) => {
 													console.log(response);

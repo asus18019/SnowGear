@@ -5,6 +5,8 @@ import { getMockOrders, getMockUsers } from '../utils/dbMock';
 import { IUser } from '../models/IUser';
 import fetchResource from '../api/apiWrapper';
 import { IEquipment } from '../models/IEquipment';
+import { useAppSelector } from '../hooks/redux';
+import { setupStore } from '../store/store';
 
 export const accountRoutes: Route[] = [
 	{
@@ -15,7 +17,14 @@ export const accountRoutes: Route[] = [
 		path: '/account/currentorders',
 		element: () => import('../components/account/CurrentOrders').then(mod => <mod.default/>),
 		loader: async () => {
+			const state = setupStore().getState();
+			console.log(state)
+			let res = await fetchResource('cart/userorders', {
+				method: 'POST',
+				body: JSON.stringify({ id: 1 })
+			}, true);
 			return { currentOrders: await getMockOrders() };
+			// return { currentOrders: await getMockOrders() };
 		}
 	},
 	{

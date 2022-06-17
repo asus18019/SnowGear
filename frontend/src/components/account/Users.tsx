@@ -215,16 +215,17 @@ const Users = () => {
 			status: 'expired'
 		}
 	];
+	const [currentOrders, setCurrentOrders] = useState<IOrder[]>(currentOrders1);
 
-	const data1 = useMemo(() => currentOrders1?.length ? currentOrders1 : [], []);
+	const data1 = useMemo(() => currentOrders?.length ? currentOrders : [], [currentOrders]);
 	const columns1 = useMemo(() => ([
 		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },
 		{ Header: 'Price ($/hour)', accessor: 'price' },
 		{ Header: 'Size', accessor: 'size' },
 		{ Header: 'Category', accessor: 'category' },
-		{ Header: 'Datestart', accessor: 'datestart' },
-		{ Header: 'Dateend', accessor: 'dateend' },
+		{ Header: 'Datestart', accessor: 'date_start' },
+		{ Header: 'Dateend', accessor: 'date_end' },
 		{ Header: 'Duration (hours)', accessor: 'duration' },
 		{ Header: 'Status', accessor: 'status' },
 	]), []);
@@ -262,8 +263,22 @@ const Users = () => {
 	]), []);
 
 	const toggleOrders = (type: boolean, userId: number | null) => {
-		setUserOrders(userId);
 		toggleModal(showOrdersRef, type);
+	};
+
+	const getOrdersByUser = (id: number) => {
+		// setUserOrders(id);
+		console.log(id);
+		dispatch(changeLoader(true));
+		fetchResource('cart/userorders', {
+			method: 'post',
+			body: JSON.stringify({ id })
+		}, true)
+			.then((res) => {
+				toggleOrders(true, id);
+				setCurrentOrders(res);
+			})
+			.finally(() => dispatch(changeLoader(false)));
 	};
 
 	const toggleDeleting = (type: boolean) => {
@@ -293,7 +308,7 @@ const Users = () => {
 						<button className={ styles.table__button } onClick={ () => handleDelete(row.values.id) }>
 							Delete
 						</button>
-						<button className={ styles.table__button } onClick={ () => toggleOrders(true, row.values.id) }>
+						<button className={ styles.table__button } onClick={ () => getOrdersByUser(row.values.id) }>
 							Orders
 						</button>
 					</div>
