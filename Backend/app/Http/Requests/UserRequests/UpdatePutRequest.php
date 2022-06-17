@@ -28,7 +28,7 @@ class UpdatePutRequest extends FormRequest
             'surname' => ['string','min:3', 'max:255'],
             'email' => ['string','min:6', 'max:600', 'unique:App\Models\User'],
             'password' => ['string','min:8', 'max:600'],
-            'age' => ['min:8', 'max:600'],
+            'age' => ['max:600'],
             'phone' => ['min:8', 'max:600'],
             'address' => ['string','min:8', 'max:600'],
         ];

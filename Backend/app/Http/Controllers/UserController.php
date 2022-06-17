@@ -36,7 +36,7 @@ class UserController extends Controller
             $user->password = Hash::make($request->query('password'));
             $user->save();
         }
-        return response(['messages' => 'success', 'updater user' => $user, $user->password], Response::HTTP_OK);
+        return response(['messages' => 'success', 'updated_user' => $user, $user->password], Response::HTTP_OK);
     }
 
 

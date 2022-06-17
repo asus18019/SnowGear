@@ -40,7 +40,7 @@ class EquipmentController extends Controller
         return response(['messages' => 'success'], Response::HTTP_OK);
     }
     public function getEquipmentById(Request $request) {
-        $equipment = EquipmentModel::find($request -> eid);
+        $equipment = EquipmentModel::find($request->input('eid'));
         if(is_null($equipment)){
             return response()-> json(['error' => true, 'message' => 'Not found'], 404);
         }
