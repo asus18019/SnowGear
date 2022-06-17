@@ -41,7 +41,7 @@ class CartController extends Controller
         $result = CartModel::where('cart.id', $request->id)
             ->leftJoin('cart_eq','cart.cid','=','cart_eq.cid')
             ->leftJoin('equipment','cart_eq.eid','=','equipment.eid')
-            ->select('cart.id','cart.cid','cart_eq.date_start','cart_eq.date_end','equipment.eid', 'equipment.price','equipment.title','equipment.category')
+            ->select('cart.id','cart.cid','cart.status','cart_eq.date_start','cart_eq.date_end','cart_eq.duration','equipment.eid', 'equipment.price','equipment.title','equipment.category')
                 ->get();
         return response($result, Response::HTTP_OK);
     }
