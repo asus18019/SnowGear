@@ -37,9 +37,12 @@ const ReturnItem = () => {
 				body: JSON.stringify({ cid: idInput })
 			}, true)
 				.then(res => {
+					const formattedData = res.map((e: any) => {
+						return { ...e, rented: `${e.name} ${e.surname}` };
+					});
 					console.log(res);
 					if(res.length > 0) {
-						setItems(res);
+						setItems(formattedData);
 					} else {
 						setNotFoundString('Nothing found. Try other ID...');
 					}
@@ -73,7 +76,7 @@ const ReturnItem = () => {
 	};
 
 	const columns = useMemo(() => ([
-		{ Header: 'Id', accessor: 'id' },
+		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },
 		{ Header: 'Rented by', accessor: 'rented' },
 		{ Header: 'Size', accessor: 'size' },

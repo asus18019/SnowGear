@@ -26,6 +26,20 @@ export const FiltersSlice = createSlice({
 				state.sizeFilter.sizes = [...state.sizeFilter.sizes, action.payload];
 			}
 		},
+		resetFilters(state) {
+			state.sizeFilter.sizes = [];
+			state.priceFilter = { min: -1, max: -1 };
+			state.titleFilter.title = '';
+			state.categoryFilter = {
+				skies: false,
+				snowboard: false,
+				sleds: false,
+				boots: false,
+				overalls: false,
+				gloves: false,
+				hats: false
+			};
+		},
 
 	},
 });
@@ -36,4 +50,5 @@ export const {
 	setFilterTitleProperty,
 	setFilterPriceProperty,
 	setFilterSizeProperty,
+	resetFilters
 } = FiltersSlice.actions;

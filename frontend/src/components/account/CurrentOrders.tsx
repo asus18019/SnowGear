@@ -16,8 +16,8 @@ const CurrentOrders = () => {
 		{ Header: 'Price ($/hour)', accessor: 'price' },
 		{ Header: 'Size', accessor: 'size' },
 		{ Header: 'Category', accessor: 'category' },
-		{ Header: 'Datestart', accessor: 'datestart' },
-		{ Header: 'Dateend', accessor: 'dateend' },
+		{ Header: 'Datestart', accessor: 'date_start' },
+		{ Header: 'Dateend', accessor: 'date_end' },
 		{ Header: 'Duration (hours)', accessor: 'duration' },
 		{ Header: 'Status', accessor: 'status' },
 	]), []);

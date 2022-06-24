@@ -1,7 +1,6 @@
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
 import React from 'react';
 import { IOrder } from '../models/IOrder';
-import { getMockOrders, getMockUsers } from '../utils/dbMock';
 import { IUser } from '../models/IUser';
 import fetchResource from '../api/apiWrapper';
 import { IEquipment } from '../models/IEquipment';
@@ -18,14 +17,19 @@ export const accountRoutes: Route[] = [
 		element: () => import('../components/account/CurrentOrders').then(mod => <mod.default/>),
 		loader: async () => {
 			const state = setupStore().getState();
-			console.log(state)
+			console.log(state);
+			let user = await fetchResource('user', {}, true)
+			console.log(user)
 			let res = await fetchResource('cart/userorders', {
 				method: 'POST',
-				body: JSON.stringify({ id: 1 })
+				body: JSON.stringify({ id: user[0].id })
 			}, true);
-			return { currentOrders: await getMockOrders() };
+			console.log(res);
+			return { currentOrders: res };
 			// return { currentOrders: await getMockOrders() };
-		}
+		},
+		pendingElement: async () => <div>Taking a long time...</div>,
+		pendingMs: 500
 	},
 	{
 		path: '/account/returnitem',

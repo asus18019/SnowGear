@@ -12,6 +12,7 @@ import {
 } from '../store/reducers/FiltersSlice';
 import { IFilters } from '../models/IFilters';
 import { initialFilters } from '../utils/filters';
+import { resetFilters } from '../store/reducers/FiltersSlice';
 
 interface FiltersProps {
 	filters: IFilters,
@@ -114,6 +115,7 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 
 	const resetFiltersHandler = () => {
 		changeFilters(initialFilters);
+		dispatch(resetFilters());
 	};
 
 	const isSizeChecked = (size: string): boolean => filters.sizeFilter.sizes.includes(size);
