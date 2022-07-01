@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 const API_URL = 'http://127.0.0.1:8000/api';
 
 function ApiError(message: string, data: string, status: number) {
-	let response = null;
+	let response;
 	
 	try {
 		response = JSON.parse(data);

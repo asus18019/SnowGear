@@ -5,5 +5,6 @@ export const flatpickrConfig = {
 	dateFormat: 'F j, Y H:i',
 	enableTime: true,
 	defaultHour: 8,
+	// eslint-disable-next-line camelcase
 	time_24hr: true
 };

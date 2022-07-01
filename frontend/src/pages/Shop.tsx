@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import styles from './Shop.module.css'; // Todo fix import
+import styles from './Shop.module.css';
 import GoodsTile from '../components/GoodsTile';
 import Filters from '../components/Filters';
 import { useMatch } from 'react-location';

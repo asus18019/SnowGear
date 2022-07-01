@@ -47,7 +47,7 @@ const Item: FC = () => {
 	const [expiresDatatime, setExpiresDatatime] = useState<undefined | Date>(undefined);
 
 	const clickSizeButton = (e: any) => {
-		let updatedIsSelected: ISizeObject[] = itemSizes.map((sizeObj: ISizeObject) => {
+		const updatedIsSelected: ISizeObject[] = itemSizes.map((sizeObj: ISizeObject) => {
 			if(sizeObj.isSelected) {
 				sizeObj.isSelected = false;
 			}
@@ -63,7 +63,7 @@ const Item: FC = () => {
 	};
 
 	const clickSuggestedDurationButton = (e: any) => {
-		let updatedIsSelected: IHoursObject[] = suggestedDuration.map((durationObj: IHoursObject) => {
+		const updatedIsSelected: IHoursObject[] = suggestedDuration.map((durationObj: IHoursObject) => {
 			if(durationObj.isSelected) {
 				durationObj.isSelected = false;
 			}
@@ -91,8 +91,8 @@ const Item: FC = () => {
 	const setExpiresDataTimeWrapper = (selectedDates: any, dateStr: any) => {
 		const updatedDateTime = addHoursToDatetime(selectedDates, dateStr, Number(hours));
 		updatedDateTime && setExpiresDatatime(new Date(updatedDateTime));
-		let hours1 = selectedDates[0].toString().substring(16, 18);
-		let minutes1 = selectedDates[0].toString().substring(19, 21);
+		const hours1 = selectedDates[0].toString().substring(16, 18);
+		const minutes1 = selectedDates[0].toString().substring(19, 21);
 		setStartDatatime(moment(dateStr).hours(hours1).minutes(minutes1).format());
 	};
 
@@ -106,7 +106,7 @@ const Item: FC = () => {
 		} else if(!startDatatime) {
 			setModal({ type: ModalTypes.fail, information: ['Pick your rental start date'] });
 		} else {
-			let order: ICartItem = {
+			const order: ICartItem = {
 				itemId: uniqid(),
 				item: equipment,
 				size: getCurrentSize().size,
@@ -228,7 +228,11 @@ const Item: FC = () => {
 							</div>
 							{
 								modal
-									? <ModalWindow type={ modal.type } information={ modal.information } closeHandler={ () => setModal(undefined) }/>
+									? <ModalWindow
+										type={ modal.type }
+										information={ modal.information }
+										closeHandler={ () => setModal(undefined) }
+									/>
 									: false
 							}
 

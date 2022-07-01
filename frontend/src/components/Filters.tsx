@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import styles from './Filters.module.css'; // Todo fix import
+import styles from './Filters.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch } from '../hooks/redux';
