@@ -1,9 +1,8 @@
 import React, { useMemo, useRef, useState } from 'react';
-// @ts-ignore
 import styles from './Equipments.module.css';
 import { useMatch, useNavigate } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
-import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
+import { useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table';
 import GlobalFilter from '../UI/GlobalFilter';
 import Pagination from '../UI/Pagination';
 import { IEquipment } from '../../models/IEquipment';
@@ -125,8 +124,7 @@ const Equipments = () => {
 					}
 				}
 
-				let updated_equipment = { ...res.updated_equipment, size: res.updated_equipment.size.split(', ') };
-				equip1[index] = updated_equipment;
+				equip1[index] = { ...res.updated_equipment, size: res.updated_equipment.size.split(', ') };
 				setEquipmentsState([...equip1]);
 				setUpdatedRow(null);
 			})

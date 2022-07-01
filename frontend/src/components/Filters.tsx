@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-// @ts-ignore
 import styles from './Filters.module.css'; // Todo fix import
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter } from '@fortawesome/free-solid-svg-icons';

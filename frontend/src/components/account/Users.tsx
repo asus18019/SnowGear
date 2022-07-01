@@ -1,6 +1,5 @@
 import React, { useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-location';
-// @ts-ignore
 import styles from './Users.module.css';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
 import { useMatch } from 'react-location';

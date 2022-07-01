@@ -1,7 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useMatch, useNavigate } from 'react-location';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
-// @ts-ignore
 import styles from './Basket.module.css';
 // @ts-ignore
 import cartpng from '../assets/cart.png'; // Todo fix import

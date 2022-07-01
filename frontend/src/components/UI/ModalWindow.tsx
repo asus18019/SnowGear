@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// @ts-ignore
 import styles from './ModalWindow.module.css';
 import { ModalTypes } from '../../utils/modalTypes';
 

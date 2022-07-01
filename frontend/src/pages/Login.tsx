@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-// @ts-ignore
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-location';
 import fetchResource from '../api/apiWrapper';
@@ -13,7 +12,6 @@ import {
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import Cookies from 'js-cookie';
 import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
-import { IUser } from '../models/IUser';
 import ModalWindow from '../components/UI/ModalWindow';
 import { ModalTypes } from '../utils/modalTypes';
 import Loader from '../components/UI/Loader';

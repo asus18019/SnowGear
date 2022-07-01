@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// @ts-ignore
 import styles from './AccountData.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchUser, setErrors, stopFetching, userState } from '../../store/reducers/AuthenticatedUserSlice';

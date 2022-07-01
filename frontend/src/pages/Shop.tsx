@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-// @ts-ignore
 import styles from './Shop.module.css'; // Todo fix import
 import GoodsTile from '../components/GoodsTile';
 import Filters from '../components/Filters';

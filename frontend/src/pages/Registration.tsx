@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import { Link, useNavigate } from 'react-location';
-// @ts-ignore
 import styles from './Registration.module.css';
 import fetchResource from '../api/apiWrapper';
 import { IModal } from './Login';

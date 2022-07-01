@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// @ts-ignore
 import styles from './Pagination.module.css';
 
 interface PaginationProps {

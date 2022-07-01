@@ -1,5 +1,4 @@
 import React from 'react';
-// @ts-ignore
 import styles from './Account.module.css';
 import { Outlet, Router, Link, useNavigate } from 'react-location';
 import { location1, accountRoutes } from '../router/accountRouter';

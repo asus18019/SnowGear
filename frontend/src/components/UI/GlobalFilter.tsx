@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
 import { useAsyncDebounce } from 'react-table';
-// @ts-ignore
 import styles from './GlobalFilter.module.css';
 
 interface GlobalFilterProps {

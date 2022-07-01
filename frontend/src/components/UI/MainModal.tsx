@@ -1,5 +1,4 @@
 import React, { FC, ReactNode } from 'react';
-// @ts-ignore
 import styles from './MainModal.module.css';
 
 interface MainModalProps {

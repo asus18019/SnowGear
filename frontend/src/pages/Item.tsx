@@ -5,7 +5,6 @@ import { Link, useMatch } from 'react-location';
 import moment from 'moment';
 import uniqid from 'uniqid';
 import { sizeParser } from '../utils/clearIsSelectedProperty';
-// @ts-ignore
 import styles from './Item.module.css';
 import AdditionalButton from '../components/UI/AdditionalButton';
 // @ts-ignore

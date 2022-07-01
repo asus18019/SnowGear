@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-// @ts-ignore
 import styles from './SetPrice.module.css';
 import { IHoursObject } from '../../pages/Item';
 import { clearIsSelectedProperty } from '../../utils/clearIsSelectedProperty';

@@ -1,5 +1,4 @@
-import React, { FC, useEffect } from 'react';
-// @ts-ignore
+import React, { FC } from 'react';
 import styles from './AdditionalButton.module.css';
 
 interface AdditionalButtonProps {

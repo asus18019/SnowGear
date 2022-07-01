@@ -3,7 +3,6 @@ import Flatpickr from 'react-flatpickr';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { Link } from 'react-location';
-// @ts-ignore
 import styles from './CartItem.module.css';
 // @ts-ignore
 import noImage from '../assets/no_image.png'; // Todo fix import

@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-location';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
-// @ts-ignore
 import styles from './Navbar.module.css';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { logout, userState } from '../store/reducers/AuthenticatedUserSlice';

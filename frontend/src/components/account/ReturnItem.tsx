@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-// @ts-ignore
 import styles from './ReturnItem.module.css';
 import { useSortBy, useTable } from 'react-table';
 import { useNavigate } from 'react-location';

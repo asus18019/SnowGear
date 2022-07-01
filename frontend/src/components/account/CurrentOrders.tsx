@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-// @ts-ignore
 import styles from './CurrentOrders.module.css';
 import { useMatch } from 'react-location';
 import { useTable, useSortBy } from 'react-table';

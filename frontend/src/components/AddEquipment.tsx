@@ -1,5 +1,4 @@
 import React, { FC, useState } from 'react';
-// @ts-ignore
 import styles from './account/AccountData.module.css';
 import fetchResource from '../api/apiWrapper';
 import { ModalTypes } from '../utils/modalTypes';
