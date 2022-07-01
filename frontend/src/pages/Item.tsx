@@ -7,7 +7,6 @@ import uniqid from 'uniqid';
 import { sizeParser } from '../utils/clearIsSelectedProperty';
 import styles from './Item.module.css';
 import AdditionalButton from '../components/UI/AdditionalButton';
-// @ts-ignore
 import noImage from '../assets/no_image.png';
 import SetPrice from '../components/UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';

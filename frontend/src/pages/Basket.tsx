@@ -2,10 +2,7 @@ import React, { FC, useState } from 'react';
 import { useMatch, useNavigate } from 'react-location';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import styles from './Basket.module.css';
-// @ts-ignore
-import cartpng from '../assets/cart.png'; // Todo fix import
-// @ts-ignore
-import test1 from '../assets/test1.jpg'; // Todo fix import
+import cartpng from '../assets/cart.png';
 import CartItem from '../components/CartItem';
 import { LocationGenerics } from '../router/router';
 import { ICartItem } from '../models/ICartItem';

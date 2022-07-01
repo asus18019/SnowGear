@@ -4,10 +4,8 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { Link } from 'react-location';
 import styles from './CartItem.module.css';
-// @ts-ignore
-import noImage from '../assets/no_image.png'; // Todo fix import
-// @ts-ignore
-import cancel from '../assets/cancel-item.png'; // Todo fix import
+import noImage from '../assets/no_image.png';
+import cancel from '../assets/cancel-item.png';
 import SetPrice from './UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';

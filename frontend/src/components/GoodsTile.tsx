@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { Link } from 'react-location';
 import styles from './GoodsTile.module.css';
-// @ts-ignore
 import noImage from '../assets/no_image.png';
 
 interface GoodsTileProps {
