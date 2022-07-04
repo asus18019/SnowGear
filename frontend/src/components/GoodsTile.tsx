@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Link } from 'react-location';
 import styles from './GoodsTile.module.css';
-import noImage from '../assets/no_image.png';
+import { noImage } from '../assets';
 
 interface GoodsTileProps {
 	eid: number

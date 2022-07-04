@@ -7,7 +7,7 @@ import uniqid from 'uniqid';
 import { sizeParser } from '../utils/clearIsSelectedProperty';
 import styles from './Item.module.css';
 import AdditionalButton from '../components/UI/AdditionalButton';
-import noImage from '../assets/no_image.png';
+import { noImage } from '../assets';
 import SetPrice from '../components/UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime, extractDataTime } from '../utils/addHoursToDatetimeFromFlatpickr';

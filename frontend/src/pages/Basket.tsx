@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useMatch, useNavigate } from 'react-location';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import styles from './Basket.module.css';
-import cartpng from '../assets/cart.png';
+import { cart as cartImg } from '../assets';
 import CartItem from '../components/CartItem';
 import { LocationGenerics } from '../router/router';
 import { ICartItem } from '../models/ICartItem';
@@ -115,7 +115,7 @@ const Basket: FC = () => {
 							</div>
 						</>
 						: <div className={ styles.empty_basket }>
-							<img className={ styles.empty_basket_logo } src={ cartpng } alt="empty"/>
+							<img className={ styles.empty_basket_logo } src={ cartImg } alt="empty"/>
 							<h4 className={ styles.empty_basket__header }>The cart is empty</h4>
 							<p className={ styles.empty_basket__subtitle }>But it's never too late to fix it :)</p>
 						</div>

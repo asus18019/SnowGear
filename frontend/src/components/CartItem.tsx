@@ -4,8 +4,7 @@ import flatpickr from 'flatpickr';
 import 'flatpickr/dist/themes/material_blue.css';
 import { Link } from 'react-location';
 import styles from './CartItem.module.css';
-import noImage from '../assets/no_image.png';
-import cancel from '../assets/cancel-item.png';
+import { removeItem, noImage } from '../assets';
 import SetPrice from './UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
@@ -96,7 +95,7 @@ const CartItem: FC<CartItemProps> = ({
 				<SetPrice value={ duration } changeValue={ changeHour }/>
 				<h4 className={ styles.cart_item__hours }>hours</h4>
 				<h2 className={ styles.cart_item__price }>{ checkout }$</h2>
-				<img className={ styles.cart_item__cancel } src={ cancel } alt="Remove"
+				<img className={ styles.cart_item__cancel } src={ removeItem } alt="Remove"
 				     onClick={ removeItemHandler }/>
 			</div>
 		</div>

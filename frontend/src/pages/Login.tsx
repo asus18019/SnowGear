@@ -2,6 +2,7 @@ import React, { FC, useState } from 'react';
 import styles from './Login.module.css';
 import { Link, useNavigate } from 'react-location';
 import fetchResource from '../api/apiWrapper';
+import Cookies from 'js-cookie';
 import {
 	fetchToken,
 	fetchUser,
@@ -10,7 +11,6 @@ import {
 	stopFetching,
 } from '../store/reducers/AuthenticatedUserSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import Cookies from 'js-cookie';
 import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
 import ModalWindow from '../components/UI/ModalWindow';
 import { ModalTypes } from '../utils/modalTypes';

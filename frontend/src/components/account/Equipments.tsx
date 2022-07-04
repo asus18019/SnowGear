@@ -18,8 +18,7 @@ import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
 import ModalWindow from '../UI/ModalWindow';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
-import noImage from '../../assets/no_image.png';
-
+import { noImage } from '../../assets';
 
 const Equipments = () => {
 	const dispatch = useAppDispatch();

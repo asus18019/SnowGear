@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-location';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faUser } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
+import { logo } from '../assets';
 import styles from './Navbar.module.css';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { logout, userState } from '../store/reducers/AuthenticatedUserSlice';
@@ -57,7 +58,7 @@ const Navbar: FC = () => {
 		<div className={ styles.navbar } ref={ menuRef }>
 			<div className={ styles.logo__container }>
 				<Link className={ styles.link } to="/">
-					<img className={ styles.logo } src="../assets/logo.png" alt="SnowGear"/>
+					<img className={ styles.logo } src={ logo } alt="SnowGear"/>
 				</Link>
 				<FontAwesomeIcon
 					className={ styles.menu__mobile_icon }
