@@ -107,4 +107,4 @@ const AddEquipment: FC<AddEquipmentProps> = ({ updateEquipments, updateInfoModal
 	);
 };
 
-export default AddEquipment
+export default AddEquipment;

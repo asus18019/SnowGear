@@ -19,7 +19,7 @@ const Basket: FC = () => {
 	const { cartGoods } = useMatch<LocationGenerics>().data;
 	const userState = useAppSelector(state => state.userReducer);
 
-	const [cart, setCart] = useState<ICartItem[]>((cartGoods && cartGoods) || []);
+	const [cart, setCart] = useState<ICartItem[]>(cartGoods || []);
 	const [modal, setModal] = useState<IModal | undefined>(undefined);
 
 	const [totalCheckout, setTotalCheckout] = useState<number>(countTotalCheckout(cart));
@@ -72,7 +72,7 @@ const Basket: FC = () => {
 										duration={ item.duration }
 										start={ item.start }
 										checkout={ item.checkout }
-										changeCart={ setCart }
+										updateCartState={ setCart }
 										recalculateCheckout={ countTotalCheckout }
 										setNewCheckout={ setTotalCheckout }
 									/>;

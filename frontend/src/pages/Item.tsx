@@ -10,7 +10,7 @@ import AdditionalButton from '../components/UI/AdditionalButton';
 import noImage from '../assets/no_image.png';
 import SetPrice from '../components/UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
-import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
+import { addHoursToDatetime, extractDataTime } from '../utils/addHoursToDatetimeFromFlatpickr';
 import { LocationGenerics } from '../router/router';
 import { ICartItem } from '../models/ICartItem';
 import { ModalTypes } from '../utils/modalTypes';
@@ -91,9 +91,8 @@ const Item: FC = () => {
 	const setExpiresDataTimeWrapper = (selectedDates: any, dateStr: any) => {
 		const updatedDateTime = addHoursToDatetime(selectedDates, dateStr, Number(hours));
 		updatedDateTime && setExpiresDatatime(new Date(updatedDateTime));
-		const hours1 = selectedDates[0].toString().substring(16, 18);
-		const minutes1 = selectedDates[0].toString().substring(19, 21);
-		setStartDatatime(moment(dateStr).hours(hours1).minutes(minutes1).format());
+		const time = extractDataTime(selectedDates[0]);
+		setStartDatatime(moment(dateStr).hours(time.hours).minutes(time.minutes).format());
 	};
 
 	const getCurrentSize = (): ISizeObject => {
