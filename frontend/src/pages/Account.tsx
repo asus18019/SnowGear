@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './Account.module.css';
+import Cookies from 'js-cookie';
 import { Outlet, Router, Link, useNavigate } from 'react-location';
 import { location1, accountRoutes } from '../router/accountRouter';
-import Cookies from 'js-cookie';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { logout } from '../store/reducers/AuthenticatedUserSlice';
 import { userState } from '../store/reducers/AuthenticatedUserSlice';
-import Loader from '../components/UI/Loader';
+import { Loader } from '../components/UI';
 
 const Account = () => {
 	const dispatch = useAppDispatch();

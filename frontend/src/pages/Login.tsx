@@ -12,9 +12,8 @@ import {
 } from '../store/reducers/AuthenticatedUserSlice';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
-import ModalWindow from '../components/UI/ModalWindow';
+import { ModalWindow, Loader } from '../components/UI';
 import { ModalTypes } from '../utils/modalTypes';
-import Loader from '../components/UI/Loader';
 
 export interface IModal {
 	type: ModalTypes,

@@ -10,7 +10,7 @@ import { useAppSelector } from '../hooks/redux';
 import fetchResource from '../api/apiWrapper';
 import moment from 'moment';
 import { IModal } from './Login';
-import ModalWindow from '../components/UI/ModalWindow';
+import { ModalWindow } from '../components/UI';
 import { ModalTypes } from '../utils/modalTypes';
 
 const Basket: FC = () => {

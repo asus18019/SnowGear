@@ -6,16 +6,14 @@ import moment from 'moment';
 import uniqid from 'uniqid';
 import { sizeParser } from '../utils/clearIsSelectedProperty';
 import styles from './Item.module.css';
-import AdditionalButton from '../components/UI/AdditionalButton';
+import { AdditionalButton, SetPrice, ModalWindow } from '../components/UI';
 import { noImage } from '../assets';
-import SetPrice from '../components/UI/SetPrice';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime, extractDataTime } from '../utils/addHoursToDatetimeFromFlatpickr';
 import { LocationGenerics } from '../router/router';
 import { ICartItem } from '../models/ICartItem';
 import { ModalTypes } from '../utils/modalTypes';
 import { IModal } from './Login';
-import ModalWindow from '../components/UI/ModalWindow';
 import { addInCart } from '../utils/cartUtils';
 
 export interface IisSelected {

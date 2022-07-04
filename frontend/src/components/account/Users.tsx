@@ -4,21 +4,17 @@ import styles from './Users.module.css';
 import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
 import { useMatch } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
-import GlobalFilter from '../UI/GlobalFilter';
+import { ModalWindow, GlobalFilter, Pagination, MainModal, SubmitDeleting } from '../UI';
 import { IUser } from '../../models/IUser';
-import Pagination from '../UI/Pagination';
-import MainModal from '../UI/MainModal';
 import { IOrder } from '../../models/IOrder';
 import OrdersTable from '../OrdersTable';
 import fetchResource from '../../api/apiWrapper';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
-import SubmitDeleting from '../UI/SubmitDeleting';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateBodyObject';
 import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
-import ModalWindow from '../UI/ModalWindow';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;

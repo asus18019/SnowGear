@@ -5,7 +5,7 @@ import 'flatpickr/dist/themes/material_blue.css';
 import { Link } from 'react-location';
 import styles from './CartItem.module.css';
 import { removeItem, noImage } from '../assets';
-import SetPrice from './UI/SetPrice';
+import { SetPrice } from './UI';
 import { flatpickrConfig } from '../utils/flatpickrConfig';
 import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
 import { ICartItem } from '../models/ICartItem';

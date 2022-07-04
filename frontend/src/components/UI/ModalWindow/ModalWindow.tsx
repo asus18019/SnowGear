@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styles from './ModalWindow.module.css';
-import { ModalTypes } from '../../utils/modalTypes';
+import { ModalTypes } from '../../../utils/modalTypes';
 
 interface ModalWindowProps {
 	type: ModalTypes,

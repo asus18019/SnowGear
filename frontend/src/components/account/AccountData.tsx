@@ -5,7 +5,7 @@ import { fetchUser, setErrors, stopFetching, userState } from '../../store/reduc
 import fetchResource from '../../api/apiWrapper';
 import { IUser } from '../../models/IUser';
 import { IModal } from '../../pages/Login';
-import ModalWindow from '../UI/ModalWindow';
+import { ModalWindow } from '../UI';
 import { ModalTypes } from '../../utils/modalTypes';
 import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateBodyObject';
 import { handleAgeInput } from '../../utils/inputHandlers';

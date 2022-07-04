@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 import fetchResource from '../../api/apiWrapper';
 import { IModal } from '../../pages/Login';
-import ModalWindow from '../UI/ModalWindow';
+import { ModalWindow } from '../UI';
 import { ModalTypes } from '../../utils/modalTypes';
 
 const ReturnItem = () => {
