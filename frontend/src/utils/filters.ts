@@ -28,9 +28,10 @@ export const isAnyFilter = (filters: IFilters): boolean => {
 };
 
 export const isCategoryFiltering = (filters: ICategoryFilter): boolean => {
-	for(const property in filters) {
-		// @ts-ignore
-		if(filters[property] === true) {
+	let property: keyof typeof filters;
+
+	for(property in filters) {
+		if(filters[property]) {
 			return true;
 		}
 	}
@@ -51,11 +52,11 @@ export const isSizeFiltering = (filters: ISizeFilter): boolean => {
 };
 
 export const filterByCategory = (data: IEquipment[], filters: ICategoryFilter) => {
-	return data.filter(item => {
+	return data.filter((item: IEquipment) => {
 		const properties: string[] = [];
-		for(const filtersKey in filters) {
-			// @ts-ignore
-			if(filters[filtersKey] === true) {
+		let filtersKey: keyof typeof filters;
+		for(filtersKey in filters) {
+			if(filters[filtersKey]) {
 				properties.push(filtersKey);
 			}
 		}

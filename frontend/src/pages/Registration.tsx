@@ -5,7 +5,7 @@ import fetchResource from '../api/apiWrapper';
 import { IModal } from './Login';
 import { ModalTypes } from '../utils/modalTypes';
 import { ModalWindow, Loader } from '../components/UI';
-import { validateBodyObject } from '../utils/validateBodyObject';
+import { validateBodyObject } from '../utils/validateData';
 import { handleAgeInput } from '../utils/inputHandlers';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
 import { changeLoader } from '../store/reducers/LoaderSlice';

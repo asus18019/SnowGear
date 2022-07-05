@@ -1,11 +1,10 @@
 import { IUser } from '../models/IUser';
 
-export const validateBodyObject = (fields: Object) => {
+export const validateBodyObject = <T>(fields: T) => {
 	return Object.keys(fields).reduce((acc, key) => {
-		// @ts-ignore
-		if(fields[key] !== '' && fields[key] !== null && fields[key] !== undefined && fields[key] !== 0 && fields[key] !== '380') {
-			// @ts-ignore
-			acc[key] = fields[key];
+		const property = key as keyof typeof acc;
+		if(fields[property] !== '' && fields[property] !== null && fields[property] !== undefined && fields[property] !== 0 && fields[property] !== '380') {
+			acc[property] = fields[property];
 		}
 
 		return acc;

@@ -7,7 +7,7 @@ import { IUser } from '../../models/IUser';
 import { IModal } from '../../pages/Login';
 import { ModalWindow } from '../UI';
 import { ModalTypes } from '../../utils/modalTypes';
-import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateBodyObject';
+import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateData';
 import { handleAgeInput } from '../../utils/inputHandlers';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 
@@ -41,7 +41,6 @@ const AccountData = () => {
 		const fields = makeFieldsToUpdate(userState.user, updatedUser);
 
 		const body = validateBodyObject(fields);
-		console.log(body);
 
 		if(Object.keys(body).length) {
 			dispatch(changeLoader(true));

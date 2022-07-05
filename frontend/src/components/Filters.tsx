@@ -26,38 +26,20 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 	const titleHandler = (title: string) => {
 		dispatch(setFilterTitleProperty(title));
 		const updatedFilters = {
-			categoryFilter: {
-				...filters.categoryFilter,
-			},
-			titleFilter: {
-				title,
-			},
-			priceFilter: {
-				...filters.priceFilter,
-			},
-			sizeFilter: {
-				...filters.sizeFilter,
-			},
+			...filters,
+			titleFilter: { title },
 		};
 		changeFilters(updatedFilters);
 	};
 
 	const categoryCheckboxHandler = (property: string) => {
 		dispatch(setFilterCategoryProperty(property));
+		const categoryProperty = property as keyof typeof filters.categoryFilter;
 		const updatedFilters = {
+			...filters,
 			categoryFilter: {
 				...filters.categoryFilter,
-				// @ts-ignore
-				[property]: !filters.categoryFilter[property],
-			},
-			titleFilter: {
-				...filters.titleFilter,
-			},
-			priceFilter: {
-				...filters.priceFilter,
-			},
-			sizeFilter: {
-				...filters.sizeFilter,
+				[categoryProperty]: !filters.categoryFilter[categoryProperty],
 			},
 		};
 		changeFilters(updatedFilters);
@@ -66,23 +48,16 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 	const priceHandler = (minmax: string, value: string) => {
 		dispatch(setFilterPriceProperty({ minmax, value: Number(value === '' ? -1 : value) }));
 		const updatedFilters = {
-			categoryFilter: {
-				...filters.categoryFilter,
-			},
-			titleFilter: {
-				...filters.titleFilter,
-			},
+			...filters,
 			priceFilter: {
 				...filters.priceFilter,
 				[minmax]: Number(value),
 			},
-			sizeFilter: {
-				...filters.sizeFilter,
-			},
 		};
+
+		const priceProperty = minmax as keyof typeof filters.priceFilter;
 		if(value === '') {
-			// @ts-ignore
-			updatedFilters.priceFilter[minmax] = -1;
+			updatedFilters.priceFilter[priceProperty] = -1;
 		}
 
 		changeFilters(updatedFilters);
@@ -98,15 +73,7 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 		}
 
 		const updatedFilters = {
-			categoryFilter: {
-				...filters.categoryFilter,
-			},
-			titleFilter: {
-				...filters.titleFilter,
-			},
-			priceFilter: {
-				...filters.priceFilter,
-			},
+			...filters,
 			sizeFilter: { sizes },
 		};
 		changeFilters(updatedFilters);
@@ -119,8 +86,15 @@ const Filters: FC<FiltersProps> = ({ filters, changeFilters }) => {
 
 	const isSizeChecked = (size: string): boolean => filters.sizeFilter.sizes.includes(size);
 
-	// @ts-ignore
-	const valueForPriceInput = (minmax: string): string => filters.priceFilter[minmax] !== -1 ? filters.priceFilter[minmax].toString() : '';
+	const valueForPriceInput = (minmax: string): string => {
+		const property = minmax as keyof typeof filters.priceFilter;
+
+		if(filters.priceFilter[property] !== -1) {
+			return filters.priceFilter[property].toString();
+		}
+
+		return '';
+	};
 
 	return (
 		<div>

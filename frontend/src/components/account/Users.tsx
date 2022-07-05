@@ -12,7 +12,7 @@ import fetchResource from '../../api/apiWrapper';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
-import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateBodyObject';
+import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateData';
 import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
 
@@ -279,8 +279,7 @@ const Users = () => {
 												    ? <input
 														className={ styles.row__edit_input }
 														type="text"
-														// @ts-ignore
-														value={ editFormData[cell.column.id] ? editFormData[cell.column.id].toString() : '' }
+														value={ editFormData[cell.column.id as keyof typeof editFormData] ? editFormData[cell.column.id as keyof typeof editFormData].toString() : '' }
 														onChange={ e => handleEditChange(e) }
 														name={ cell.column.id }
 													/>

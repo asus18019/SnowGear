@@ -9,15 +9,15 @@ export const FiltersSlice = createSlice({
 	initialState,
 	reducers: {
 		setFilterCategoryProperty(state, action: PayloadAction<string>) {
-			// @ts-ignore
-			state.categoryFilter[action.payload] = !state.categoryFilter[action.payload];
+			const property = action.payload as keyof typeof state.categoryFilter;
+			state.categoryFilter[property] = !state.categoryFilter[property];
 		},
 		setFilterTitleProperty(state, action: PayloadAction<string>) {
 			state.titleFilter.title = action.payload;
 		},
 		setFilterPriceProperty(state, action: PayloadAction<{ minmax: string, value: number }>) {
-			// @ts-ignore
-			state.priceFilter[action.payload.minmax] = action.payload.value;
+			const property = action.payload.minmax as keyof typeof state.priceFilter;
+			state.priceFilter[property] = action.payload.value;
 		},
 		setFilterSizeProperty(state, action: PayloadAction<string>) {
 			if(state.sizeFilter.sizes.includes(action.payload)) {

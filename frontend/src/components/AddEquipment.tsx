@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import styles from './account/AccountData.module.css';
 import fetchResource from '../api/apiWrapper';
 import { ModalTypes } from '../utils/modalTypes';
-import { validateErrorsObject } from '../utils/validateBodyObject';
+import { validateErrorsObject } from '../utils/validateData';
 import { useAppDispatch } from '../hooks/redux';
 import { changeLoader } from '../store/reducers/LoaderSlice';
 

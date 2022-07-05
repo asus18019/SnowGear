@@ -9,7 +9,7 @@ import fetchResource from '../../api/apiWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import AddEquipment from '../AddEquipment';
-import { validateErrorsObject } from '../../utils/validateBodyObject';
+import { validateErrorsObject } from '../../utils/validateData';
 import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
