@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { useMatch, useNavigate } from 'react-location';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+import { OnApproveData, OnApproveActions, CreateOrderActions } from '@paypal/paypal-js/types/components/buttons';
 import styles from './Basket.module.css';
 import { cart as cartImg } from '../assets';
 import CartItem from '../components/CartItem';
@@ -15,7 +16,6 @@ import { ModalTypes } from '../utils/modalTypes';
 
 const Basket: FC = () => {
 	const navigate = useNavigate();
-	const { isAuthenticated } = useAppSelector(state => state.userReducer);
 	const { cartGoods } = useMatch<LocationGenerics>().data;
 	const userState = useAppSelector(state => state.userReducer);
 
@@ -39,7 +39,7 @@ const Basket: FC = () => {
 	};
 
 	function countTotalCheckout(cart: ICartItem[]): number {
-		if(cart[0]) {
+		if(cart.length) {
 			const res: number = cart.reduce((sum, current) => {
 				return sum + current.checkout;
 			}, 0);
@@ -49,6 +49,34 @@ const Basket: FC = () => {
 
 		return 0;
 	}
+
+	const handleCreateOrder = (data: Record<string, unknown>, actions: CreateOrderActions): Promise<string> => {
+		if(!userState.isAuthenticated) {
+			navigate({ to: '../login', fromCurrent: true });
+			return Promise.resolve('0');
+		}
+
+		return fetchResource('paypal/order/create', {
+			method: 'POST',
+			body: JSON.stringify({ id: userState.user?.id, equipments: getCartItems() }),
+		}, true)
+			.then(response => {
+				console.log(response);
+				return response.id;
+			});
+	};
+
+	const handleOnApprove = (data: OnApproveData, actions: OnApproveActions): Promise<void> => {
+		return fetchResource(`paypal/${data.orderID}/capture`, {
+			method: 'POST'
+		}, true)
+			.then(res => {
+				console.log(res);
+				localStorage.removeItem('cart');
+				setCart([]);
+				setModal({ type: ModalTypes.success, information: ['Successfully payed. Check your account rents'] });
+			});
+	};
 
 	return (
 		<div className={ styles.basket__wrapper }>
@@ -60,7 +88,7 @@ const Basket: FC = () => {
 			}
 			<div className={ styles.basket }>
 				{
-					cart[0]
+					cart.length
 						? <>
 							{
 								cart.map(item => {
@@ -83,33 +111,8 @@ const Basket: FC = () => {
 								<PayPalScriptProvider options={ initialOptions }>
 									<PayPalButtons
 										style={ { layout: 'vertical' } }
-										// @ts-ignore
-										createOrder={ (data, actions) => {
-											if(!isAuthenticated) {
-												return navigate({ to: '../login', fromCurrent: true });
-											}
-
-											return fetchResource('paypal/order/create', {
-												method: 'POST',
-												body: JSON.stringify({ id: userState.user?.id, equipments: getCartItems() }),
-											}, true)
-												.then((response) => {
-													console.log(response);
-													return response.id;
-												});
-										} }
-										onApprove={ (data, actions) => {
-											console.log(data);
-											return fetchResource(`paypal/${data.orderID}/capture`, {
-												method: 'POST'
-											}, true)
-												.then(res => {
-													console.log(res);
-													localStorage.removeItem('cart');
-													setCart([]);
-													setModal({ type: ModalTypes.success, information: ['Successfully payed. Check your account rents'] });
-												});
-										} }
+										createOrder={ (data: Record<string, unknown>, actions: CreateOrderActions) => handleCreateOrder(data, actions) }
+										onApprove={ (data: OnApproveData, actions: OnApproveActions) => handleOnApprove(data, actions) }
 									/>
 								</PayPalScriptProvider>
 							</div>
