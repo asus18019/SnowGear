@@ -11,8 +11,8 @@ import { logout, userState } from '../store/reducers/AuthenticatedUserSlice';
 const Navbar: FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const dropdownRef = useRef(null);
-	const menuRef = useRef(null);
+	const dropdownRef = useRef<HTMLDivElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null);
 
 	const [showMenu, setShowMenu] = useState<boolean>(false);
 	const [showDropdown, setShowDropdown] = useState<boolean>(false);
@@ -20,10 +20,10 @@ const Navbar: FC = () => {
 	const userState: userState = useAppSelector(state => state.userReducer);
 
 	useEffect(() => {
-		const onClick = (e: MouseEvent) => {
-			if(dropdownRef && dropdownRef.current) {
-				// @ts-ignore
-				dropdownRef.current.contains(e.target) || setShowDropdown(false);
+		const onClick = (e: any) => {
+			const isClickedOnDropdown = dropdownRef.current?.contains(e.target);
+			if(!isClickedOnDropdown) {
+				 setShowDropdown(false);
 			}
 		};
 
@@ -32,10 +32,10 @@ const Navbar: FC = () => {
 	}, []);
 
 	useEffect(() => {
-		const onClick = (e: MouseEvent) => {
-			if(menuRef && menuRef.current) {
-				// @ts-ignore
-				menuRef.current.contains(e.target) || setShowMenu(false);
+		const onClick = (e: any) => {
+			const isClickedOnMenu = menuRef.current?.contains(e.target);
+			if(!isClickedOnMenu) {
+				setShowMenu(false);
 			}
 		};
 

@@ -76,10 +76,9 @@ const Equipments = () => {
 	const handleEditChange = (event: any) => {
 		const fieldName = event.target.getAttribute('name');
 		const fieldValue = event.target.value;
-		const newFormData = { ...editFormData };
+		const newFormData: IEquipment = { ...editFormData };
 		if(fieldName === 'size') {
-			// @ts-ignore
-			newFormData[fieldName] = fieldValue.split(', ');
+			newFormData.size = fieldValue.split(', ');
 		} else {
 			// @ts-ignore
 			newFormData[fieldName] = fieldValue;
@@ -192,9 +191,7 @@ const Equipments = () => {
 
 	return (
 		<div className={ styles.equipments__wrapper }>
-			{
-				isLoading ? <Loader/> : false
-			}
+			{ isLoading ? <Loader/> : false }
 			{
 				<MainModal toggle={ toggleModal } showOrdersRef={ showModalRef } title={ 'Are you sure you want to delete?' }>
 					<SubmitDeleting onSubmit={ handleDeleteEquipment } onCancel={ toggleModal } deletingID={ deleteRow } />
@@ -214,12 +211,10 @@ const Equipments = () => {
 					{ headerGroups.map((headerGroup: any) => (
 						<tr { ...headerGroup.getHeaderGroupProps() }>
 							{ headerGroup.headers.map((column: any) => (
-								// @ts-ignore
 								<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
 								    className={ styles.equipment_table__th }>
 									{ column.render('Header') }
 									{
-										// @ts-ignore
 										column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''
 									}
 								</th>
@@ -247,10 +242,9 @@ const Equipments = () => {
 														className={ styles.row__edit_input }
 														type="text"
 														value={
-														    // @ts-ignore
-															cell.column.id === 'size' ? editFormData[cell.column.id].join(', ') :
-															//@ts-ignore
-															(editFormData[cell.column.id] && editFormData[cell.column.id].toString()) || ''
+															cell.column.id === 'size'
+																? editFormData.size.join(', ')
+																: editFormData[cell.column.id as keyof typeof editFormData].toString() || ''
 														}
 														onChange={ e => handleEditChange(e) }
 														name={ cell.column.id }
@@ -286,7 +280,6 @@ const Equipments = () => {
 			/>
 			<div className={ styles.add_equip__wrapper }>
 				<AddEquipment
-					// @ts-ignore
 					updateEquipments={ setEquipmentsState }
 					updateInfoModal={ setModal }
 				/>

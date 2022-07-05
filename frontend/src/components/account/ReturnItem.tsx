@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import styles from './ReturnItem.module.css';
-import { useSortBy, useTable } from 'react-table';
+import { HeaderGroup, useSortBy, useTable } from 'react-table';
 import { useNavigate } from 'react-location';
 import { IFoundedItem } from '../../models/IFoundedItem';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
@@ -132,9 +132,9 @@ const ReturnItem = () => {
 						? <div className={ styles.test }>
 							<table { ...getTableProps() } className={ styles.return_item_table }>
 								<thead className={ styles.return_item_table__thead }>
-									{ headerGroups.map((headerGroup) => (
+									{ headerGroups.map((headerGroup: HeaderGroup<IFoundedItem>) => (
 										<tr { ...headerGroup.getHeaderGroupProps() }>
-											{ headerGroup.headers.map((column) => (
+											{ headerGroup.headers.map((column: HeaderGroup<IFoundedItem>) => (
 												// @ts-ignore
 												<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
 												    className={ styles.return_item_table__th }

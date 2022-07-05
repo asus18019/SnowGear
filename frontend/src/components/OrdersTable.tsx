@@ -14,12 +14,10 @@ const OrdersTable: FC<OrdersTableProps> = ({ tableInstance }) => {
 				{ headerGroups.map((headerGroup: any) => (
 					<tr { ...headerGroup.getHeaderGroupProps() }>
 						{ headerGroup.headers.map((column: any) => (
-							// @ts-ignore
 							<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
 							    className={ styles.orders_table__th }>
 								{ column.render('Header') }
 								{
-									// @ts-ignore
 									column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''
 								}
 							</th>
