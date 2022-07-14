@@ -1,5 +1,6 @@
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
 import React from 'react';
+import flatpickr from 'flatpickr';
 import { IOrder } from '../models/IOrder';
 import { IUser } from '../models/IUser';
 import fetchResource from '../api/apiWrapper';
@@ -17,16 +18,25 @@ export const accountRoutes: Route[] = [
 		element: () => import('../components/account/CurrentOrders').then(mod => <mod.default/>),
 		loader: async () => {
 			const state = setupStore().getState();
-			console.log(state);
-			let user = await fetchResource('user', {}, true)
-			console.log(user)
-			let res = await fetchResource('cart/userorders', {
+			const user = await fetchResource('user', {}, true);
+			const res = await fetchResource('cart/userorders', {
 				method: 'POST',
 				body: JSON.stringify({ id: user[0].id })
 			}, true);
-			console.log(res);
-			return { currentOrders: res };
-			// return { currentOrders: await getMockOrders() };
+			const orders: IOrder[] = res.map((elem: any) => {
+				return {
+					eid: elem.eid,
+					title: elem.title,
+					price: elem.price,
+					size: elem.size,
+					category: elem.category,
+					duration: elem.duration,
+					status: elem.status,
+					datestart: flatpickr.formatDate(new Date(elem.date_start), 'F j, Y H:i'),
+					dateend: flatpickr.formatDate(new Date(elem.date_end), 'F j, Y H:i'),
+				};
+			});
+			return { currentOrders: orders };
 		},
 		pendingElement: async () => <div>Taking a long time...</div>,
 		pendingMs: 500
@@ -52,7 +62,7 @@ export const accountRoutes: Route[] = [
 		path: '/account/equipments',
 		element: () => import('../components/account/Equipments').then(mod => <mod.default/>),
 		loader: async () => {
-			let { all_equipment } = await fetchResource('equipment/equipment', {
+			const { all_equipment } = await fetchResource('equipment/equipment', {
 				method: 'GET'
 			}, true);
 			const equipments = all_equipment.map((e: any) => {

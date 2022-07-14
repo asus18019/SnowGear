@@ -1,13 +1,22 @@
 import React, { useMemo, useState, useRef } from 'react';
 import { useNavigate } from 'react-location';
 import styles from './Users.module.css';
-import { useSortBy, useTable, useGlobalFilter, usePagination } from 'react-table';
+import {
+	useSortBy,
+	useTable,
+	useGlobalFilter,
+	usePagination,
+	Column,
+	Hooks,
+	Cell,
+	Row,
+} from 'react-table';
 import { useMatch } from 'react-location';
+import flatpickr from 'flatpickr';
 import { LocationGenerics } from '../../router/accountRouter';
 import { ModalWindow, GlobalFilter, Pagination, MainModal, SubmitDeleting } from '../UI';
 import { IUser } from '../../models/IUser';
 import { IOrder } from '../../models/IOrder';
-import OrdersTable from '../OrdersTable';
 import fetchResource from '../../api/apiWrapper';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
@@ -15,6 +24,7 @@ import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateData';
 import { ModalTypes } from '../../utils/modalTypes';
 import { IModal } from '../../pages/Login';
+import TableComponent from '../TableComponent';
 
 const Users = () => {
 	const { users } = useMatch<LocationGenerics>().data;
@@ -120,8 +130,8 @@ const Users = () => {
 
 	const [currentOrders, setCurrentOrders] = useState<IOrder[]>([]);
 
-	const data1 = useMemo(() => currentOrders?.length ? currentOrders : [], [currentOrders]);
-	const columns1 = useMemo(() => ([
+	const data1: IOrder[] = useMemo(() => currentOrders?.length ? currentOrders : [], [currentOrders]);
+	const columns1: ReadonlyArray<Column> = useMemo(() => ([
 		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },
 		{ Header: 'Price ($/hour)', accessor: 'price' },
@@ -133,51 +143,49 @@ const Users = () => {
 		{ Header: 'Status', accessor: 'status' },
 	]), []);
 
-	const tableHooks1 = (hooks: any) => {
+	const tableHooks1 = (hooks: Hooks) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
 				id: 'totalprice',
 				Header: 'Total Price($)',
-				// @ts-ignore
-				Cell: ({ row }) => (
+				Cell: (cell: Cell) => (
 					<p>
-						{ row.values.duration * row.values.price }
+						{ cell.row.values.duration * cell.row.values.price }
 					</p>
 				),
 			},
 		]);
 	};
 
-	// @ts-ignore
-	const tableInstance1 = useTable({ columns: columns1, data: data1 }, useSortBy, tableHooks1);
-
-	const data = useMemo(() => usersState, [usersState]);
-	const columns = useMemo(() => ([
-		{ Header: 'Id', accessor: 'id' },
-		{ Header: 'Name', accessor: 'name' },
-		{ Header: 'Surname', accessor: 'surname' },
-		{ Header: 'Email', accessor: 'email' },
-		{ Header: 'Age', accessor: 'age' },
-		{ Header: 'Address', accessor: 'address' },
-		{ Header: 'Phone', accessor: 'phone' }
-	]), []);
+	const tableConfig1 = {
+		columns: columns1,
+		data: data1,
+		tableHooks: tableHooks1,
+		isSearching: false,
+		isPaginating: true
+	};
 
 	const toggleOrders = (type: boolean, userId: number | null) => {
 		toggleModal(showOrdersRef, type);
 	};
 
 	const getOrdersByUser = (id: number) => {
-		// setUserOrders(id);
-		console.log(id);
 		dispatch(changeLoader(true));
 		fetchResource('cart/userorders', {
 			method: 'post',
 			body: JSON.stringify({ id })
 		}, true)
-			.then((res) => {
+			.then((res: any) => {
 				toggleOrders(true, id);
-				setCurrentOrders(res);
+				const formattedData = res.map((e: any) => {
+					return {
+						...e,
+						date_start: flatpickr.formatDate(new Date(e.date_start), 'F j, Y H:i'),
+						date_end: flatpickr.formatDate(new Date(e.date_end), 'F j, Y H:i')
+					};
+				});
+				setCurrentOrders(formattedData);
 			})
 			.finally(() => dispatch(changeLoader(false)));
 	};
@@ -194,22 +202,32 @@ const Users = () => {
 		}
 	};
 
-	const tableHooks = (hooks: any) => {
+	const data: IUser[] = useMemo(() => usersState, [usersState]);
+	const columns: ReadonlyArray<Column> = useMemo(() => ([
+		{ Header: 'Id', accessor: 'id' },
+		{ Header: 'Name', accessor: 'name' },
+		{ Header: 'Surname', accessor: 'surname' },
+		{ Header: 'Email', accessor: 'email' },
+		{ Header: 'Age', accessor: 'age' },
+		{ Header: 'Address', accessor: 'address' },
+		{ Header: 'Phone', accessor: 'phone' }
+	]), []);
+
+	const tableHooks = (hooks: Hooks) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
 				id: 'action',
 				Header: 'Action',
-				// @ts-ignore
-				Cell: ({ row }) => (
+				Cell: (cell: Cell<IUser>) => (
 					<div className={ styles.save_row__buttons }>
-						<button className={ styles.table__button } onClick={ () => handleEditClick(row.original) }>
+						<button className={ styles.table__button } onClick={ () => handleEditClick(cell.row.original) }>
 							Edit
 						</button>
-						<button className={ styles.table__button } onClick={ () => handleDelete(row.values.id) }>
+						<button className={ styles.table__button } onClick={ () => handleDelete(cell.row.values.id) }>
 							Delete
 						</button>
-						<button className={ styles.table__button } onClick={ () => getOrdersByUser(row.values.id) }>
+						<button className={ styles.table__button } onClick={ () => getOrdersByUser(cell.row.values.id) }>
 							Orders
 						</button>
 					</div>
@@ -218,17 +236,35 @@ const Users = () => {
 		]);
 	};
 
-	// @ts-ignore
 	const tableInstance = useTable({ columns, data }, tableHooks, useGlobalFilter, useSortBy, usePagination);
-	// @ts-ignore
 	const { getTableProps, getTableBodyProps, headerGroups, page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, gotoPage, pageCount, setPageSize, prepareRow, state, setGlobalFilter } = tableInstance;
-	// @ts-ignore
 	const { globalFilter, pageIndex, pageSize } = state;
+	
+	const createCellForUsersTable = (row: Row, cell: Cell) => {
+		const isRowEqualsUpdatedRow: boolean = Number(row.values.id) === updatedRow;
+
+		if(isRowEqualsUpdatedRow && cell.column.id !== 'action' && cell.column.id !== 'id') {
+			return <input
+				className={ styles.row__edit_input }
+				type="text"
+				value={ editFormData[cell.column.id as keyof typeof editFormData] ? editFormData[cell.column.id as keyof typeof editFormData].toString() : '' }
+				onChange={ e => handleEditChange(e) }
+				name={ cell.column.id }
+			/>;
+		} else if(isRowEqualsUpdatedRow && cell.column.id === 'action') {
+			return <div className={ styles.save_row__buttons }>
+				<button className={ styles.table__button } onClick={ handleSave }>Save</button>
+				<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
+			</div>;
+		} else {
+			return cell.render('Cell');
+		}
+	};
 
 	return (
 		<div className={ styles.users__wrapper }>
-			<MainModal toggle={ toggleOrders } userId={ userOrders } showOrdersRef={ showOrdersRef } title={ 'All orders made by {user.name} {user.surname}' }>
-				<OrdersTable tableInstance={ tableInstance1 } />
+			<MainModal toggle={ toggleOrders } userId={ userOrders } showOrdersRef={ showOrdersRef } title={ 'All orders' }>
+				<TableComponent config={ tableConfig1 } />
 			</MainModal>
 			{
 				modal
@@ -240,19 +276,18 @@ const Users = () => {
 			</MainModal>
 			<h2 className={ styles.component__title }>Users list</h2>
 			<div className={ styles.line }></div>
+
 			<GlobalFilter filter={ globalFilter } setFilter={ setGlobalFilter } />
 			<table { ...getTableProps() } className={ styles.users_table }>
 				<thead className={ styles.users_table__thead }>
 					{ headerGroups.map(headerGroup => (
 						<tr { ...headerGroup.getHeaderGroupProps() }>
 							{ headerGroup.headers.map(column => (
-								// @ts-ignore
 								<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
 								    className={ styles.users_table__th }
 								>
 									{ column.render('Header') }
 									{
-										// @ts-ignore
 										column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''
 									}
 								</th>
@@ -273,24 +308,7 @@ const Users = () => {
 											key={ cell.column.id }
 											data-label={ cell.column.Header }
 											{ ...cell.getCellProps }
-										>
-											{
-												Number(row.values.id) === updatedRow && cell.column.id !== 'action' && cell.column.id !== 'id'
-												    ? <input
-														className={ styles.row__edit_input }
-														type="text"
-														value={ editFormData[cell.column.id as keyof typeof editFormData] ? editFormData[cell.column.id as keyof typeof editFormData].toString() : '' }
-														onChange={ e => handleEditChange(e) }
-														name={ cell.column.id }
-													/>
-													: Number(row.values.id) === updatedRow && cell.column.id === 'action'
-														? <div className={ styles.save_row__buttons }>
-															<button className={ styles.table__button } onClick={ handleSave }>Save</button>
-															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
-														</div>
-														: cell.render('Cell')
-											}
-										</td>
+										>{ createCellForUsersTable(row, cell) }</td>
 									))
 								}
 							</tr>;

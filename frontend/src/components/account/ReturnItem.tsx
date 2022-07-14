@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import styles from './ReturnItem.module.css';
-import { HeaderGroup, useSortBy, useTable } from 'react-table';
+import { Cell, Column, Hooks } from 'react-table';
+import flatpickr from 'flatpickr';
 import { useNavigate } from 'react-location';
 import { IFoundedItem } from '../../models/IFoundedItem';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
@@ -10,6 +11,21 @@ import fetchResource from '../../api/apiWrapper';
 import { IModal } from '../../pages/Login';
 import { ModalWindow } from '../UI';
 import { ModalTypes } from '../../utils/modalTypes';
+import TableComponent from '../TableComponent';
+
+interface ReturnItemTableRow {
+	cid: number,
+	date_end: string,
+	date_start: string,
+	duration: number,
+	eid: number,
+	name: string,
+	price: number,
+	rented: string,
+	status: string,
+	surname: string,
+	title: string
+}
 
 const ReturnItem = () => {
 	const dispatch = useAppDispatch();
@@ -37,13 +53,18 @@ const ReturnItem = () => {
 			}, true)
 				.then(res => {
 					const formattedData = res.map((e: any) => {
-						return { ...e, rented: `${e.name} ${e.surname}` };
+						return {
+							...e,
+							rented: `${e.name} ${e.surname}`,
+							date_start: flatpickr.formatDate(new Date(e.date_start), 'F j, Y H:i'),
+							date_end: flatpickr.formatDate(new Date(e.date_end), 'F j, Y H:i')
+						};
 					});
-					console.log(res);
 					if(res.length > 0) {
 						setItems(formattedData);
 					} else {
 						setNotFoundString('Nothing found. Try other ID...');
+						setItems([]);
 					}
 				})
 				.catch(e => console.log(e))
@@ -74,7 +95,7 @@ const ReturnItem = () => {
 		setNotFoundString(undefined);
 	};
 
-	const columns = useMemo(() => ([
+	const columns: ReadonlyArray<Column> = useMemo(() => ([
 		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },
 		{ Header: 'Rented by', accessor: 'rented' },
@@ -85,23 +106,26 @@ const ReturnItem = () => {
 		{ Header: 'Price (total)', accessor: 'price' },
 	]), []);
 
-	const tableHooks = (hooks: any) => {
+	const tableHooks = (hooks: Hooks) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
 				id: 'rentbtn',
 				Header: 'Return',
-				// @ts-ignore
-				Cell: ({ row }) => (
-					<button className={ styles.return__button } onClick={ () => handleUpdateOrder(row.original.cid) }>Return</button>
+				Cell: (cell: Cell<ReturnItemTableRow>) => (
+					<button className={ styles.return__button } onClick={ () => handleUpdateOrder(cell.row.original.cid) }>Return</button>
 				),
 			},
 		]);
 	};
 
-	// @ts-ignore
-	const tableInstance = useTable({ columns, data: items }, useSortBy, tableHooks);
-	const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+	const tableConfig = {
+		columns,
+		data: items,
+		tableHooks,
+		isSearching: false,
+		isPaginating: true
+	};
 
 	return (
 		<div className={ styles.return_item__wrapper }>
@@ -130,49 +154,11 @@ const ReturnItem = () => {
 				{
 					items.length > 0
 						? <div className={ styles.test }>
-							<table { ...getTableProps() } className={ styles.return_item_table }>
-								<thead className={ styles.return_item_table__thead }>
-									{ headerGroups.map((headerGroup: HeaderGroup<IFoundedItem>) => (
-										<tr { ...headerGroup.getHeaderGroupProps() }>
-											{ headerGroup.headers.map((column: HeaderGroup<IFoundedItem>) => (
-												// @ts-ignore
-												<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
-												    className={ styles.return_item_table__th }
-												>
-													{ column.render('Header') }
-													{
-														// @ts-ignore
-														column.isSorted ? (column.isSortedDesc ? '▼' : '▲') : ''
-													}
-												</th>
-											)) }
-										</tr>
-									)) }
-								</thead>
-								<tbody { ...getTableBodyProps() }>
-									{
-										rows.map(row => {
-											prepareRow(row);
-
-											return <tr { ...row.getRowProps() } className={ styles.return_item_table__tr }>
-												{
-													row.cells.map(cell => (
-														<td key={ cell.column.id }
-														    className={ styles.return_item_table__td }
-														    data-label={ cell.column.Header } { ...cell.getCellProps }>{ cell.render('Cell') }</td>
-													))
-												}
-											</tr>;
-										})
-									}
-								</tbody>
-							</table>
+							<TableComponent config={ tableConfig } />
 						</div>
 						: false
 				}
-				{
-					notFoundString && <p className={ styles.property__subtitle }>{ notFoundString }</p>
-				}
+				{ notFoundString && <p className={ styles.property__subtitle }>{ notFoundString }</p> }
 			</div>
 		</div>
 	);

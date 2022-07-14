@@ -1,54 +1,53 @@
 import React, { useMemo } from 'react';
 import styles from './CurrentOrders.module.css';
 import { useMatch } from 'react-location';
-import { useTable, useSortBy } from 'react-table';
+import { Cell, Column, Hooks } from 'react-table';
 import { LocationGenerics } from '../../router/accountRouter';
-import OrdersTable from '../OrdersTable';
+import { IOrder } from '../../models/IOrder';
+import TableComponent from '../TableComponent';
 
 const CurrentOrders = () => {
 	const { currentOrders } = useMatch<LocationGenerics>().data;
 
-	const data = useMemo(() => currentOrders?.length ? currentOrders : [], []);
-	const columns = useMemo(() => ([
+	const data: IOrder[] = useMemo(() => currentOrders?.length ? currentOrders : [], []);
+	const columns: ReadonlyArray<Column> = useMemo(() => [
 		{ Header: 'Id', accessor: 'eid' },
-		{ Header: 'Title', accessor: 'title' },
+		{ Header: 'Title', accessor: 'title', width: 700 },
 		{ Header: 'Price ($/hour)', accessor: 'price' },
 		{ Header: 'Size', accessor: 'size' },
 		{ Header: 'Category', accessor: 'category' },
-		{ Header: 'Datestart', accessor: 'date_start' },
-		{ Header: 'Dateend', accessor: 'date_end' },
+		{ Header: 'Date start', accessor: 'datestart', width: 400 },
+		{ Header: 'Date end', accessor: 'dateend', width: 400 },
 		{ Header: 'Duration (hours)', accessor: 'duration' },
 		{ Header: 'Status', accessor: 'status' },
-	]), []);
+	], []);
 
-	const initialState = { hiddenColumns: [''] };
-
-	const tableHooks = (hooks: any) => {
+	const tableHooks = (hooks: Hooks) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
 				id: 'totalprice',
 				Header: 'Total Price($)',
-				// @ts-ignore
-				Cell: ({ row }) => (
-					<p>
-						{ row.values.duration * row.values.price }
-					</p>
+				Cell: (cell: Cell) => (
+					<p>{ cell.row.values.duration * cell.row.values.price }</p>
 				),
 			},
 		]);
 	};
-
-	const ordersData = useMemo(() => [...data], [data]);
-
-	// @ts-ignore
-	const tableInstance = useTable({ columns, data: ordersData, initialState }, useSortBy, tableHooks);
+	
+	const config = {
+		columns,
+		data,
+		tableHooks,
+		isSearching: true,
+		isPaginating: false
+	};
 
 	return (
 		<div className={ styles.current_orders__wrapper }>
 			<h2 className={ styles.component__title }>Current rents</h2>
 			<div className={ styles.line }></div>
-			<OrdersTable tableInstance={ tableInstance } />
+			<TableComponent config={ config }/>
 		</div>
 	);
 };

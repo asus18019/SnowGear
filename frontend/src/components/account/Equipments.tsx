@@ -2,7 +2,15 @@ import React, { useMemo, useRef, useState } from 'react';
 import styles from './Equipments.module.css';
 import { useMatch, useNavigate } from 'react-location';
 import { LocationGenerics } from '../../router/accountRouter';
-import { useGlobalFilter, usePagination, useSortBy, useTable } from 'react-table';
+import {
+	Cell,
+	Column,
+	Hooks, Row, TableInstance,
+	useGlobalFilter,
+	usePagination,
+	useSortBy,
+	useTable,
+} from 'react-table';
 import { ModalWindow, GlobalFilter, Pagination, Loader, MainModal, SubmitDeleting } from '../UI';
 import { IEquipment } from '../../models/IEquipment';
 import fetchResource from '../../api/apiWrapper';
@@ -135,43 +143,38 @@ const Equipments = () => {
 		}
 	};
 
-	const data = useMemo(() => equipmentsState, [equipmentsState]);
+	const data: IEquipment[] = useMemo(() => equipmentsState, [equipmentsState]);
 
-	const columns = useMemo(() => ([
+	const columns: ReadonlyArray<Column> = useMemo(() => ([
 		{ Header: 'Id', accessor: 'eid' },
 		{ Header: 'Title', accessor: 'title' },
 		{ Header: 'Price', accessor: 'price' },
 		{ Header: 'Size', accessor: 'size' },
 		{ Header: 'Description', accessor: 'description' },
 		{ Header: 'Category', accessor: 'category' },
-		{ Header: 'Image', accessor: 'image1' },
 	]), []);
 
-	const initialState = { hiddenColumns: ['image1'] };
-
-	const tableHooks = (hooks: any) => {
+	const tableHooks = (hooks: Hooks) => {
 		hooks.visibleColumns.push((columns: any) => [
 			...columns,
 			{
 				id: 'image',
 				Header: 'Image',
-				// @ts-ignore
-				Cell: ({ row }) => (
+				Cell: (cell: Cell<IEquipment>) => (
 					<div className={ styles.table__image__wrapper }>
-						<img className={ styles.table__image } src={ row.original.image || noImage } alt="a"/>
+						<img className={ styles.table__image } src={ cell.row.original.image || noImage } alt="a"/>
 					</div>
 				)
 			},
 			{
 				id: 'action',
 				Header: 'Actions',
-				// @ts-ignore
-				Cell: ({ row }) => (
+				Cell: (cell: Cell<IEquipment>) => (
 					<>
-						<button className={ styles.table__button } onClick={ () => handleEditEquipment(row.original) }>
+						<button className={ styles.table__button } onClick={ () => handleEditEquipment(cell.row.original) }>
 							Edit
 						</button>
-						<button className={ styles.table__button } onClick={ () => handleDeleteEquipment(row.values.eid) }>
+						<button className={ styles.table__button } onClick={ () => handleDeleteEquipment(cell.row.values.eid) }>
 							Delete
 						</button>
 					</>
@@ -180,13 +183,35 @@ const Equipments = () => {
 		]);
 	};
 
-	// @ts-ignore
-	const tableInstance = useTable({ columns, data, initialState }, tableHooks, useGlobalFilter, useSortBy, usePagination);
+	const createCellForUsersTable = (row: Row, cell: Cell) => {
+		const isRowEqualsUpdatedRow: boolean = Number(row.values.eid) === updatedRow;
 
-	// @ts-ignore
+		if(isRowEqualsUpdatedRow && cell.column.id !== 'action' && cell.column.id !== 'eid') {
+			return <input
+				className={ styles.row__edit_input }
+				type="text"
+				value={
+					cell.column.id === 'size'
+						? editFormData.size.join(', ')
+						: editFormData[cell.column.id as keyof typeof editFormData]?.toString() || ''
+				}
+				onChange={ e => handleEditChange(e) }
+				name={ cell.column.id }
+			/>;
+		} else if(isRowEqualsUpdatedRow && cell.column.id === 'action') {
+			return <div className={ styles.save_row__buttons }>
+				<button className={ styles.table__button } onClick={ handleSaveEquipment }>Save</button>
+				<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
+			</div>;
+		} else if(cell.column.id === 'size') {
+			return cell.value.join(', ');
+		} else {
+			return cell.render('Cell');
+		}
+	};
+
+	const tableInstance: TableInstance = useTable({ columns, data }, tableHooks, useGlobalFilter, useSortBy, usePagination);
 	const { getTableProps, getTableBodyProps, headerGroups, page, prepareRow, setGlobalFilter, state, pageOptions, gotoPage, canPreviousPage, canNextPage, previousPage, nextPage, pageCount, setPageSize } = tableInstance;
-
-	// @ts-ignore
 	const { globalFilter, pageIndex, pageSize } = state;
 
 	return (
@@ -235,30 +260,7 @@ const Equipments = () => {
 											key={ cell.column.id }
 											data-label={ cell.column.Header }
 											{ ...cell.getCellProps }
-										>
-											{
-												Number(row.values.eid) === updatedRow && cell.column.id !== 'action' && cell.column.id !== 'eid'
-													? <input
-														className={ styles.row__edit_input }
-														type="text"
-														value={
-															cell.column.id === 'size'
-																? editFormData.size.join(', ')
-																: editFormData[cell.column.id as keyof typeof editFormData].toString() || ''
-														}
-														onChange={ e => handleEditChange(e) }
-														name={ cell.column.id }
-													/>
-													: Number(row.values.eid) === updatedRow && cell.column.id === 'action'
-														? <div className={ styles.save_row__buttons }>
-															<button className={ styles.table__button } onClick={ handleSaveEquipment }>Save</button>
-															<button className={ styles.table__button } onClick={ () => setUpdatedRow(null) }>Cancel</button>
-														</div>
-														: cell.column.id === 'size'
-															? cell.value = cell.value.join(', ')
-															: cell.render('Cell')
-											}
-										</td>
+										>{ createCellForUsersTable(row, cell) }</td>
 									))
 								}
 							</tr>;
