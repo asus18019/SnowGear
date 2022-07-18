@@ -4,15 +4,14 @@ import GoodsTile from '../components/GoodsTile';
 import Filters from '../components/Filters';
 import { useMatch } from 'react-location';
 import { LocationGenerics } from '../router/router';
-import { IEquipment } from '../models/IEquipment';
+import { IEquipment, IFilters } from '../models';
 import {
 	filterByCategory, filterByPrice, filterBySize,
 	filterByTitle, isAnyFilter,
 	isCategoryFiltering,
 	isPriceFiltering, isSizeFiltering,
 	isTitleFiltering,
-} from '../utils/filters';
-import { IFilters } from '../models/IFilters';
+} from '../utils';
 import { useAppSelector } from '../hooks/redux';
 
 const Shop: FC = () => {

@@ -1,4 +1,4 @@
-import { IUser } from '../models/IUser';
+import { IUser } from '../models';
 
 export const validateBodyObject = <T>(fields: T) => {
 	return Object.keys(fields).reduce((acc, key) => {

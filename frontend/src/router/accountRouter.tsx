@@ -1,10 +1,8 @@
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
 import React from 'react';
 import flatpickr from 'flatpickr';
-import { IOrder } from '../models/IOrder';
-import { IUser } from '../models/IUser';
+import { IOrder, IUser, IEquipment } from '../models';
 import fetchResource from '../api/apiWrapper';
-import { IEquipment } from '../models/IEquipment';
 import { useAppSelector } from '../hooks/redux';
 import { setupStore } from '../store/store';
 

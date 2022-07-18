@@ -3,12 +3,10 @@ import styles from './AccountData.module.css';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { fetchUser, setErrors, stopFetching, userState } from '../../store/reducers/AuthenticatedUserSlice';
 import fetchResource from '../../api/apiWrapper';
-import { IUser } from '../../models/IUser';
+import { IUser } from '../../models';
 import { IModal } from '../../pages/Login';
 import { ModalWindow } from '../UI';
-import { ModalTypes } from '../../utils/modalTypes';
-import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateData';
-import { handleAgeInput } from '../../utils/inputHandlers';
+import { ModalTypes, makeFieldsToUpdate, validateBodyObject, handleAgeInput } from '../../utils';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 
 const AccountData = () => {

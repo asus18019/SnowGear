@@ -32,10 +32,11 @@ const TableComponent: FC<TableComponentProps<any>> = ({ config }) => {
 			{ isSearching ? <GlobalFilter filter={ globalFilter } setFilter={ setGlobalFilter } /> : false }
 			<table { ...getTableProps() } className={ styles.table_component }>
 				<thead className={ styles.table_component__thead }>
-					{ headerGroups.map((headerGroup: any) => (
-						<tr { ...headerGroup.getHeaderGroupProps() }>
-							{ headerGroup.headers.map((column: any) => (
+					{ headerGroups.map((headerGroup: any, i: number) => (
+						<tr { ...headerGroup.getHeaderGroupProps() } key={ i }>
+							{ headerGroup.headers.map((column: any, j: number) => (
 								<th { ...column.getHeaderProps(column.getSortByToggleProps({ style: { minWidth: column.minWidth, width: column.width } })) }
+									key={ j }
 								    className={ styles.table_component__th }>
 									{ column.render('Header') }
 									{

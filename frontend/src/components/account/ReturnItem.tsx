@@ -3,14 +3,14 @@ import styles from './ReturnItem.module.css';
 import { Cell, Column, Hooks } from 'react-table';
 import flatpickr from 'flatpickr';
 import { useNavigate } from 'react-location';
-import { IFoundedItem } from '../../models/IFoundedItem';
+import { IFoundedItem } from '../../models/';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 import fetchResource from '../../api/apiWrapper';
 import { IModal } from '../../pages/Login';
 import { ModalWindow } from '../UI';
-import { ModalTypes } from '../../utils/modalTypes';
+import { ModalTypes } from '../../utils';
 import TableComponent from '../TableComponent';
 
 interface ReturnItemTableRow {

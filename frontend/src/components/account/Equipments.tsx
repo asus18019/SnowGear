@@ -12,13 +12,12 @@ import {
 	useTable,
 } from 'react-table';
 import { ModalWindow, GlobalFilter, Pagination, Loader, MainModal, SubmitDeleting } from '../UI';
-import { IEquipment } from '../../models/IEquipment';
+import { IEquipment } from '../../models';
 import fetchResource from '../../api/apiWrapper';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import AddEquipment from '../AddEquipment';
-import { validateErrorsObject } from '../../utils/validateData';
-import { ModalTypes } from '../../utils/modalTypes';
+import { validateErrorsObject, ModalTypes } from '../../utils';
 import { IModal } from '../../pages/Login';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
 import { noImage } from '../../assets';

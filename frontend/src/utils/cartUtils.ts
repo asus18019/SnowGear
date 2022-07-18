@@ -1,4 +1,4 @@
-import { ICartItem } from '../models/ICartItem';
+import { ICartItem } from '../models';
 
 export const getCurrentCart = (): ICartItem[] => {
 	return JSON.parse(localStorage.getItem('cart') || '{}');

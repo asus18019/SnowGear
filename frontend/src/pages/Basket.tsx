@@ -6,13 +6,13 @@ import styles from './Basket.module.css';
 import { cart as cartImg } from '../assets';
 import CartItem from '../components/CartItem';
 import { LocationGenerics } from '../router/router';
-import { ICartItem } from '../models/ICartItem';
+import { ICartItem } from '../models';
 import { useAppSelector } from '../hooks/redux';
 import fetchResource from '../api/apiWrapper';
 import moment from 'moment';
 import { IModal } from './Login';
 import { ModalWindow } from '../components/UI';
-import { ModalTypes } from '../utils/modalTypes';
+import { ModalTypes } from '../utils';
 
 const Basket: FC = () => {
 	const navigate = useNavigate();

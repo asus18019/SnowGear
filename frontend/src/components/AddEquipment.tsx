@@ -1,8 +1,7 @@
 import React, { FC, useState } from 'react';
 import styles from './account/AccountData.module.css';
 import fetchResource from '../api/apiWrapper';
-import { ModalTypes } from '../utils/modalTypes';
-import { validateErrorsObject } from '../utils/validateData';
+import { ModalTypes, validateErrorsObject } from '../utils';
 import { useAppDispatch } from '../hooks/redux';
 import { changeLoader } from '../store/reducers/LoaderSlice';
 

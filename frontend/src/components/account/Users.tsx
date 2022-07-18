@@ -15,14 +15,12 @@ import { useMatch } from 'react-location';
 import flatpickr from 'flatpickr';
 import { LocationGenerics } from '../../router/accountRouter';
 import { ModalWindow, GlobalFilter, Pagination, MainModal, SubmitDeleting } from '../UI';
-import { IUser } from '../../models/IUser';
-import { IOrder } from '../../models/IOrder';
+import { IUser, IOrder } from '../../models';
 import fetchResource from '../../api/apiWrapper';
 import { changeLoader } from '../../store/reducers/LoaderSlice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
-import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateData';
-import { ModalTypes } from '../../utils/modalTypes';
+import { makeFieldsToUpdate, validateBodyObject, ModalTypes } from '../../utils';
 import { IModal } from '../../pages/Login';
 import TableComponent from '../TableComponent';
 

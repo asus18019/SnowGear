@@ -3,7 +3,7 @@ import styles from './CurrentOrders.module.css';
 import { useMatch } from 'react-location';
 import { Cell, Column, Hooks } from 'react-table';
 import { LocationGenerics } from '../../router/accountRouter';
-import { IOrder } from '../../models/IOrder';
+import { IOrder } from '../../models';
 import TableComponent from '../TableComponent';
 
 const CurrentOrders = () => {

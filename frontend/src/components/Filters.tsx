@@ -9,8 +9,8 @@ import {
 	setFilterPriceProperty,
 	setFilterSizeProperty
 } from '../store/reducers/FiltersSlice';
-import { IFilters } from '../models/IFilters';
-import { initialFilters } from '../utils/filters';
+import { IFilters } from '../models';
+import { initialFilters } from '../utils';
 import { resetFilters } from '../store/reducers/FiltersSlice';
 
 interface FiltersProps {
