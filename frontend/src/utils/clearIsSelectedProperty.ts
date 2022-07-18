@@ -1,5 +1,5 @@
 import { IHoursObject, ISizeObject } from '../pages/Item';
-import { IEquipment } from '../models/IEquipment';
+import { IEquipment } from '../models';
 
 export function clearIsSelectedProperty(data: IHoursObject[]) {
 	return data.map((durationObj: IHoursObject) => {

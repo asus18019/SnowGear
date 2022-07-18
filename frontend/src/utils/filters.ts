@@ -1,5 +1,5 @@
 import { ICategoryFilter, IFilters, IPriceFilter, ISizeFilter, ITitleFilter } from '../models/IFilters';
-import { IEquipment } from '../models/IEquipment';
+import { IEquipment } from '../models';
 
 export const initialFilters: IFilters = {
 	categoryFilter: {

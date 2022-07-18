@@ -3,17 +3,14 @@ import { Link, useNavigate } from 'react-location';
 import styles from './Registration.module.css';
 import fetchResource from '../api/apiWrapper';
 import { IModal } from './Login';
-import { ModalTypes } from '../utils/modalTypes';
+import { ModalTypes, validateBodyObject, handleAgeInput } from '../utils';
 import { ModalWindow, Loader } from '../components/UI';
-import { validateBodyObject } from '../utils/validateData';
-import { handleAgeInput } from '../utils/inputHandlers';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { changeLoader } from '../store/reducers/LoaderSlice';
+import { changeLoader } from '../store';
 
 const Registration: FC = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-
 
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');

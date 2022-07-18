@@ -1,7 +1,4 @@
-import { IEquipment } from '../models/IEquipment';
-import { IOrder } from '../models/IOrder';
-import { IFoundedItem } from '../models/IFoundedItem';
-import { IUser } from '../models/IUser';
+import { IEquipment, IOrder, IFoundedItem, IUser } from '../models';
 
 const goods: IEquipment[] = [
 	{

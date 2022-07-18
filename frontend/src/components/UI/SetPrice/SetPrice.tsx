@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import styles from './SetPrice.module.css';
 import { IHoursObject } from '../../../pages/Item';
-import { clearIsSelectedProperty } from '../../../utils/clearIsSelectedProperty';
+import { clearIsSelectedProperty } from '../../../utils';
 
 interface ISetPriceProps {
 	value: number;

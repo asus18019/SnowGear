@@ -9,11 +9,11 @@ import {
 	setErrors,
 	startFetching,
 	stopFetching,
-} from '../store/reducers/AuthenticatedUserSlice';
+} from '../store';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models/IFetchedData';
+import { IFetchedTokenFailed, IFetchedTokenSuccess } from '../models';
 import { ModalWindow, Loader } from '../components/UI';
-import { ModalTypes } from '../utils/modalTypes';
+import { ModalTypes } from '../utils';
 
 export interface IModal {
 	type: ModalTypes,
@@ -52,7 +52,7 @@ const Login: FC = () => {
 
 	const fetchUserFn = () => {
 		return fetchResource('user', {}, true)
-			.then((data) => {
+			.then(data => {
 				console.log(data);
 				dispatch(fetchUser(data[0]));
 			})

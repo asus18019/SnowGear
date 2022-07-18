@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFilters } from '../../models/IFilters';
-import { initialFilters } from '../../utils/filters';
+import { IFilters } from '../../models';
+import { initialFilters } from '../../utils';
 
 const initialState: IFilters = initialFilters;
 

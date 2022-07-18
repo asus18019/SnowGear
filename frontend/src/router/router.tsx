@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, ReactLocation, MakeGenerics } from 'react-location';
-import { getMockEquipment, getMockEquipmentByID } from '../utils/dbMock';
-import { IEquipment } from '../models/IEquipment';
-import { ICartItem } from '../models/ICartItem';
+import { IEquipment } from '../models';
+import { ICartItem } from '../models';
 import fetchResource from '../api/apiWrapper';
 
 export const routes: Route[] = [

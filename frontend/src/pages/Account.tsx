@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import { Outlet, Router, Link, useNavigate } from 'react-location';
 import { location1, accountRoutes } from '../router/accountRouter';
 import { useAppDispatch, useAppSelector } from '../hooks/redux';
-import { logout } from '../store/reducers/AuthenticatedUserSlice';
+import { logout } from '../store';
 import { userState } from '../store/reducers/AuthenticatedUserSlice';
 import { Loader } from '../components/UI';
 

@@ -7,11 +7,11 @@ import {
 	setFilterCategoryProperty,
 	setFilterTitleProperty,
 	setFilterPriceProperty,
-	setFilterSizeProperty
-} from '../store/reducers/FiltersSlice';
-import { IFilters } from '../models/IFilters';
-import { initialFilters } from '../utils/filters';
-import { resetFilters } from '../store/reducers/FiltersSlice';
+	setFilterSizeProperty,
+	resetFilters
+} from '../store';
+import { IFilters } from '../models';
+import { initialFilters } from '../utils';
 
 interface FiltersProps {
 	filters: IFilters,

@@ -4,17 +4,13 @@ import 'flatpickr/dist/themes/material_blue.css';
 import { Link, useMatch } from 'react-location';
 import moment from 'moment';
 import uniqid from 'uniqid';
-import { sizeParser } from '../utils/clearIsSelectedProperty';
+import { sizeParser, flatpickrConfig, addHoursToDatetime, extractDataTime, addInCart, ModalTypes } from '../utils';
 import styles from './Item.module.css';
 import { AdditionalButton, SetPrice, ModalWindow } from '../components/UI';
 import { noImage } from '../assets';
-import { flatpickrConfig } from '../utils/flatpickrConfig';
-import { addHoursToDatetime, extractDataTime } from '../utils/addHoursToDatetimeFromFlatpickr';
 import { LocationGenerics } from '../router/router';
-import { ICartItem } from '../models/ICartItem';
-import { ModalTypes } from '../utils/modalTypes';
+import { ICartItem } from '../models';
 import { IModal } from './Login';
-import { addInCart } from '../utils/cartUtils';
 
 export interface IisSelected {
 	isSelected: boolean;

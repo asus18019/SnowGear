@@ -15,14 +15,12 @@ import { useMatch } from 'react-location';
 import flatpickr from 'flatpickr';
 import { LocationGenerics } from '../../router/accountRouter';
 import { ModalWindow, GlobalFilter, Pagination, MainModal, SubmitDeleting } from '../UI';
-import { IUser } from '../../models/IUser';
-import { IOrder } from '../../models/IOrder';
+import { IUser, IOrder } from '../../models';
 import fetchResource from '../../api/apiWrapper';
-import { changeLoader } from '../../store/reducers/LoaderSlice';
+import { changeLoader } from '../../store';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { userState } from '../../store/reducers/AuthenticatedUserSlice';
-import { makeFieldsToUpdate, validateBodyObject } from '../../utils/validateData';
-import { ModalTypes } from '../../utils/modalTypes';
+import { makeFieldsToUpdate, validateBodyObject, ModalTypes } from '../../utils';
 import { IModal } from '../../pages/Login';
 import TableComponent from '../TableComponent';
 
@@ -280,11 +278,12 @@ const Users = () => {
 			<GlobalFilter filter={ globalFilter } setFilter={ setGlobalFilter } />
 			<table { ...getTableProps() } className={ styles.users_table }>
 				<thead className={ styles.users_table__thead }>
-					{ headerGroups.map(headerGroup => (
-						<tr { ...headerGroup.getHeaderGroupProps() }>
-							{ headerGroup.headers.map(column => (
+					{ headerGroups.map((headerGroup, i) => (
+						<tr { ...headerGroup.getHeaderGroupProps() } key={ i }>
+							{ headerGroup.headers.map((column, j) => (
 								<th { ...column.getHeaderProps(column.getSortByToggleProps()) }
 								    className={ styles.users_table__th }
+								    key={ j }
 								>
 									{ column.render('Header') }
 									{
@@ -297,10 +296,10 @@ const Users = () => {
 				</thead>
 				<tbody { ...getTableBodyProps() } className={ styles.users_table__tbody }>
 					{
-						page.map((row: any) => {
+						page.map((row: any, i) => {
 							prepareRow(row);
 
-							return <tr { ...row.getRowProps() } className={ styles.users_table__tr }>
+							return <tr { ...row.getRowProps() } className={ styles.users_table__tr } key={ i }>
 								{
 									row.cells.map((cell: any) => (
 										<td

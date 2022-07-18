@@ -6,10 +6,15 @@ import { Link } from 'react-location';
 import styles from './CartItem.module.css';
 import { removeItem, noImage } from '../assets';
 import { SetPrice } from './UI';
-import { flatpickrConfig } from '../utils/flatpickrConfig';
-import { addHoursToDatetime } from '../utils/addHoursToDatetimeFromFlatpickr';
-import { ICartItem } from '../models/ICartItem';
-import { getCurrentCart, changeDateStart, changeDuration, removeFromCart } from '../utils/cartUtils';
+import { ICartItem } from '../models';
+import {
+	getCurrentCart,
+	changeDateStart,
+	changeDuration,
+	removeFromCart,
+	addHoursToDatetime,
+	flatpickrConfig,
+} from '../utils';
 
 interface CartItemProps extends ICartItem {
 	updateCartState: any,
