@@ -1,19 +1,15 @@
 import React, { FC } from 'react';
 import styles from './SetPrice.module.css';
-import { IHoursObject } from '../../../pages/Item';
-import { clearIsSelectedProperty } from '../../../utils';
 
 interface ISetPriceProps {
 	value: number;
 	changeValue: any;
-	data?: IHoursObject[];
 	changePrice?: any
 }
 
-const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice }) => {
+const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, changePrice }) => {
 	const handleIncrement = () => {
-		data && clearIsSelectedProperty(data);
-		let updatedValue: number = Number(value) + 1;
+		const updatedValue: number = Number(value) + 1;
 		if(updatedValue <= 72) {
 			changeValue(updatedValue);
 			changePrice && changePrice(updatedValue);
@@ -21,8 +17,7 @@ const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice })
 	};
 
 	const handleDecrement = () => {
-		data && clearIsSelectedProperty(data);
-		let updatedValue: number = Number(value) - 1;
+		const updatedValue: number = Number(value) - 1;
 		if(updatedValue >= 1) {
 			changeValue(updatedValue);
 			changePrice && changePrice(updatedValue);
@@ -30,10 +25,10 @@ const SetPrice: FC<ISetPriceProps> = ({ value, changeValue, data, changePrice })
 	};
 
 	const handleValueChange = (e: any) => {
-		if(e <= 72) {
-			data && clearIsSelectedProperty(data);
-			changeValue(e);
-			changePrice && changePrice(e);
+		const hours: number = Number(e);
+		if(hours <= 72 && hours >= 0) {
+			changeValue(hours);
+			changePrice && changePrice(hours);
 		}
 	};
 

@@ -9,109 +9,88 @@ import styles from './Item.module.css';
 import { AdditionalButton, SetPrice, ModalWindow } from '../components/UI';
 import { noImage } from '../assets';
 import { LocationGenerics } from '../router/router';
-import { ICartItem } from '../models';
+import { ICartItem, IHoursObject, ISizeObject, IOrderInfo } from '../models';
 import { IModal } from './Login';
-
-export interface IisSelected {
-	isSelected: boolean;
-}
-
-export interface ISizeObject extends IisSelected {
-	size: string,
-}
-
-export interface IHoursObject extends IisSelected {
-	duration: string,
-}
 
 const Item: FC = () => {
 	const { equipment } = useMatch<LocationGenerics>().data;
+	const price: number = equipment?.price || 0;
 
 	const [modal, setModal] = useState<IModal | undefined>(undefined);
-	const [itemSizes, setItemSizes] = useState<ISizeObject[]>(() => sizeParser(equipment));
+	const [itemSizes, setItemSizes] = useState<ISizeObject[]>(() => sizeParser(equipment) || []);
 	const [suggestedDuration, setSuggestedDuration] = useState<IHoursObject[]>([
 		{ duration: '1', isSelected: false },
 		{ duration: '3', isSelected: false },
 		{ duration: '8', isSelected: false },
 		{ duration: '24', isSelected: false },
 	]);
-	const [hours, setHours] = useState<number>(1);
-	const [currentPrice, setCurrentPrice] = useState<number>(equipment ? equipment.price : 0);
-	const [startDatatime, setStartDatatime] = useState<undefined | string>(undefined);
-	const [expiresDatatime, setExpiresDatatime] = useState<undefined | Date>(undefined);
 
-	const clickSizeButton = (e: any) => {
-		const updatedIsSelected: ISizeObject[] = itemSizes.map((sizeObj: ISizeObject) => {
-			if(sizeObj.isSelected) {
-				sizeObj.isSelected = false;
-			}
+	const [orderInfo, setOrderInfo] = useState<IOrderInfo>({
+		hours: Number(suggestedDuration.find(item => item.isSelected)?.duration) || 1,
+		size: itemSizes?.find(item => item.isSelected)?.size || '',
+		startDatetime: new Date(),
+		endDatetime: ''
+	});
 
-			if(sizeObj.size === e.innerHTML) {
-				sizeObj.isSelected = true;
-			}
+	const clickSizeButton = (element: HTMLDivElement) => {
+		const size = element.innerText;
+		setOrderInfo({ ...orderInfo, size });
 
-			return sizeObj;
+		const updatedItemSizes = selectSizeOrDuration(itemSizes, 'size', size.toString());
+		setItemSizes(updatedItemSizes);
+	};
+
+	const clickSuggestedDurationButton = (element: HTMLDivElement) => {
+		const duration = Number(element.innerText);
+		changeHours(duration);
+
+		const updatedSuggestedDuration = selectSizeOrDuration(suggestedDuration, 'duration', duration.toString());
+		setSuggestedDuration(updatedSuggestedDuration);
+	};
+
+	const selectSizeOrDuration = <T extends ISizeObject | IHoursObject, U extends Exclude<keyof T, 'isSelected'>>(data: T[], key: U, value: T[U]) => {
+		return data.map(item => {
+			return { ...item, isSelected: item[key] === value };
 		});
-
-		setItemSizes(updatedIsSelected);
 	};
 
-	const clickSuggestedDurationButton = (e: any) => {
-		const updatedIsSelected: IHoursObject[] = suggestedDuration.map((durationObj: IHoursObject) => {
-			if(durationObj.isSelected) {
-				durationObj.isSelected = false;
-			}
-
-			if(durationObj.duration === e.innerHTML) {
-				durationObj.isSelected = true;
-				setCurrentPrice(Number(durationObj.duration) * (equipment?.price || 0));
-			}
-
-			return durationObj;
-		});
-
-		setHours(Number(e.innerHTML));
-		setSuggestedDuration(updatedIsSelected);
-	};
-
-	const setHoursWrapper = (e: number) => {
-		if(e) {
-			setCurrentPrice(e * (equipment?.price || 1));
-		} else {
-			setCurrentPrice(equipment?.price || 1);
-		}
-	};
-
-	const setExpiresDataTimeWrapper = (selectedDates: any, dateStr: any) => {
-		const updatedDateTime = addHoursToDatetime(selectedDates, dateStr, Number(hours));
-		updatedDateTime && setExpiresDatatime(new Date(updatedDateTime));
-		const time = extractDataTime(selectedDates[0]);
-		setStartDatatime(moment(dateStr).hours(time.hours).minutes(time.minutes).format());
-	};
-
-	const getCurrentSize = (): ISizeObject => {
-		return itemSizes.filter(size => size.isSelected)[0];
+	const onDateChange = () => {
+		console.log(orderInfo);
 	};
 
 	const handleReserve = () => {
 		if(!getCurrentSize()) {
 			setModal({ type: ModalTypes.fail, information: ['Pick size item'] });
-		} else if(!startDatatime) {
-			setModal({ type: ModalTypes.fail, information: ['Pick your rental start date'] });
+		// } else if(!getStartDatatime()) {
+		// 	setModal({ type: ModalTypes.fail, information: ['Pick your rental start date'] });
 		} else {
 			const order: ICartItem = {
 				itemId: uniqid(),
 				item: equipment,
-				size: getCurrentSize().size,
-				duration: hours,
-				start: startDatatime,
-				checkout: currentPrice,
+				size: getCurrentSize() || '',
+				duration: orderInfo.hours,
+				start: orderInfo.startDatetime.toString(),
+				checkout: price * orderInfo.hours,
 			};
+			console.log(order);
 			addInCart(order);
 			setModal({ type: ModalTypes.success, information: ['Item was added to cart'] });
 		}
 	};
 
+	const getCurrentSize = () => orderInfo.size;
+
+	const getHours = () => orderInfo.hours;
+
+	const getStartDatetime = () => orderInfo.startDatetime;
+
+	const changeHours = (updatedHours: number) => setOrderInfo({ ...orderInfo, hours: updatedHours });
+
+	const changeHoursWrapper = (updatedHours: number) => {
+		changeHours(updatedHours);
+		const updatedSuggestedDuration = selectSizeOrDuration(suggestedDuration, 'duration', '');
+		setSuggestedDuration(updatedSuggestedDuration);
+	};
 
 	return (
 		<div className={ styles.item__wrapper }>
@@ -151,7 +130,7 @@ const Item: FC = () => {
 							<div></div>
 							<div className={ `${ styles.size_button_wrapper } ${ styles.interactive_elements }` }>
 								{
-									itemSizes[0]
+									itemSizes
 										? itemSizes.map((sizeObj: ISizeObject) => {
 											const { size, isSelected } = sizeObj;
 
@@ -169,9 +148,8 @@ const Item: FC = () => {
 							<h3 className={ styles.item__time_title }>Time</h3>
 							<hr/>
 							<div className={ `${ styles.time_button_wrapper } ${ styles.interactive_elements }` }>
-								<div className={ styles.item__set_datatime_wrapper }>
-									<SetPrice value={ hours } changeValue={ setHours } changePrice={ setHoursWrapper }
-									          data={ suggestedDuration }/>
+								<div className={ styles.item__set_datetime_wrapper }>
+									<SetPrice value={ orderInfo.hours } changeValue={ changeHoursWrapper } />
 									<div className={ styles.item__time_button_wrapper }>
 										{
 											suggestedDuration.map((durationObj: IHoursObject) => {
@@ -187,23 +165,24 @@ const Item: FC = () => {
 										}
 									</div>
 								</div>
-								<div className={ styles.item__datatime_wrapper }>
-									<div className={ styles.item__datatime_start }>
+								<div className={ styles.item__datetime_wrapper }>
+									<div className={ styles.item__datetime_start }>
 										<label htmlFor="rent-starts">From:</label>
 										<Flatpickr
 											id="#item__rent_starts"
-											className={ `${ styles.item__datatime }` }
+											className={ `${ styles.item__datetime }` }
 											placeholder="Select date and time..."
 											options={ flatpickrConfig }
-											onChange={ setExpiresDataTimeWrapper }
+											value={ orderInfo.startDatetime }
+											onChange={ onDateChange }
 										/>
 									</div>
-									<div className={ styles.item__datatime_end }>
+									<div className={ styles.item__datetime_end }>
 										<label htmlFor="rent-starts">To:</label>
 										<Flatpickr
-											className={ styles.item__datatime }
+											className={ styles.item__datetime }
 											placeholder="Rent ends..."
-											value={ expiresDatatime }
+											value={ new Date(orderInfo.endDatetime) }
 											disabled
 											options={ flatpickrConfig }
 										/>
@@ -214,7 +193,7 @@ const Item: FC = () => {
 							<h3 className={ styles.item__time_title }>Checkout</h3>
 							<hr/>
 							<div className={ `${ styles.checkout_wrapper } ${ styles.interactive_elements }` }>
-								<h2 className={ styles.item__price }>{ currentPrice } <span
+								<h2 className={ styles.item__price }>{ orderInfo.hours * price } <span
 									className={ styles.item__hours }>$</span>
 								</h2>
 								<div className={ styles.checkout_button } onClick={ handleReserve }>Reserve</div>

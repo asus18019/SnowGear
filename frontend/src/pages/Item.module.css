@@ -152,16 +152,16 @@
     margin-right: 10px;
 }
 
-.item__set_datatime_wrapper {
+.item__set_datetime_wrapper {
     display: flex;
     align-items: center;
 }
 
-.item__datatime_wrapper {
+.item__datetime_wrapper {
     display: flex;
 }
 
-.item__datatime_wrapper label {
+.item__datetime_wrapper label {
     margin: 10px 0 0 0;
     font-family: 'Roboto', sans-serif;
     font-size: 17px;
@@ -193,17 +193,17 @@
     transition: 0.2s ease-in-out;
 }
 
-.item__datatime_start, .item__datatime_end {
+.item__datetime_start, .item__datetime_end {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
 }
 
-.item__datatime_end {
+.item__datetime_end {
     margin-left: 100px;
 }
 
-.item__datatime {
+.item__datetime {
     font-family: 'Montserrat', sans-serif;
     margin-top: 10px;
     padding: 5px;
@@ -234,7 +234,7 @@
         margin-left: 20px;
     }
 
-    .item__datatime_end {
+    .item__datetime_end {
         margin-left: 40px;
     }
 
@@ -277,7 +277,7 @@
     }
 
     .item {
-        padding: 81px 0px 0 0px;
+        padding: 81px 0 0 0;
     }
 
     .item__about_right {
@@ -294,16 +294,16 @@
 }
 
 @media screen and (max-device-width: 900px) {
-    .item__datatime_wrapper {
+    .item__datetime_wrapper {
         display: flex;
         flex-direction: column;
     }
 
-    .item__datatime_end {
+    .item__datetime_end {
         margin-left: 0;
     }
 
-    .item__datatime_start, .item__datatime_end {
+    .item__datetime_start, .item__datetime_end {
         max-width: 300px;
     }
 
@@ -328,7 +328,7 @@
         font-size: 16px;
     }
 
-    .item__set_datatime_wrapper {
+    .item__set_datetime_wrapper {
         flex-direction: column;
         align-items: flex-start;
     }
@@ -349,15 +349,15 @@
         font-size: 13px;
     }
 
-    .item__datatime_wrapper label {
+    .item__datetime_wrapper label {
         font-size: 14px;
     }
 
-    .item__datatime {
+    .item__datetime {
         font-size: 14px;
     }
 
-    .item__datatime_start, .item__datatime_end {
+    .item__datetime_start, .item__datetime_end {
         margin-top: 0;
     }
 }

@@ -1,6 +1,6 @@
 import { addHoursToDatetime, extractDataTime } from './addHoursToDatetimeFromFlatpickr';
 import { getCurrentCart, addInCart, removeFromCart, changeDateStart, changeDuration } from './cartUtils';
-import { clearIsSelectedProperty, sizeParser } from './clearIsSelectedProperty';
+import { sizeParser } from './sizeParser';
 import {
 	initialFilters,
 	isAnyFilter,
@@ -26,7 +26,6 @@ export {
 	removeFromCart,
 	changeDateStart,
 	changeDuration,
-	clearIsSelectedProperty,
 	sizeParser,
 	initialFilters,
 	isAnyFilter,
