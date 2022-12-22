@@ -7,7 +7,7 @@ import uniqid from 'uniqid';
 import { sizeParser, flatpickrConfig, addHoursToDatetime, extractDataTime, addInCart, ModalTypes } from '../utils';
 import styles from './Item.module.css';
 import { AdditionalButton, SetPrice, ModalWindow } from '../components/UI';
-import { noImage } from '../assets';
+import { noImage, leftArrow, LeftArrowSvg } from '../assets';
 import { LocationGenerics } from '../router/router';
 import { ICartItem, IHoursObject, ISizeObject, IOrderInfo } from '../models';
 import { IModal } from './Login';
@@ -99,14 +99,16 @@ const Item: FC = () => {
 					<h1 className={ styles.item__title }>{ equipment.title }</h1>
 					<div className={ styles.item_container }>
 						<div className={ styles.item__image_wrapper }>
-							<svg className={ styles.item__image_arrows } xmlns="http://www.w3.org/2000/svg"
-							     xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="64px" height="64px"
-							     viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve">
-								<g>
-									<polyline fill="none" strokeWidth="2" strokeLinejoin="bevel" stroke-miterlimi="10"
-									          points="37,15 20,32 37,49"/>
-								</g>
-							</svg>
+							{/*<svg className={ styles.item__image_arrows } xmlns="http://www.w3.org/2000/svg"*/}
+							{/*     xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="64px" height="64px"*/}
+							{/*     viewBox="0 0 64 64" enableBackground="new 0 0 64 64" xmlSpace="preserve">*/}
+							{/*	<g>*/}
+							{/*		<polyline fill="none" strokeWidth="2" strokeLinejoin="bevel" stroke-miterlimi="10"*/}
+							{/*		          points="37,15 20,32 37,49"/>*/}
+							{/*	</g>*/}
+							{/*</svg>*/}
+							{/*<img className={ styles.item__image_arrows } src={ leftArrow } alt=""/>*/}
+							<LeftArrowSvg />
 							<div className={ styles.item__image_container }>
 								<img className={ styles.item__image } src={ equipment.image || noImage } alt=""/>
 							</div>
